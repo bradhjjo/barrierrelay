@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:35.197Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/09-custom-toggle-div/fixed.html",
+    "title": "Notification preferences · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 531.609375
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 531.609375
+      },
+      "visibleText": "Northstar settings Make your inbox your ",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "div",
+      "role": "switch",
+      "accessibleName": "Weekly digest",
+      "nameSources": [
+        "aria-labelledby"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 821,
+        "y": 353.09375,
+        "w": 54,
+        "h": 30
+      },
+      "visibleText": "",
+      "attrs": {
+        "role": "switch",
+        "aria-labelledby": "digest-label",
+        "aria-checked": "true"
+      }
+    },
+    {
+      "ref": "e3",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Save preferences",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 380,
+        "y": 553.8125,
+        "w": 520,
+        "h": 50.796875
+      },
+      "visibleText": "Save preferences",
+      "attrs": {}
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": null
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I can now move through this step and finish it using just my keyboard.",
+  "assistive": [
+    "keyboard-only"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "10-datepicker-icon-button",
+  "variant": "broken",
+  "barrierType": "unnamed-button",
+  "targetRef": "e4",
+  "wcag": [
+    "4.1.2"
+  ],
+  "userNote": "I'm booking a delivery and my screen reader just says 'button' beside the date. I don't know what it will do.",
+  "assistive": [
+    "screen-reader"
+  ],
+  "regionSelector": "#capture"
+}

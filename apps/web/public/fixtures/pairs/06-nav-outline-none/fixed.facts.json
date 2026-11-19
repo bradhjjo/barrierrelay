@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:27.232Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/06-nav-outline-none/fixed.html",
+    "title": "Account overview · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 520
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 520
+      },
+      "visibleText": "Northstar account Welcome back, Alex Ove",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "nav",
+      "role": "navigation",
+      "accessibleName": "Account",
+      "nameSources": [
+        "aria-label"
+      ],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 153,
+        "y": 248.1875,
+        "w": 974,
+        "h": 64.796875
+      },
+      "visibleText": "Overview Orders Settings",
+      "attrs": {
+        "aria-label": "Account"
+      }
+    },
+    {
+      "ref": "e3",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Overview",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 173,
+        "y": 268.1875,
+        "w": 66.6875,
+        "h": 24.796875
+      },
+      "visibleText": "Overview",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/account/overview"
+      }
+    },
+    {
+      "ref": "e4",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Orders",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 263.6875,
+        "y": 268.1875,
+        "w": 48.90625,
+        "h": 24.796875
+      },
+      "visibleText": "Orders",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/account/orders"
+      }
+    },
+    {
+      "ref": "e5",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Settings",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 336.59375,
+        "y": 268.1875,
+        "w": 57.8125,
+        "h": 24.796875
+      },
+      "visibleText": "Settings",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/account/settings"
+      }
+    },
+    {
+      "ref": "e6",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Track package",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 178,
+        "y": 477.015625,
+        "w": 152.296875,
+        "h": 50.796875
+      },
+      "visibleText": "Track package",
+      "attrs": {}
+    },
+    {
+      "ref": "e7",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Manage billing",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 725.625,
+        "y": 448.328125,
+        "w": 103.1875,
+        "h": 17
+      },
+      "visibleText": "Manage billing",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/billing"
+      }
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": "e7"
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e7"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": null
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I can now move through this step and finish it using just my keyboard.",
+  "assistive": [
+    "keyboard-only",
+    "low-vision"
+  ]
+}

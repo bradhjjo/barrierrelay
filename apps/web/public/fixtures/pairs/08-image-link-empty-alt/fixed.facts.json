@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:32.554Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/08-image-link-empty-alt/fixed.html",
+    "title": "Weekend reading · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 523.125
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 523.125
+      },
+      "visibleText": "The Fieldwork journal A slower kind of w",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Read our weekend trail guide",
+      "nameSources": [],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 178,
+        "y": 491.984375,
+        "w": 461.625,
+        "h": 17
+      },
+      "visibleText": "",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/journal/weekend-guide"
+      }
+    },
+    {
+      "ref": "e3",
+      "tag": "img",
+      "role": "img",
+      "accessibleName": "Read our weekend trail guide",
+      "nameSources": [
+        "alt"
+      ],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 178,
+        "y": 325.984375,
+        "w": 461.625,
+        "h": 180
+      },
+      "visibleText": "",
+      "attrs": {
+        "alt": "present"
+      }
+    },
+    {
+      "ref": "e4",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Read the workshop story",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 725.625,
+        "y": 408.328125,
+        "w": 176.984375,
+        "h": 17
+      },
+      "visibleText": "Read the workshop story",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/journal/workshop"
+      }
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": null
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I can now tell what each choice does and finish this step with my screen reader.",
+  "assistive": [
+    "screen-reader"
+  ]
+}

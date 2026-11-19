@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:28.578Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/07-modal-keyboard-trap/broken.html",
+    "title": "Choose your plan · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 622
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 622
+      },
+      "visibleText": "Northstar plans Make room for bigger ide",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Compare all plans",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 153,
+        "y": 285.984375,
+        "w": 128.953125,
+        "h": 17
+      },
+      "visibleText": "Compare all plans",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/plans"
+      }
+    },
+    {
+      "ref": "e3",
+      "tag": "section",
+      "role": "dialog",
+      "accessibleName": "A little more room to grow",
+      "nameSources": [
+        "aria-labelledby"
+      ],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 380,
+        "y": 327.78125,
+        "w": 520,
+        "h": 369.21875
+      },
+      "visibleText": "A little more room to grow Try Team free",
+      "attrs": {
+        "role": "dialog",
+        "aria-modal": "true",
+        "aria-labelledby": "offer-title"
+      }
+    },
+    {
+      "ref": "e4",
+      "tag": "label",
+      "role": null,
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 410,
+        "y": 469.921875,
+        "w": 460,
+        "h": 24.796875
+      },
+      "visibleText": "Workspace name",
+      "attrs": {}
+    },
+    {
+      "ref": "e5",
+      "tag": "input",
+      "role": "textbox",
+      "accessibleName": "Workspace name",
+      "nameSources": [
+        "label"
+      ],
+      "inputType": "text",
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 410,
+        "y": 501.71875,
+        "w": 460,
+        "h": 50.796875
+      },
+      "visibleText": "",
+      "attrs": {}
+    },
+    {
+      "ref": "e6",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Start free trial",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 410,
+        "y": 574.515625,
+        "w": 146.046875,
+        "h": 50.796875
+      },
+      "visibleText": "Start free trial",
+      "attrs": {}
+    },
+    {
+      "ref": "e7",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "View benefits",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 726.03125,
+        "y": 574.515625,
+        "w": 143.96875,
+        "h": 50.796875
+      },
+      "visibleText": "View benefits",
+      "attrs": {}
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e7"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": "e7"
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": "e7"
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e7"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 12,
+      "key": "Escape",
+      "ref": "e5"
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I'm stuck in the offer window. Tab keeps going around the same choices, and Escape won't let me leave.",
+  "assistive": [
+    "keyboard-only"
+  ]
+}

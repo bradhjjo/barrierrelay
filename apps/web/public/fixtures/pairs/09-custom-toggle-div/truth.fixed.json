@@ -1,0 +1,12 @@
+{
+  "id": "09-custom-toggle-div",
+  "variant": "fixed",
+  "barrierType": "none",
+  "targetRef": null,
+  "wcag": [],
+  "userNote": "I can now move through this step and finish it using just my keyboard.",
+  "assistive": [
+    "keyboard-only"
+  ],
+  "regionSelector": "#capture"
+}

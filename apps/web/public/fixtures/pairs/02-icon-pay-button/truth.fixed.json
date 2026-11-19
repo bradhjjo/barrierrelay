@@ -1,0 +1,12 @@
+{
+  "id": "02-icon-pay-button",
+  "variant": "fixed",
+  "barrierType": "none",
+  "targetRef": null,
+  "wcag": [],
+  "userNote": "I can now tell what each choice does and finish this step with my screen reader.",
+  "assistive": [
+    "screen-reader"
+  ],
+  "regionSelector": "#capture"
+}

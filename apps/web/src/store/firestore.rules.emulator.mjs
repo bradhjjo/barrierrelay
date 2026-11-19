@@ -1,0 +1,34 @@
+import { after, before, test } from 'node:test';
+import { readFile } from 'node:fs/promises';
+import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
+import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore';
+let env;
+const id = 'ABCDEFGHIJKLMNOPQRST';
+function data() { return { id, reporterUid: 'reporter', createdAt: new Date().toISOString(), status: 'open', site: { origin: 'https://example.test', path: '/' }, draft: { barrierType: 'unnamed-button', targetRef: 'e1', summary: '[rules-test] Unnamed button', stepsToReproduce: ['Tab to button'], expected: 'Named', actual: 'Unnamed', confidence: 'high' }, fixPlan: null, sharedFacts: { elements: [], focusTrail: [], ruleHits: [], assistive: [] }, routing: [] }; }
+before(async () => { env = await initializeTestEnvironment({ projectId: 'demo-barrierrelay', firestore: { rules: await readFile(new URL('../../../../firestore.rules', import.meta.url), 'utf8') } }); });
+after(async () => { await env?.cleanup(); });
+test('ticket access, approved shape, status transitions and verification', async () => {
+ const reporter = env.authenticatedContext('reporter').firestore();
+ const owner = env.authenticatedContext('owner').firestore();
+ const guest = env.unauthenticatedContext().firestore();
+ const ref = db => doc(db, 'tickets', id);
+ await assertFails(setDoc(ref(guest), data()));
+ await assertFails(setDoc(ref(owner), data()));
+ await assertFails(setDoc(ref(reporter), { ...data(), rawImage: 'private' }));
+ await assertFails(setDoc(ref(reporter), { ...data(), draft: { ...data().draft, summary: 'x'.repeat(161) } }));
+ await assertSucceeds(setDoc(ref(reporter), data()));
+ await assertFails(getDoc(ref(guest)));
+ await assertSucceeds(getDoc(ref(owner)));
+ await assertFails(getDocs(collection(owner, 'tickets')));
+ await assertSucceeds(getDocs(query(collection(reporter, 'tickets'), where('reporterUid', '==', 'reporter'))));
+ await assertFails(updateDoc(ref(owner), { status: 'verified' }));
+ await assertFails(updateDoc(ref(owner), { draft: { ...data().draft, summary: 'tampered' } }));
+ await assertSucceeds(updateDoc(ref(owner), { status: 'acknowledged' }));
+ await assertSucceeds(updateDoc(ref(owner), { status: 'fixed' }));
+ await assertFails(updateDoc(ref(owner), { status: 'verified', verification: { at: new Date().toISOString(), result: 'pass', ruleHitsAfter: [{ ruleId: 'button-name', ref: 'e1', detail: 'Remaining barrier' }] } }));
+ await assertSucceeds(updateDoc(ref(owner), { status: 'open', verification: { at: new Date().toISOString(), result: 'fail', ruleHitsAfter: [{ ruleId: 'button-name', ref: 'e1', detail: 'Still broken' }] } }));
+ await assertSucceeds(updateDoc(ref(owner), { status: 'acknowledged' }));
+ await assertSucceeds(updateDoc(ref(owner), { status: 'fixed' }));
+ await assertSucceeds(updateDoc(ref(owner), { status: 'verified', verification: { at: new Date().toISOString(), result: 'pass', ruleHitsAfter: [] } }));
+ await assertFails(deleteDoc(ref(reporter)));
+});

@@ -1,0 +1,15 @@
+{
+  "id": "06-nav-outline-none",
+  "variant": "broken",
+  "barrierType": "focus-not-visible",
+  "targetRef": "e3",
+  "wcag": [
+    "2.4.7"
+  ],
+  "userNote": "I press Tab to move through the account menu, but I can't see where I am.",
+  "assistive": [
+    "keyboard-only",
+    "low-vision"
+  ],
+  "regionSelector": "#capture"
+}

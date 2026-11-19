@@ -1,0 +1,1 @@
+{"parameters":{"cloudModel":{"defaultValue":{"value":"gemini-3.5-flash-lite"},"valueType":"STRING"},"groundingEnabled":{"defaultValue":{"value":"true"},"valueType":"BOOLEAN"},"maxCloudCallsPerSession":{"defaultValue":{"value":"5"},"valueType":"NUMBER"},"ruleCardsVersion":{"defaultValue":{"value":"1"},"valueType":"STRING"}}}

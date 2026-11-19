@@ -1,0 +1,14 @@
+{
+  "id": "05-div-continue-not-focusable",
+  "variant": "broken",
+  "barrierType": "unreachable-by-keyboard",
+  "targetRef": "e6",
+  "wcag": [
+    "2.1.1"
+  ],
+  "userNote": "I use the keyboard. I filled in my details, but I can't get to Continue to move on.",
+  "assistive": [
+    "keyboard-only"
+  ],
+  "regionSelector": "#capture"
+}

@@ -1,3 +1,5 @@
 import { render } from 'preact';
+import { App } from './ui/App';
+import './app.css';
 
-render(<main><h1>BarrierRelay</h1></main>, document.getElementById('app')!);
+render(<App />, document.getElementById('app')!);

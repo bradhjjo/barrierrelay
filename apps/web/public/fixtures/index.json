@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "viewport": {
+    "w": 1280,
+    "h": 800
+  },
+  "cases": [
+    {
+      "id": "01-signup-email-unlabeled",
+      "variants": {
+        "broken": {
+          "html": "pairs/01-signup-email-unlabeled/broken.html",
+          "truth": "pairs/01-signup-email-unlabeled/truth.broken.json",
+          "facts": "pairs/01-signup-email-unlabeled/broken.facts.json",
+          "region": "pairs/01-signup-email-unlabeled/broken.region.png",
+          "full": "pairs/01-signup-email-unlabeled/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/01-signup-email-unlabeled/fixed.html",
+          "truth": "pairs/01-signup-email-unlabeled/truth.fixed.json",
+          "facts": "pairs/01-signup-email-unlabeled/fixed.facts.json",
+          "region": "pairs/01-signup-email-unlabeled/fixed.region.png",
+          "full": "pairs/01-signup-email-unlabeled/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "02-icon-pay-button",
+      "variants": {
+        "broken": {
+          "html": "pairs/02-icon-pay-button/broken.html",
+          "truth": "pairs/02-icon-pay-button/truth.broken.json",
+          "facts": "pairs/02-icon-pay-button/broken.facts.json",
+          "region": "pairs/02-icon-pay-button/broken.region.png",
+          "full": "pairs/02-icon-pay-button/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/02-icon-pay-button/fixed.html",
+          "truth": "pairs/02-icon-pay-button/truth.fixed.json",
+          "facts": "pairs/02-icon-pay-button/fixed.facts.json",
+          "region": "pairs/02-icon-pay-button/fixed.region.png",
+          "full": "pairs/02-icon-pay-button/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "03-icon-cart-link",
+      "variants": {
+        "broken": {
+          "html": "pairs/03-icon-cart-link/broken.html",
+          "truth": "pairs/03-icon-cart-link/truth.broken.json",
+          "facts": "pairs/03-icon-cart-link/broken.facts.json",
+          "region": "pairs/03-icon-cart-link/broken.region.png",
+          "full": "pairs/03-icon-cart-link/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/03-icon-cart-link/fixed.html",
+          "truth": "pairs/03-icon-cart-link/truth.fixed.json",
+          "facts": "pairs/03-icon-cart-link/fixed.facts.json",
+          "region": "pairs/03-icon-cart-link/fixed.region.png",
+          "full": "pairs/03-icon-cart-link/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "04-placeholder-only-search",
+      "variants": {
+        "broken": {
+          "html": "pairs/04-placeholder-only-search/broken.html",
+          "truth": "pairs/04-placeholder-only-search/truth.broken.json",
+          "facts": "pairs/04-placeholder-only-search/broken.facts.json",
+          "region": "pairs/04-placeholder-only-search/broken.region.png",
+          "full": "pairs/04-placeholder-only-search/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/04-placeholder-only-search/fixed.html",
+          "truth": "pairs/04-placeholder-only-search/truth.fixed.json",
+          "facts": "pairs/04-placeholder-only-search/fixed.facts.json",
+          "region": "pairs/04-placeholder-only-search/fixed.region.png",
+          "full": "pairs/04-placeholder-only-search/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "05-div-continue-not-focusable",
+      "variants": {
+        "broken": {
+          "html": "pairs/05-div-continue-not-focusable/broken.html",
+          "truth": "pairs/05-div-continue-not-focusable/truth.broken.json",
+          "facts": "pairs/05-div-continue-not-focusable/broken.facts.json",
+          "region": "pairs/05-div-continue-not-focusable/broken.region.png",
+          "full": "pairs/05-div-continue-not-focusable/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/05-div-continue-not-focusable/fixed.html",
+          "truth": "pairs/05-div-continue-not-focusable/truth.fixed.json",
+          "facts": "pairs/05-div-continue-not-focusable/fixed.facts.json",
+          "region": "pairs/05-div-continue-not-focusable/fixed.region.png",
+          "full": "pairs/05-div-continue-not-focusable/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "06-nav-outline-none",
+      "variants": {
+        "broken": {
+          "html": "pairs/06-nav-outline-none/broken.html",
+          "truth": "pairs/06-nav-outline-none/truth.broken.json",
+          "facts": "pairs/06-nav-outline-none/broken.facts.json",
+          "region": "pairs/06-nav-outline-none/broken.region.png",
+          "full": "pairs/06-nav-outline-none/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/06-nav-outline-none/fixed.html",
+          "truth": "pairs/06-nav-outline-none/truth.fixed.json",
+          "facts": "pairs/06-nav-outline-none/fixed.facts.json",
+          "region": "pairs/06-nav-outline-none/fixed.region.png",
+          "full": "pairs/06-nav-outline-none/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "07-modal-keyboard-trap",
+      "variants": {
+        "broken": {
+          "html": "pairs/07-modal-keyboard-trap/broken.html",
+          "truth": "pairs/07-modal-keyboard-trap/truth.broken.json",
+          "facts": "pairs/07-modal-keyboard-trap/broken.facts.json",
+          "region": "pairs/07-modal-keyboard-trap/broken.region.png",
+          "full": "pairs/07-modal-keyboard-trap/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/07-modal-keyboard-trap/fixed.html",
+          "truth": "pairs/07-modal-keyboard-trap/truth.fixed.json",
+          "facts": "pairs/07-modal-keyboard-trap/fixed.facts.json",
+          "region": "pairs/07-modal-keyboard-trap/fixed.region.png",
+          "full": "pairs/07-modal-keyboard-trap/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "08-image-link-empty-alt",
+      "variants": {
+        "broken": {
+          "html": "pairs/08-image-link-empty-alt/broken.html",
+          "truth": "pairs/08-image-link-empty-alt/truth.broken.json",
+          "facts": "pairs/08-image-link-empty-alt/broken.facts.json",
+          "region": "pairs/08-image-link-empty-alt/broken.region.png",
+          "full": "pairs/08-image-link-empty-alt/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/08-image-link-empty-alt/fixed.html",
+          "truth": "pairs/08-image-link-empty-alt/truth.fixed.json",
+          "facts": "pairs/08-image-link-empty-alt/fixed.facts.json",
+          "region": "pairs/08-image-link-empty-alt/fixed.region.png",
+          "full": "pairs/08-image-link-empty-alt/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "09-custom-toggle-div",
+      "variants": {
+        "broken": {
+          "html": "pairs/09-custom-toggle-div/broken.html",
+          "truth": "pairs/09-custom-toggle-div/truth.broken.json",
+          "facts": "pairs/09-custom-toggle-div/broken.facts.json",
+          "region": "pairs/09-custom-toggle-div/broken.region.png",
+          "full": "pairs/09-custom-toggle-div/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/09-custom-toggle-div/fixed.html",
+          "truth": "pairs/09-custom-toggle-div/truth.fixed.json",
+          "facts": "pairs/09-custom-toggle-div/fixed.facts.json",
+          "region": "pairs/09-custom-toggle-div/fixed.region.png",
+          "full": "pairs/09-custom-toggle-div/fixed.full.png"
+        }
+      }
+    },
+    {
+      "id": "10-datepicker-icon-button",
+      "variants": {
+        "broken": {
+          "html": "pairs/10-datepicker-icon-button/broken.html",
+          "truth": "pairs/10-datepicker-icon-button/truth.broken.json",
+          "facts": "pairs/10-datepicker-icon-button/broken.facts.json",
+          "region": "pairs/10-datepicker-icon-button/broken.region.png",
+          "full": "pairs/10-datepicker-icon-button/broken.full.png"
+        },
+        "fixed": {
+          "html": "pairs/10-datepicker-icon-button/fixed.html",
+          "truth": "pairs/10-datepicker-icon-button/truth.fixed.json",
+          "facts": "pairs/10-datepicker-icon-button/fixed.facts.json",
+          "region": "pairs/10-datepicker-icon-button/fixed.region.png",
+          "full": "pairs/10-datepicker-icon-button/fixed.full.png"
+        }
+      }
+    }
+  ]
+}

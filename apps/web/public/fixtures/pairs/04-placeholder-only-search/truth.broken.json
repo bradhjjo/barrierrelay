@@ -1,0 +1,16 @@
+{
+  "id": "04-placeholder-only-search",
+  "variant": "broken",
+  "barrierType": "unlabeled-input",
+  "targetRef": "e2",
+  "wcag": [
+    "1.3.1",
+    "3.3.2",
+    "4.1.2"
+  ],
+  "userNote": "When I move into the search box, I can't tell what it is for with my screen reader.",
+  "assistive": [
+    "screen-reader"
+  ],
+  "regionSelector": "#capture"
+}

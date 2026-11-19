@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function validDraft(d) {
+      return d is map && d.keys().hasAll(['barrierType','targetRef','summary','stepsToReproduce','expected','actual','confidence'])
+        && d.keys().hasOnly(['barrierType','targetRef','summary','stepsToReproduce','expected','actual','confidence'])
+        && d.barrierType in ['unlabeled-input','unnamed-button','unnamed-link','unreachable-by-keyboard','focus-not-visible','keyboard-trap','other','none']
+        && (d.targetRef == null || (d.targetRef is string && d.targetRef.size() <= 80))
+        && d.summary is string && d.summary.size() <= 160
+        && d.expected is string && d.expected.size() <= 160 && d.actual is string && d.actual.size() <= 160
+        && d.stepsToReproduce is list && d.stepsToReproduce.size() >= 1 && d.stepsToReproduce.size() <= 5
+        && d.confidence in ['low','medium','high'];
+    }
+    function validTicket(d, id) {
+      return d.keys().hasAll(['id','reporterUid','createdAt','status','site','draft','fixPlan','sharedFacts','routing'])
+        && d.keys().hasOnly(['id','reporterUid','createdAt','status','site','draft','fixPlan','sharedFacts','routing'])
+        && d.id == id && id.size() == 20 && d.reporterUid == request.auth.uid
+        && d.createdAt is string && d.createdAt.size() <= 40 && d.status == 'open'
+        && d.site is map && d.site.keys().hasOnly(['origin','path']) && d.site.origin is string && d.site.origin.size() <= 500 && d.site.path is string && d.site.path.size() <= 2000
+        && validDraft(d.draft)
+        && (d.fixPlan == null || (d.fixPlan is map && d.fixPlan.keys().hasOnly(['wcag','rootCause','fix','verification','sources']) && d.fixPlan.wcag is list && d.fixPlan.wcag.size() <= 20 && d.fixPlan.sources is list && d.fixPlan.sources.size() <= 30 && d.fixPlan.verification is list && d.fixPlan.verification.size() <= 30 && d.fixPlan.rootCause is string && d.fixPlan.rootCause.size() <= 10000 && d.fixPlan.fix is map && d.fixPlan.fix.keys().hasOnly(['description','codeBefore','codeAfter']) && d.fixPlan.fix.description is string && d.fixPlan.fix.description.size() <= 10000 && d.fixPlan.fix.codeAfter is string && d.fixPlan.fix.codeAfter.size() <= 30000))
+        && d.sharedFacts is map && d.sharedFacts.keys().hasOnly(['elements','focusTrail','ruleHits','assistive'])
+        && d.sharedFacts.elements is list && d.sharedFacts.elements.size() <= 40
+        && d.sharedFacts.focusTrail is list && d.sharedFacts.focusTrail.size() <= 20
+        && d.sharedFacts.ruleHits is list && d.sharedFacts.ruleHits.size() <= 100
+        && d.sharedFacts.assistive is list && d.sharedFacts.assistive.size() <= 5
+        && d.routing is list && d.routing.size() <= 100;
+    }
+    function validVerification(v) {
+      return v is map && v.keys().hasAll(['at','result','ruleHitsAfter']) && v.keys().hasOnly(['at','result','ruleHitsAfter'])
+        && v.at is string && v.at.size() <= 40 && v.result in ['pass','fail'] && v.ruleHitsAfter is list && v.ruleHitsAfter.size() <= 100
+        && (v.result != 'pass' || v.ruleHitsAfter.size() == 0);
+    }
+    match /tickets/{id} {
+      allow create: if signedIn() && validTicket(request.resource.data, id);
+      allow get: if signedIn();
+      allow list: if signedIn() && resource.data.reporterUid == request.auth.uid;
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','verification'])
+        && ((resource.data.status == 'open' && request.resource.data.status == 'acknowledged' && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']))
+          || (resource.data.status == 'acknowledged' && request.resource.data.status == 'fixed' && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']))
+          || (resource.data.status == 'fixed' && validVerification(request.resource.data.verification)
+            && ((request.resource.data.status == 'verified' && request.resource.data.verification.result == 'pass')
+              || (request.resource.data.status == 'open' && request.resource.data.verification.result == 'fail'))));
+      allow delete: if false;
+    }
+  }
+}

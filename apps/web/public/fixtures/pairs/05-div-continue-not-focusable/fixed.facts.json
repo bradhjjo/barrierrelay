@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:24.578Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/05-div-continue-not-focusable/fixed.html",
+    "title": "Delivery details · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 527.65625
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 527.65625
+      },
+      "visibleText": "Checkout / step # of # Where should we s",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "label",
+      "role": null,
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 380,
+        "y": 312.984375,
+        "w": 520,
+        "h": 24.796875
+      },
+      "visibleText": "Full name",
+      "attrs": {}
+    },
+    {
+      "ref": "e3",
+      "tag": "input",
+      "role": "textbox",
+      "accessibleName": "Full name",
+      "nameSources": [
+        "label"
+      ],
+      "inputType": "text",
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 380,
+        "y": 344.78125,
+        "w": 520,
+        "h": 50.796875
+      },
+      "visibleText": "",
+      "attrs": {
+        "autocomplete": "name"
+      }
+    },
+    {
+      "ref": "e4",
+      "tag": "label",
+      "role": null,
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 380,
+        "y": 413.578125,
+        "w": 520,
+        "h": 24.796875
+      },
+      "visibleText": "Street address",
+      "attrs": {}
+    },
+    {
+      "ref": "e5",
+      "tag": "input",
+      "role": "textbox",
+      "accessibleName": "Street address",
+      "nameSources": [
+        "label"
+      ],
+      "inputType": "text",
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 380,
+        "y": 445.375,
+        "w": 520,
+        "h": 50.796875
+      },
+      "visibleText": "",
+      "attrs": {
+        "autocomplete": "street-address"
+      }
+    },
+    {
+      "ref": "e6",
+      "tag": "div",
+      "role": "button",
+      "accessibleName": "Continue to payment",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 380,
+        "y": 518.171875,
+        "w": 520,
+        "h": 50.796875
+      },
+      "visibleText": "Continue to payment",
+      "attrs": {
+        "role": "button"
+      }
+    },
+    {
+      "ref": "e7",
+      "tag": "p",
+      "role": "status",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 380,
+        "y": 578.96875,
+        "w": 520,
+        "h": 21.6875
+      },
+      "visibleText": "Step #: choose your payment method",
+      "attrs": {
+        "role": "status"
+      }
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": null
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I can now move through this step and finish it using just my keyboard.",
+  "assistive": [
+    "keyboard-only"
+  ]
+}
