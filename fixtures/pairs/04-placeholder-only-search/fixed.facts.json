@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-19T05:07:21.944Z",
+  "capturedAt": "2026-11-19T06:28:14.522Z",
   "page": {
-    "url": "http://127.0.0.1:38351/pairs/04-placeholder-only-search/fixed.html",
+    "url": "http://127.0.0.1:40231/pairs/04-placeholder-only-search/fixed.html",
     "title": "Help center · BarrierRelay fixture",
     "lang": "en",
     "viewport": {
@@ -98,7 +98,7 @@
       },
       "visibleText": "Read the setup guide",
       "attrs": {
-        "href": "http://127.0.0.1:38351/help/start"
+        "href": "http://127.0.0.1:40231/help/start"
       }
     },
     {
@@ -120,7 +120,7 @@
       },
       "visibleText": "Browse billing articles",
       "attrs": {
-        "href": "http://127.0.0.1:38351/help/billing"
+        "href": "http://127.0.0.1:40231/help/billing"
       }
     }
   ],

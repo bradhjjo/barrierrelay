@@ -35,7 +35,9 @@ The app uses the Firebase JavaScript SDK **13.4.0**, resolved in [package-lock.j
 
 **No raw-capture cloud fallback is configured.** The actual product path uses `ONLY_ON_DEVICE`, not `PREFER_ON_DEVICE`. Gate 0 proved with a stubbed unavailable browser API and intercepted network that `ONLY_ON_DEVICE` rejects with `api-not-enabled`, while `PREFER_ON_DEVICE` would choose cloud immediately if local readiness is not `available`. This is why a preferred-mode fallback would violate our privacy boundary. See [SDK findings and test conditions](../gate0/NANO_NOTES.md#firebase-sdk-findings).
 
-The app catches unavailable-model errors and can make a deterministic rules draft. Other generation failures remain visible errors; a rules output is never relabeled as Nano. Self-check consists of **deterministic checks + on-device consistency check** when the model is available. A deterministic-only pass is not proof that a model evaluated the draft. TODO(verify): publish robustness evaluation numbers after the active self-check fix is evaluated; no self-check accuracy or latency number is claimed here.
+The app catches unavailable-model errors and can make a deterministic rules draft. Other generation failures remain visible errors; a rules output is never relabeled as Nano. Self-check consists of **deterministic checks + on-device consistency check** when the model is available. A deterministic-only pass is not proof that a model evaluated the draft. The final [self-check evaluation](../gate0/out/selfcheck.json) accepted **10/10 correct drafts**, rejected **10/10 corrupted drafts**, and produced **20/20 schema-valid** responses. This small synthetic combined local-evidence/model check is not an independent general-purpose semantic accuracy measurement.
+
+Before normal draft validation, [rule reconciliation](../apps/web/src/ai/reconcile.ts) can correct only the generated `barrierType` and `targetRef` when supported rule hits identify one unambiguous type/target. Conflicting types or multiple candidate targets do not justify correction. Generated language remains unchanged. Each actual correction is logged as a local-code routing entry; an on-device inference entry still records where generation ran.
 
 ### Human approval and redaction
 
@@ -57,7 +59,9 @@ The cloud model uses **`ONLY_IN_CLOUD`**. Its input is a fixed repair instructio
 
 The app validates the JSON plan and replaces model-authored sources using candidate-zero **`urlContextMetadata.urlMetadata[]`**. It retains only **`URL_RETRIEVAL_STATUS_SUCCESS`** entries matching the requested official W3C slug/version map, deduplicating exact returned URLs. Equivalent W3C WCAG document versions may be accepted without rewriting the returned URL. Failed retrievals, missing statuses, unknown URLs, and absent metadata cannot create citations. An empty source list stays empty and the UI asks for independent review.
 
-The default cloud model supports URL context and structured output together in the verified smoke. Older configurable models use prompt-only JSON when URL context is enabled; application validation still applies. With grounding disabled, neither the context tool nor reference URL list is supplied. The standalone [cloud smoke artifact](../gate0/out/cloud-smoke.json) records **2900 ms**, **2 successful W3C sources**, and **schemaValid: true**; it is separate from a completed end-to-end ticket workflow.
+The default cloud model supports URL context and structured output together in the verified smoke. Older configurable models use prompt-only JSON when URL context is enabled; application validation still applies. With grounding disabled, neither the context tool nor reference URL list is supplied. The standalone [cloud smoke artifact](../gate0/out/cloud-smoke.json) records **2900 ms**, **2 successful W3C sources**, and **schemaValid: true**; it is separate from the later completed end-to-end ticket workflow.
+
+Transient cloud **5xx** errors retry at most **once after 1500 ms**, reserving another cloud-call budget unit. Each successful retry is explicitly logged, elapsed time includes both attempts and delay, and cloud bytes count both payloads. A validation/JSON error or **4xx/429** response does not retry; exhausted budget prevents the retry. See [bounded-retry implementation notes](../apps/web/src/ai/README.md#rule-reconciliation-and-bounded-cloud-retry-2026-11-19). No formatting-repair call is hidden behind the schema validator.
 
 ## Routing visibility
 
@@ -76,7 +80,7 @@ Every processing result can append a `RoutingLogEntry` from [the shared schema](
 
 For model calls, `ranOn` comes from **`result.response.inferenceSource`** (`on_device` or `in_cloud`); unknown/missing values are rejected, rather than guessed. The UI converts that source to the **On-device / Cloud** badge in its Hybrid routing table. Local/deterministic results are labeled **Local code**.
 
-The cloud byte count is the UTF-8 length of the redacted data object before adding the `bytes` property. It excludes fixed prompt instructions, SDK request envelopes, Auth/App Check traffic, TLS overhead, and subsequent ticket writes. Local entries record zero capture bytes sent to cloud. Thus the table is application-level routing evidence, **not a packet-level privacy audit**. Some UI stages log zero placeholder milliseconds; do not benchmark them as measured capture latency.
+For a single attempt, the cloud byte count is the UTF-8 length of the redacted data object before adding the `bytes` property; a logged successful retry counts two payloads. It excludes fixed prompt instructions, SDK request envelopes, Auth/App Check traffic, TLS overhead, and subsequent ticket writes. Local entries record zero capture bytes sent to cloud. Thus the table is application-level routing evidence, **not a packet-level privacy audit**. Some UI stages log zero placeholder milliseconds; do not benchmark them as measured capture latency.
 
 ## Firestore data model and authorization
 
@@ -133,10 +137,10 @@ Local drafting does not require a cloud inference request, but the app shell and
 
 | Input mode | Type correct | Ref correct | Schema-valid | Broken types correct | Median, creation + inference |
 | --- | --- | --- | --- | --- | --- |
-| Text-only | 19/20 | 19/20 | 20/20 | 10/10 | 6.0 s (6002 ms rounded) |
-| Text + region PNG | 18/20 | 18/20 | 20/20 | 10/10 | 4.8 s (4759 ms rounded) |
+| Text-only | 18/20 | 18/20 | 20/20 | 10/10 | 4.6 s (4624 ms rounded) |
+| Text + region PNG | 20/20 | 20/20 | 20/20 | 10/10 | 4.3 s (4303 ms rounded) |
 
-Source: [all evaluation rows and prompt snapshot](../gate0/out/eval.json), [methodology and limitations](../gate0/NANO_NOTES.md#real-nano-results--barrierrelay-draft-evaluation-2026-11-18). These are **40 real Nano inferences** over **10 synthetic broken/fixed pairs** using the direct Chrome Prompt API, with fresh single-turn sessions and a downloaded model. They do not measure Firebase SDK overhead or population-wide accuracy. Fixed-page false positives remain; the shorter image median is not proof of a general speed advantage.
+Source: [all evaluation rows and prompt snapshot](../gate0/out/eval.json), [methodology and limitations](../gate0/NANO_NOTES.md#real-nano-results--barrierrelay-draft-evaluation-2026-11-18). These are **40 real Nano inferences** over **10 synthetic broken/fixed pairs** using the direct Chrome Prompt API, with fresh single-turn sessions and a downloaded model. They do not measure Firebase SDK overhead or population-wide accuracy. The latest raw and reconciled scores match because no corrections were needed; no measured reconciliation gain is claimed. Text-only fixed-page false positives remain; the shorter image median is not proof of a general speed advantage. Earlier scores are historical checkpoints, not the latest `eval.json`.
 
 ### Integration and deployment evidence
 
@@ -149,6 +153,19 @@ Source: [all evaluation rows and prompt snapshot](../gate0/out/eval.json), [meth
 | Extension keyboard panel/handoff; extension → actual production app with rules-only fallback and note exclusion. | [Isolated extension E2E](../tools/e2e/extension.e2e.mjs), [real-app intake integration](../tools/e2e/integration.e2e.mjs). These tests use no Nano/cloud inference. Preview origin is `http://127.0.0.1:4173`. |
 | Deterministic UI repair workflow and Firebase operations. | [Web E2E](../tools/e2e/web.e2e.mjs); uses an AI substitute and must not be cited as real hybrid inference. |
 
-**Full real repair loop: TODO(verify).** The currently inspected `real-results.json` has `completed: false` and stops at a self-check failure after the successful offline draft. The coordinator will rerun after the self-check fix; retain final cloud latency, URL-context sources, and Firestore ticket status before asserting that one real hybrid run reached `verified`. Older `real-06` through `real-10` screenshots alone do not close that gate.
+### Completed real hybrid workflow
 
-**Self-check robustness: TODO(verify)** evaluation numbers after the active fix. Describe the implementation as deterministic checks + on-device consistency check, without unsupported score claims. **Usability/video: TODO(verify)** disability-led screen-reader testing, final captions, and public evidence-package links. Output artifacts live under ignored directories and must be retained separately for a reproducible submission.
+The [latest real E2E receipt](../tools/e2e/out/real-results.json) has **`completed: true`**, no page errors, no fake pipeline, and no fallback. It records:
+
+| Stage | Latest receipt |
+| --- | --- |
+| Offline SDK draft | **7601 ms**, on-device (`inferenceSource: on_device`), **0 capture bytes to cloud**, **0 AI network requests** |
+| On-device consistency check | **670 ms**; deterministic local check also ran |
+| Cloud URL-context plan | **17001 ms**, **1632 payload bytes**, **2 W3C sources** |
+| Ticket lifecycle | Real Firestore create/owner status changes and synthetic fixed-fixture check reached **verified** |
+
+The coordinator's two post-fix reruns both exited zero: offline draft **7.6–9.9 s**, on-device check about **0.65 s**, cloud plan **9–17 s** for about **1.6–1.7 KB**. A separate worker's final batch passed **3/3**; its exact different timings are in [the final sequential-run table](../apps/web/src/ai/README.md#final-sequential-runs-after-diagnostic-merging). These ranges are observed runs, not a latency guarantee. Earlier native-model failures remain documented risks; final successes do not prove those failures impossible. Successful runs did not need to exercise correction/retry branches; their edge cases have controlled unit tests.
+
+The coordinator additionally verified the hosted production app's no-model rules-only path and a real cloud plan in **21.1 s** with **2 W3C source links**, using reCAPTCHA Enterprise App Check. That production observation is distinct from both the early cloud smoke and local real E2E timings.
+
+Final validation: the docs-pass local run passed **46 Vitest tests** and TypeScript; the coordinator verified that all four E2E scripts—extension, integration, web, real—passed. **Usability/video: TODO(verify)** testing with real screen-reader users, final recorded speech/captions/runtime, public evidence/video links, and Devpost submission details. Output artifacts live under ignored directories and must be retained separately for a reproducible submission.

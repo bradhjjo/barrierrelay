@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-19T05:07:27.232Z",
+  "capturedAt": "2026-11-19T06:28:19.802Z",
   "page": {
-    "url": "http://127.0.0.1:38351/pairs/06-nav-outline-none/fixed.html",
+    "url": "http://127.0.0.1:40231/pairs/06-nav-outline-none/fixed.html",
     "title": "Account overview · BarrierRelay fixture",
     "lang": "en",
     "viewport": {
@@ -76,7 +76,7 @@
       },
       "visibleText": "Overview",
       "attrs": {
-        "href": "http://127.0.0.1:38351/account/overview"
+        "href": "http://127.0.0.1:40231/account/overview"
       }
     },
     {
@@ -98,7 +98,7 @@
       },
       "visibleText": "Orders",
       "attrs": {
-        "href": "http://127.0.0.1:38351/account/orders"
+        "href": "http://127.0.0.1:40231/account/orders"
       }
     },
     {
@@ -120,7 +120,7 @@
       },
       "visibleText": "Settings",
       "attrs": {
-        "href": "http://127.0.0.1:38351/account/settings"
+        "href": "http://127.0.0.1:40231/account/settings"
       }
     },
     {
@@ -162,7 +162,7 @@
       },
       "visibleText": "Manage billing",
       "attrs": {
-        "href": "http://127.0.0.1:38351/billing"
+        "href": "http://127.0.0.1:40231/billing"
       }
     }
   ],

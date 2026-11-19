@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-19T05:07:12.651Z",
+  "capturedAt": "2026-11-19T06:28:05.332Z",
   "page": {
-    "url": "http://127.0.0.1:38351/pairs/01-signup-email-unlabeled/broken.html",
+    "url": "http://127.0.0.1:40231/pairs/01-signup-email-unlabeled/broken.html",
     "title": "Create your workspace · BarrierRelay fixture",
     "lang": "en",
     "viewport": {
@@ -137,7 +137,7 @@
       },
       "visibleText": "Terms of service",
       "attrs": {
-        "href": "http://127.0.0.1:38351/terms"
+        "href": "http://127.0.0.1:40231/terms"
       }
     }
   ],

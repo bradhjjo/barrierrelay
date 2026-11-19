@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-19T05:07:15.314Z",
+  "capturedAt": "2026-11-19T06:28:07.959Z",
   "page": {
-    "url": "http://127.0.0.1:38351/pairs/02-icon-pay-button/broken.html",
+    "url": "http://127.0.0.1:40231/pairs/02-icon-pay-button/broken.html",
     "title": "Secure checkout · BarrierRelay fixture",
     "lang": "en",
     "viewport": {
@@ -54,7 +54,7 @@
       },
       "visibleText": "Return to bag",
       "attrs": {
-        "href": "http://127.0.0.1:38351/bag"
+        "href": "http://127.0.0.1:40231/bag"
       }
     },
     {

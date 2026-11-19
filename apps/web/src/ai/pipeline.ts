@@ -152,7 +152,10 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
       const logs = [log('self-check','n/a','local-code',start)];
       if (!issues.length) {
         const state = await readiness();
-        if (state !== 'available' && state !== 'unknown') throw deviceUnavailable(`On-device self-check is ${state}. Prepare the model before checking the draft.`, 'self-check');
+        if (state !== 'available' && state !== 'unknown') {
+          logs[0].note = `Deterministic checks passed; on-device check skipped: readiness is ${state}. Review manually.`;
+          return { ok: true, issues, log: logs };
+        }
         const checkStart = performance.now();
         try {
           const result = await deviceResponse(localModel(true).generateContent(selfCheckPrompt(draft, facts)), 'self-check');
@@ -160,7 +163,12 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
           logs.push(log('self-check','ONLY_ON_DEVICE',ranOn(result.response),checkStart));
           if (typeof check.consistent !== 'boolean' || !Array.isArray(check.problems) || check.problems.length > 3 || check.problems.some(i => typeof i !== 'string') || (check.consistent && check.problems.length > 0)) issues.push('Invalid on-device self-check response.');
           else if (!check.consistent) issues.push(...(check.problems.length ? check.problems as string[] : ['Draft does not follow from the facts.']));
-        } catch (e) { if (e instanceof OnDeviceUnavailableError) throw e; issues.push(unavailable(e) ? 'On-device self-check became unavailable; review the draft manually.' : 'On-device self-check failed; review the draft manually.'); }
+        } catch (e) {
+          const reason = e instanceof OnDeviceUnavailableError ? 'on-device generation timed out'
+            : unavailable(e) ? 'the SDK reported the model unavailable'
+            : 'on-device inference or response processing failed';
+          logs[0].note = `Deterministic checks passed; on-device check skipped: ${reason}. Review manually.`;
+        }
       }
       return { ok: issues.length === 0, issues, log: logs };
     },

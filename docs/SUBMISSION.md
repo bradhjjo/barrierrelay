@@ -36,11 +36,11 @@ The Chrome Manifest V3 extension uses TypeScript, a shadow-DOM modal, the shared
 
 The Preact web app uses **Firebase AI Logic** with the Gemini Developer API backend. Private drafting selects **`InferenceMode.ONLY_ON_DEVICE`** and supplies facts plus the cropped image. We place the JSON Schema in **`onDeviceParams.promptOptions.responseConstraint`**, because the installed SDK's local adapter does not translate cloud `responseSchema` settings into local constraints. Application validation checks the result again.
 
-Self-check combines **deterministic checks + an on-device consistency check** when the model is available. TODO(verify): add robustness evaluation numbers after the active self-check fix; no score is claimed yet. Preparation calls `initializeDeviceModel()` from a user gesture. When the local API is unavailable, the app can use local rules instead of changing to `PREFER_ON_DEVICE`, whose fallback would violate our raw-data boundary.
+Self-check combines **deterministic checks + an on-device consistency check** when the model is available. The final synthetic evaluation accepted **10/10 correct drafts**, rejected **10/10 corrupted drafts**, and returned **20/20 schema-valid** outputs ([artifact](../gate0/out/selfcheck.json)); these combined local-evidence/model results do not establish general semantic accuracy. Unambiguous local rule hits can also reconcile a generated barrier type/target before validation; each correction is visible in routing and never silently rewrites generated prose. Preparation calls `initializeDeviceModel()` from a user gesture. When the local API is unavailable, the app can use local rules instead of changing to `PREFER_ON_DEVICE`, whose fallback would violate our raw-data boundary.
 
 The UI shows a **Hybrid routing** table. Model entries derive their location from **`response.inferenceSource`**, not from an assumption about the requested mode. The table distinguishes On-device, Cloud, and Local code, with application elapsed time and approved-payload byte counts. Those counts are not total network-traffic measurements.
 
-For the next capability, the app explicitly uses **`InferenceMode.ONLY_IN_CLOUD`**. The cloud fix-plan request receives only the reviewed, redacted application payload. It enables the **URL context tool (`urlContext`)** when Remote Config permits it, retrieving W3C WCAG 2.2 Understanding pages chosen deterministically from the barrier type. Source links come only from successful, recognized `urlContextMetadata` retrievals, never model-authored citation fields. This is a fixed-reference retrieval capability, not open-ended web search. The verified cloud smoke combined URL context and structured output in the same call ([SDK/tool decision](../apps/web/src/ai/README.md)).
+For the next capability, the app explicitly uses **`InferenceMode.ONLY_IN_CLOUD`**. The cloud fix-plan request receives only the reviewed, redacted application payload. It enables the **URL context tool (`urlContext`)** when Remote Config permits it, retrieving W3C WCAG 2.2 Understanding pages chosen deterministically from the barrier type. Source links come only from successful, recognized `urlContextMetadata` retrievals, never model-authored citation fields. This is a fixed-reference retrieval capability, not open-ended web search. The verified cloud smoke combined URL context and structured output in the same call ([SDK/tool decision](../apps/web/src/ai/README.md)). Transient cloud 5xx errors retry once with explicit routing/budget accounting; validation and 4xx/quota errors do not retry.
 
 ### Firebase beyond inference
 
@@ -78,12 +78,14 @@ Source references: [pipeline](../apps/web/src/ai/pipeline.ts), [redaction](../ap
 
 | Real Nano mode | Barrier type | Target ref | Schema-valid | Broken types | Median |
 | --- | --- | --- | --- | --- | --- |
-| Text-only | 19/20 | 19/20 | 20/20 | 10/10 | 6.0 s |
-| Text + region PNG | 18/20 | 18/20 | 20/20 | 10/10 | 4.8 s |
+| Text-only | 18/20 | 18/20 | 20/20 | 10/10 | 4.6 s |
+| Text + region PNG | 20/20 | 20/20 | 20/20 | 10/10 | 4.3 s |
 
-These rounded medians come from **6002 ms** and **4759 ms** in [the evaluation artifact](../gate0/out/eval.json), with methods in [Gate 0](../gate0/NANO_NOTES.md). The small synthetic test uses the direct Prompt API and includes session creation; it is not a Firebase SDK latency benchmark or a general accessibility accuracy claim. False positives on fixed pages remain.
+These latest rounded medians come from **4624 ms** and **4303 ms** in [the evaluation artifact](../gate0/out/eval.json), with methods in [Gate 0](../gate0/NANO_NOTES.md). The small synthetic test uses the direct Prompt API and includes session creation; it is not a Firebase SDK latency benchmark or a general accessibility accuracy claim. Text-only false positives on fixed pages remain. No reconciliation was needed in this run, so no measured reconciliation accuracy improvement is claimed.
 
-The [real Firebase SDK offline draft](../tools/e2e/out/real-results.json) ran on-device with **0 capture bytes to cloud** and **0 AI network requests**. Separately, the [real URL-context cloud smoke](../gate0/out/cloud-smoke.json) returned a validated plan in **2.9 s**, with **2 W3C sources** and **schemaValid: true**. The latest real E2E artifact stops at self-check, so **TODO(verify): rerun the complete real hybrid repair loop after the active fix before claiming a Firestore ticket reached `verified` in that run**.
+The [real Firebase SDK offline draft](../tools/e2e/out/real-results.json) ran on-device with **0 capture bytes to cloud** and **0 AI network requests**. Separately, the [real URL-context cloud smoke](../gate0/out/cloud-smoke.json) returned a validated plan in **2.9 s**, with **2 W3C sources** and **schemaValid: true**. The latest real E2E now has **`completed: true`**: **7601 ms** offline draft, **670 ms** on-device check, and **17001 ms / 1632 payload bytes** for a cloud plan with **2 W3C sources**, followed by a real Firestore ticket reaching **verified** through a synthetic fixed-fixture check. The coordinator's two final post-fix runs both passed (draft **7.6–9.9 s**, cloud **9–17 s**, approximately **1.6–1.7 KB**), and a separate final worker batch passed **3/3** ([individual worker measurements](../apps/web/src/ai/README.md#final-sequential-runs-after-diagnostic-merging)). Earlier intermittent native errors remain documented rather than erased.
+
+The coordinator also verified the hosted production app with reCAPTCHA Enterprise App Check: a model-free rules-only draft and real cloud fix plan in **21.1 s**, with **2 W3C source links**. The docs-pass local validation passed **46 Vitest tests** and TypeScript, while the coordinator verified the extension/integration/web/real E2E scripts. These are distinct run conditions, not guaranteed user latencies or a WCAG certification.
 
 ## What we learned
 
@@ -93,7 +95,7 @@ We also learned to distinguish evidence from intent. A stubbed unavailable-model
 
 ## What's next
 
-Run disability-led screen-reader and keyboard usability sessions, strengthen live-control matching across re-captures, add authenticated collaboration roles and abuse controls, and provide a consent-aware retention/deletion workflow. Extend the completed synthetic draft evaluation with harder cases, evaluate the active self-check robustness fix, retain reproducible artifacts, and broaden browser/device coverage. These extensions are plans, not shipped results.
+Run disability-led screen-reader and keyboard usability sessions, strengthen live-control matching across re-captures, add authenticated collaboration roles and abuse controls, and provide a consent-aware retention/deletion workflow. Extend the completed synthetic draft evaluation with harder cases, extend the completed self-check robustness evaluation, retain reproducible artifacts, and broaden browser/device coverage. These extensions are plans, not shipped results.
 
 ## Built with
 
@@ -103,9 +105,7 @@ Dependency versions and licenses: [package-lock.json](../package-lock.json) and 
 
 ## Submission evidence checklist
 
-- Completed: hosted deployment and production reCAPTCHA Enterprise App Check, real Nano draft evaluation, SDK offline/on-device draft, and a separate validated URL-context cloud smoke. Sources and scope are listed in [architecture evidence](ARCHITECTURE.md#evidence-and-release-gates).
+- Completed: hosted production reCAPTCHA Enterprise App Check and cloud plan, real Nano draft/self-check evaluations, SDK offline/on-device draft, URL-context cloud plan, and a real Firestore repair loop reaching `verified` on the paired synthetic fixed fixture. Sources and scope are listed in [architecture evidence](ARCHITECTURE.md#evidence-and-release-gates).
 - TODO(verify): publish the source repository and captioned video links, and retain/distribute the ignored evaluation and smoke artifacts with the submission evidence.
-- TODO(verify): complete the post-fix real E2E; fill final cloud latency, successful W3C retrieval count, and real Firestore `verified` ticket evidence only after the rerun. Existing later-stage screenshot filenames are not a completion artifact.
-- TODO(verify): publish self-check robustness evaluation numbers. Until then describe only deterministic checks + on-device consistency check.
 - TODO(verify): test the final keyboard/screen-reader flow with an actual screen reader, including the fixture's announcement; automated accessibility checks alone do not establish this.
 - TODO(verify): produce and review the captioned video, verify the event's official deadline and requirements, and remove only the TODOs supported by completed evidence.

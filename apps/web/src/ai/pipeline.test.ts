@@ -121,16 +121,16 @@ it('times out hung device generation with an unavailable error', async () => {
 });
 it('never starts on-device self-check when the model is downloadable', async () => {
  vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('downloadable')});const p=make();
- await expect(p.selfCheck(p.draftFromRules(bundle).draft,facts)).rejects.toBeInstanceOf(OnDeviceUnavailableError);
+ const result=await p.selfCheck(p.draftFromRules(bundle).draft,facts);expect(result.ok).toBe(true);expect(result.log[0].note).toContain('readiness is downloadable');
  expect(sdk.generate).not.toHaveBeenCalled();expect(sdk.prepare).not.toHaveBeenCalled();
 });
 
-it('times out a hung on-device self-check without accepting it', async () => {
+it('returns deterministic checks with a skip note when on-device self-check times out', async () => {
  vi.useFakeTimers();
  try {
   const p=make();sdk.generate.mockReturnValue(new Promise(()=>{}));
-  const assertion=expect(p.selfCheck(p.draftFromRules(bundle).draft,facts)).rejects.toBeInstanceOf(OnDeviceUnavailableError);
-  await vi.advanceTimersByTimeAsync(ON_DEVICE_TIMEOUT_MS);await assertion;
+  const pending=p.selfCheck(p.draftFromRules(bundle).draft,facts);
+  await vi.advanceTimersByTimeAsync(ON_DEVICE_TIMEOUT_MS);const result=await pending;expect(result.ok).toBe(true);expect(result.issues).toEqual([]);expect(result.log[0].note).toContain('timed out');
  } finally {vi.useRealTimers();}
 });
 
@@ -206,4 +206,27 @@ it('reports readiness timing and the exact unavailable message through diagnosti
   const details=listener.mock.calls.map(([event])=>event.detail);expect(details[0]).toMatchObject({kind:'readiness',state:'downloading',timeoutMs:READINESS_TIMEOUT_MS});
   expect(details[1]).toMatchObject({kind:'unavailable-error',operation:'draft',message:expect.stringContaining('downloading')});expect(sdk.generate).not.toHaveBeenCalled();
  }finally{globalThis.removeEventListener('barrierrelay:device-diagnostic',listener);}
+});
+
+it.each(['downloadable','downloading','unavailable'])('keeps a valid rules draft usable when self-check readiness is %s', async state => {
+ vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue(state)});const p=make();
+ const result=await p.selfCheck(p.draftFromRules(bundle).draft,facts);
+ expect(result.ok).toBe(true);expect(result.issues).toEqual([]);expect(result.log).toHaveLength(1);expect(result.log[0]).toMatchObject({ranOn:'local-code',bytesSentToCloud:0,note:expect.stringContaining(`readiness is ${state}`)});
+ expect(sdk.generate).not.toHaveBeenCalled();expect(sdk.prepare).not.toHaveBeenCalled();
+});
+it.each([{code:'api-not-enabled'},new Error('An unknown error occurred: kErrorUnknown')])('degrades gracefully after native self-check error %j',async error=>{
+ const p=make();sdk.generate.mockRejectedValue(error);const result=await p.selfCheck(p.draftFromRules(bundle).draft,facts);
+ expect(result.ok).toBe(true);expect(result.issues).toEqual([]);expect(result.log[0].note).toContain('on-device check skipped');expect(result.log[0].note).toContain('Review manually');
+});
+it('preserves deterministic rejection even when the on-device model is unavailable',async()=>{
+ vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('unavailable')});const p=make();
+ const result=await p.selfCheck({...p.draftFromRules(bundle).draft,targetRef:'missing'},facts);
+ expect(result.ok).toBe(false);expect(result.issues.join(' ')).toContain('Unknown targetRef');expect(sdk.generate).not.toHaveBeenCalled();
+});
+it('returns the local result if an unknown-readiness self-check later times out',async()=>{
+ vi.useFakeTimers();try{
+  vi.stubGlobal('LanguageModel',{availability:vi.fn().mockReturnValue(new Promise(()=>{}))});const p=make();sdk.generate.mockReturnValue(new Promise(()=>{}));
+  const pending=p.selfCheck(p.draftFromRules(bundle).draft,facts);await vi.advanceTimersByTimeAsync(READINESS_TIMEOUT_MS+ON_DEVICE_TIMEOUT_MS);
+  expect(await pending).toMatchObject({ok:true,issues:[],log:[{ranOn:'local-code',note:expect.stringContaining('timed out')}]});
+ }finally{vi.useRealTimers();}
 });

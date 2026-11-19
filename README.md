@@ -161,17 +161,23 @@ The browser tools currently use `/opt/google/chrome/chrome`. The extension E2E u
 
 | Run | Barrier type | Target ref | Schema-valid | Broken types | Median |
 | --- | --- | --- | --- | --- | --- |
-| Nano text-only | 19/20 | 19/20 | 20/20 | 10/10 | 6.0 s |
-| Nano text + region PNG | 18/20 | 18/20 | 20/20 | 10/10 | 4.8 s |
+| Nano text-only | 18/20 | 18/20 | 20/20 | 10/10 | 4.6 s |
+| Nano text + region PNG | 20/20 | 20/20 | 20/20 | 10/10 | 4.3 s |
 
-Source: [real evaluation JSON](gate0/out/eval.json) and [methodology](gate0/NANO_NOTES.md#real-nano-results--barrierrelay-draft-evaluation-2026-11-18). The medians round 6002 ms and 4759 ms, include session creation, and come from a small synthetic broken/fixed set using the direct Chrome Prompt API—not Firebase SDK latency benchmarks. The image median does not establish a general speed advantage; false positives on fixed pages remain.
+Source: [real evaluation JSON](gate0/out/eval.json) and [methodology](gate0/NANO_NOTES.md#real-nano-results--barrierrelay-draft-evaluation-2026-11-18). The latest medians round 4624 ms and 4303 ms, include session creation, and come from a small synthetic broken/fixed set using the direct Chrome Prompt API—not Firebase SDK latency benchmarks. The image median does not establish a general speed advantage; text-only false positives on fixed pages remain. Raw and reconciled scores are identical in this run: no metadata corrections were needed, so no measured reconciliation accuracy improvement is claimed.
 
 - **Real Firebase AI Logic offline draft:** on-device inference with zero capture bytes to cloud and zero AI network requests ([artifact](tools/e2e/out/real-results.json), [runner](tools/e2e/real.e2e.mjs)).
 - **Real cloud URL-context smoke:** **2.9 s**, **2 W3C sources**, and **schemaValid: true** ([artifact](gate0/out/cloud-smoke.json), [API setup and source filtering](apps/web/src/ai/README.md)). This standalone smoke is not a full repair-loop completion claim.
-- **Self-check:** deterministic checks + on-device consistency check. TODO(verify): publish the robustness evaluation after the active fix is evaluated; no self-check accuracy number is claimed.
-- **Full real repair loop:** TODO(verify): rerun after the self-check fix and record cloud timing, returned sources, and a real Firestore ticket reaching `verified`. The currently inspected `real-results.json` stops at a self-check failure; do not infer completion from existing screenshot filenames.
+- **Self-check evaluation:** **10/10 correct drafts accepted**, **10/10 corrupted drafts rejected**, **20/20 schema-valid** ([artifact](gate0/out/selfcheck.json)). This small synthetic combined deterministic-evidence/model check is not a general accuracy guarantee.
+- **Completed real repair loop:** the [latest receipt](tools/e2e/out/real-results.json) has `completed: true`: offline SDK draft **7601 ms**, on-device check **670 ms**, cloud plan **17001 ms / 1632 payload bytes**, **2 W3C sources**, and a real Firestore ticket through synthetic fixed-fixture verification. Across the coordinator's two final passing reruns, draft time was **7.6–9.9 s**, on-device check about **0.65 s**, and cloud planning **9–17 s** for about **1.6–1.7 KB** (coordinator-verified run range, not a benchmark distribution). A separate worker final batch passed **3/3**; its individual timings and earlier native-model failures are retained in the [AI notes](apps/web/src/ai/README.md#final-sequential-runs-after-diagnostic-merging).
+- **Hosted production check:** the coordinator verified the model-free rules-only path plus a real cloud plan in **21.1 s** with **2 W3C source links** under production reCAPTCHA Enterprise App Check. This is a separate environment/run from the local E2E.
+- **Automated validation:** The latest docs-pass local run passed **46 Vitest tests** and TypeScript; the coordinator verified the extension, integration, web, and real E2E scripts. No automated result establishes usability with disabled users.
 
 Evaluation/output artifacts are generated under ignored directories; retain and distribute them with the evidence package if publishing these results. The [architecture evidence ledger](docs/ARCHITECTURE.md#evidence-and-release-gates) separates completed checks from remaining release gates.
+
+### Evidence corrections and transient failures
+
+After local inference, unambiguous supported rule hits can reconcile the draft's **type and target ref only**. Corrections appear in the routing panel; generated language is not silently rewritten, so reporter review and the on-device consistency check remain important. Cloud inference retries **once on a transient 5xx error**; each attempt consumes its own budget unit and payload-byte accounting, and retry activity is logged. Validation errors and 4xx/quota errors do not retry ([implementation and tests](apps/web/src/ai/README.md#rule-reconciliation-and-bounded-cloud-retry-2026-11-19)). Native-model failures and fallback have occurred in earlier runs despite the final successful batch.
 
 ## Scope and limitations
 

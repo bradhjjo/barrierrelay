@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-19T05:07:19.302Z",
+  "capturedAt": "2026-11-19T06:28:11.886Z",
   "page": {
-    "url": "http://127.0.0.1:38351/pairs/03-icon-cart-link/fixed.html",
+    "url": "http://127.0.0.1:40231/pairs/03-icon-cart-link/fixed.html",
     "title": "The daily collection · BarrierRelay fixture",
     "lang": "en",
     "viewport": {
@@ -54,7 +54,7 @@
       },
       "visibleText": "",
       "attrs": {
-        "href": "http://127.0.0.1:38351/bag",
+        "href": "http://127.0.0.1:40231/bag",
         "aria-label": "View shopping bag"
       }
     },
@@ -97,7 +97,7 @@
       },
       "visibleText": "Explore our materials",
       "attrs": {
-        "href": "http://127.0.0.1:38351/materials"
+        "href": "http://127.0.0.1:40231/materials"
       }
     }
   ],

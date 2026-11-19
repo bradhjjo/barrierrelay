@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-19T05:07:28.578Z",
+  "capturedAt": "2026-11-19T06:28:21.104Z",
   "page": {
-    "url": "http://127.0.0.1:38351/pairs/07-modal-keyboard-trap/broken.html",
+    "url": "http://127.0.0.1:40231/pairs/07-modal-keyboard-trap/broken.html",
     "title": "Choose your plan · BarrierRelay fixture",
     "lang": "en",
     "viewport": {
@@ -54,7 +54,7 @@
       },
       "visibleText": "Compare all plans",
       "attrs": {
-        "href": "http://127.0.0.1:38351/plans"
+        "href": "http://127.0.0.1:40231/plans"
       }
     },
     {

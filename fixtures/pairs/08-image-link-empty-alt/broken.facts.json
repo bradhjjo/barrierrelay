@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-11-19T05:07:31.238Z",
+  "capturedAt": "2026-11-19T06:28:23.689Z",
   "page": {
-    "url": "http://127.0.0.1:38351/pairs/08-image-link-empty-alt/broken.html",
+    "url": "http://127.0.0.1:40231/pairs/08-image-link-empty-alt/broken.html",
     "title": "Weekend reading · BarrierRelay fixture",
     "lang": "en",
     "viewport": {
@@ -52,7 +52,7 @@
       },
       "visibleText": "",
       "attrs": {
-        "href": "http://127.0.0.1:38351/journal/weekend-guide"
+        "href": "http://127.0.0.1:40231/journal/weekend-guide"
       }
     },
     {
@@ -94,7 +94,7 @@
       },
       "visibleText": "Read the workshop story",
       "attrs": {
-        "href": "http://127.0.0.1:38351/journal/workshop"
+        "href": "http://127.0.0.1:40231/journal/workshop"
       }
     }
   ],
