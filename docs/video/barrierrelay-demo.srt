@@ -1,0 +1,181 @@
+1
+00:00:00,100 --> 00:00:01,971
+I am trying to pay.
+
+2
+00:00:01,921 --> 00:00:04,988
+This checkout button has no accessible name.
+
+3
+00:00:04,988 --> 00:00:09,074
+The announcement shown here is a screen reader simulation:
+button.
+
+4
+00:00:09,074 --> 00:00:12,430
+The page looks finished, but the task is blocked.
+
+5
+00:00:13,230 --> 00:00:16,258
+BarrierRelay starts at keyboard focus.
+
+6
+00:00:16,208 --> 00:00:19,842
+I Tab to the control and activate the real extension.
+
+7
+00:00:19,842 --> 00:00:24,298
+I describe my goal, select screen reader context, and submit.
+
+8
+00:00:24,298 --> 00:00:28,859
+The optional trail records navigation keys, not typed characters.
+
+9
+00:00:28,859 --> 00:00:32,470
+The extension hands the capture locally to the web app.
+
+10
+00:00:32,470 --> 00:00:34,854
+No screenshot is uploaded.
+
+11
+00:00:38,172 --> 00:00:42,566
+Now, the same synthetic fixture in our dedicated Nano profile.
+
+12
+00:00:42,516 --> 00:00:45,282
+The app and model are already prepared.
+
+13
+00:00:45,282 --> 00:00:50,178
+I turn networking off through DevTools emulation, then create a
+private draft.
+
+14
+00:00:50,178 --> 00:00:54,136
+Firebase AI Logic runs Gemini Nano on device.
+
+15
+00:00:54,136 --> 00:00:58,465
+The routing row reports On-device and zero cloud payload bytes.
+
+16
+00:00:58,465 --> 00:01:04,240
+I edit the report and run the on-device consistency check,
+alongside deterministic checks.
+
+17
+00:01:05,054 --> 00:01:09,413
+Before cloud processing, I review exactly what leaves this
+device.
+
+18
+00:01:09,363 --> 00:01:13,854
+These optional approvals change the live JSON preview and byte
+count.
+
+19
+00:01:13,854 --> 00:01:15,544
+I leave them off.
+
+20
+00:01:15,544 --> 00:01:18,507
+The original note and image are excluded.
+
+21
+00:01:18,507 --> 00:01:22,210
+Redacted control facts and the edited report remain.
+
+22
+00:01:22,210 --> 00:01:27,234
+Pattern matching can miss sensitive information, so human review
+still matters.
+
+23
+00:01:28,048 --> 00:01:31,296
+I restore networking and request a fix plan.
+
+24
+00:01:31,246 --> 00:01:35,042
+This is a different capability, not a silent fallback.
+
+25
+00:01:35,042 --> 00:01:41,917
+Cloud Gemini uses URL context to retrieve W3C Understanding pages
+selected for this barrier.
+
+26
+00:01:41,917 --> 00:01:47,647
+The routing panel now shows Cloud and the approved payload bytes,
+not total browser traffic.
+
+27
+00:01:47,647 --> 00:01:54,464
+The returned plan includes repair guidance, illustrative code,
+manual checks, and actual retrieved sources.
+
+28
+00:01:55,266 --> 00:01:59,729
+I create a real Firestore ticket and open the site owner repair
+desk.
+
+29
+00:01:59,679 --> 00:02:03,094
+A collaborator can acknowledge it and mark it fixed.
+
+30
+00:02:03,094 --> 00:02:08,071
+This prototype uses link-based access, not verified site
+ownership.
+
+31
+00:02:08,071 --> 00:02:13,337
+For this demonstration, Verify fix checks the paired synthetic
+fixed fixture.
+
+32
+00:02:13,337 --> 00:02:16,230
+Its payment button has an accessible name.
+
+33
+00:02:16,230 --> 00:02:20,189
+The target rule check passes and the ticket becomes verified.
+
+34
+00:02:20,189 --> 00:02:24,899
+This is not a live website repair or a WCAG certification.
+
+35
+00:02:24,899 --> 00:02:28,163
+Generated code is never applied automatically.
+
+36
+00:02:28,964 --> 00:02:31,622
+Local code captures and redacts.
+
+37
+00:02:31,572 --> 00:02:34,222
+Gemini Nano drafts privately.
+
+38
+00:02:34,222 --> 00:02:37,764
+Cloud Gemini retrieves guidance only after review.
+
+39
+00:02:37,764 --> 00:02:45,090
+Firebase AI Logic, App Check, Authentication, Firestore, Remote
+Config, and Hosting connect the workflow.
+
+40
+00:02:45,090 --> 00:02:48,250
+Try BarrierRelay, or explore the source.
+
+41
+00:02:48,250 --> 00:02:50,009
+Private capture.
+
+42
+00:02:50,009 --> 00:02:51,734
+Shared repair.
+
