@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:37.834Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/10-datepicker-icon-button/fixed.html",
+    "title": "Schedule a delivery · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 520
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 520
+      },
+      "visibleText": "Fieldwork delivery A day that works for ",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "label",
+      "role": null,
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 380,
+        "y": 312.984375,
+        "w": 520,
+        "h": 24.796875
+      },
+      "visibleText": "Delivery date",
+      "attrs": {}
+    },
+    {
+      "ref": "e3",
+      "tag": "input",
+      "role": "textbox",
+      "accessibleName": "Delivery date",
+      "nameSources": [
+        "label"
+      ],
+      "inputType": "text",
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 380,
+        "y": 344.78125,
+        "w": 434,
+        "h": 50.796875
+      },
+      "visibleText": "",
+      "attrs": {
+        "type": "text"
+      }
+    },
+    {
+      "ref": "e4",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Open delivery date calendar",
+      "nameSources": [
+        "aria-label"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 834,
+        "y": 345.171875,
+        "w": 66,
+        "h": 50
+      },
+      "visibleText": "",
+      "attrs": {
+        "aria-label": "Open delivery date calendar"
+      }
+    },
+    {
+      "ref": "e5",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Confirm delivery",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 380,
+        "y": 459.265625,
+        "w": 520,
+        "h": 50.796875
+      },
+      "visibleText": "Confirm delivery",
+      "attrs": {}
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": null
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I can now tell what each choice does and finish this step with my screen reader.",
+  "assistive": [
+    "screen-reader"
+  ]
+}

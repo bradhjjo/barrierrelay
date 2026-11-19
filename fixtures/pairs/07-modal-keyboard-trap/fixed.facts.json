@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:29.927Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/07-modal-keyboard-trap/fixed.html",
+    "title": "Choose your plan · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 520
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 520
+      },
+      "visibleText": "Northstar plans Make room for bigger ide",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Compare all plans",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 153,
+        "y": 285.984375,
+        "w": 128.953125,
+        "h": 17
+      },
+      "visibleText": "Compare all plans",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/plans"
+      }
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 12,
+      "key": "Escape",
+      "ref": "e2"
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I can now move through this step and finish it using just my keyboard.",
+  "assistive": [
+    "keyboard-only"
+  ]
+}

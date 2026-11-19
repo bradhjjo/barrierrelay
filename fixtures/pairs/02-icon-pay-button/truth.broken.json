@@ -1,0 +1,14 @@
+{
+  "id": "02-icon-pay-button",
+  "variant": "broken",
+  "barrierType": "unnamed-button",
+  "targetRef": "e3",
+  "wcag": [
+    "4.1.2"
+  ],
+  "userNote": "My screen reader only says 'button' on the last step. I can't tell which one pays.",
+  "assistive": [
+    "screen-reader"
+  ],
+  "regionSelector": "#capture"
+}

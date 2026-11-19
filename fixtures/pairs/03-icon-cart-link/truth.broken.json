@@ -1,0 +1,15 @@
+{
+  "id": "03-icon-cart-link",
+  "variant": "broken",
+  "barrierType": "unnamed-link",
+  "targetRef": "e2",
+  "wcag": [
+    "2.4.4",
+    "4.1.2"
+  ],
+  "userNote": "I added a jacket, but my screen reader finds a link with no name. I can't find my bag.",
+  "assistive": [
+    "screen-reader"
+  ],
+  "regionSelector": "#capture"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "07-modal-keyboard-trap",
+  "variant": "broken",
+  "barrierType": "keyboard-trap",
+  "targetRef": "e5",
+  "wcag": [
+    "2.1.2"
+  ],
+  "userNote": "I'm stuck in the offer window. Tab keeps going around the same choices, and Escape won't let me leave.",
+  "assistive": [
+    "keyboard-only"
+  ],
+  "regionSelector": "#capture"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@barrierrelay/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "vitest run",
+    "copy-fixtures": "node scripts/copy-fixtures.mjs"
+  },
+  "dependencies": {
+    "firebase": "^13.4.0",
+    "preact": "^10.27.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.0",
+    "vitest": "^4.0.0",
+    "jsdom": "^27.0.0"
+  }
+}

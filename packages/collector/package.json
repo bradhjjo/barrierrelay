@@ -1,0 +1,13 @@
+{
+  "name": "@barrierrelay/collector",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=iife --global-name=BarrierRelayCollector --platform=browser --target=chrome120 --outfile=dist/collector.js",
+    "test": "npm run build && node ../../tools/fixtures/test-collector.mjs",
+    "typecheck": "tsc --noEmit --strict --target ES2022 --module ESNext --moduleResolution Bundler --lib ES2022,DOM,DOM.Iterable src/index.ts"
+  }
+}

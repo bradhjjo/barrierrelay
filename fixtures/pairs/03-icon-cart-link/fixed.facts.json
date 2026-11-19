@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:19.302Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/03-icon-cart-link/fixed.html",
+    "title": "The daily collection · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 552.921875
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 552.921875
+      },
+      "visibleText": "Fieldwork essentials The daily collectio",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "View shopping bag",
+      "nameSources": [
+        "aria-label"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 1061,
+        "y": 179.59375,
+        "w": 66,
+        "h": 50
+      },
+      "visibleText": "",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/bag",
+        "aria-label": "View shopping bag"
+      }
+    },
+    {
+      "ref": "e3",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Add to bag",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 178,
+        "y": 572.125,
+        "w": 461.625,
+        "h": 50.796875
+      },
+      "visibleText": "Add to bag",
+      "attrs": {}
+    },
+    {
+      "ref": "e4",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Explore our materials",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 725.625,
+        "y": 443.125,
+        "w": 151.171875,
+        "h": 17
+      },
+      "visibleText": "Explore our materials",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/materials"
+      }
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": null
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I can now tell what each choice does and finish this step with my screen reader.",
+  "assistive": [
+    "screen-reader"
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:16.662Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/02-icon-pay-button/fixed.html",
+    "title": "Secure checkout · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 728.25
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 728.25
+      },
+      "visibleText": "Fieldwork supply / checkout One last ste",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Return to bag",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 153,
+        "y": 642.09375,
+        "w": 96.953125,
+        "h": 17
+      },
+      "visibleText": "Return to bag",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/bag"
+      }
+    },
+    {
+      "ref": "e3",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Pay $51.84 and place order",
+      "nameSources": [
+        "aria-label"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 1035.984375,
+        "y": 706.5625,
+        "w": 66,
+        "h": 50
+      },
+      "visibleText": "",
+      "attrs": {
+        "aria-label": "Pay $51.84 and place order"
+      }
+    },
+    {
+      "ref": "e4",
+      "tag": "p",
+      "role": "status",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 725.625,
+        "y": 766.5625,
+        "w": 376.359375,
+        "h": 21.6875
+      },
+      "visibleText": "Your card is charged only when your orde",
+      "attrs": {
+        "role": "status"
+      }
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": null
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "I can now tell what each choice does and finish this step with my screen reader.",
+  "assistive": [
+    "screen-reader"
+  ]
+}

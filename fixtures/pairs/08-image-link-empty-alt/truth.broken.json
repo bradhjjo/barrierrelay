@@ -1,0 +1,15 @@
+{
+  "id": "08-image-link-empty-alt",
+  "variant": "broken",
+  "barrierType": "unnamed-link",
+  "targetRef": "e2",
+  "wcag": [
+    "2.4.4",
+    "4.1.2"
+  ],
+  "userNote": "There's a link in the featured offer, but my screen reader gives me no name for it. I don't know where it goes.",
+  "assistive": [
+    "screen-reader"
+  ],
+  "regionSelector": "#capture"
+}

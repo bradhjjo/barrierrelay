@@ -1,0 +1,142 @@
+[
+  {
+    "case": "01-signup-email-unlabeled",
+    "variant": "broken",
+    "#elements": 6,
+    "#ruleHits": 1,
+    "target ruleHit ids": "label"
+  },
+  {
+    "case": "01-signup-email-unlabeled",
+    "variant": "fixed",
+    "#elements": 7,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "02-icon-pay-button",
+    "variant": "broken",
+    "#elements": 4,
+    "#ruleHits": 1,
+    "target ruleHit ids": "button-name"
+  },
+  {
+    "case": "02-icon-pay-button",
+    "variant": "fixed",
+    "#elements": 4,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "03-icon-cart-link",
+    "variant": "broken",
+    "#elements": 4,
+    "#ruleHits": 1,
+    "target ruleHit ids": "link-name"
+  },
+  {
+    "case": "03-icon-cart-link",
+    "variant": "fixed",
+    "#elements": 4,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "04-placeholder-only-search",
+    "variant": "broken",
+    "#elements": 5,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "04-placeholder-only-search",
+    "variant": "fixed",
+    "#elements": 5,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "05-div-continue-not-focusable",
+    "variant": "broken",
+    "#elements": 7,
+    "#ruleHits": 1,
+    "target ruleHit ids": "br-click-not-focusable"
+  },
+  {
+    "case": "05-div-continue-not-focusable",
+    "variant": "fixed",
+    "#elements": 7,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "06-nav-outline-none",
+    "variant": "broken",
+    "#elements": 7,
+    "#ruleHits": 3,
+    "target ruleHit ids": "br-focus-not-visible"
+  },
+  {
+    "case": "06-nav-outline-none",
+    "variant": "fixed",
+    "#elements": 7,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "07-modal-keyboard-trap",
+    "variant": "broken",
+    "#elements": 7,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "07-modal-keyboard-trap",
+    "variant": "fixed",
+    "#elements": 2,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "08-image-link-empty-alt",
+    "variant": "broken",
+    "#elements": 4,
+    "#ruleHits": 1,
+    "target ruleHit ids": "link-name"
+  },
+  {
+    "case": "08-image-link-empty-alt",
+    "variant": "fixed",
+    "#elements": 4,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "09-custom-toggle-div",
+    "variant": "broken",
+    "#elements": 3,
+    "#ruleHits": 1,
+    "target ruleHit ids": "br-click-not-focusable"
+  },
+  {
+    "case": "09-custom-toggle-div",
+    "variant": "fixed",
+    "#elements": 3,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  },
+  {
+    "case": "10-datepicker-icon-button",
+    "variant": "broken",
+    "#elements": 5,
+    "#ruleHits": 1,
+    "target ruleHit ids": "button-name"
+  },
+  {
+    "case": "10-datepicker-icon-button",
+    "variant": "fixed",
+    "#elements": 5,
+    "#ruleHits": 0,
+    "target ruleHit ids": "—"
+  }
+]

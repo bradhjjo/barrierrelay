@@ -1,0 +1,1 @@
+{"name":"barrierrelay-sdk-probe","private":true,"type":"module","scripts":{"dev":"vite --host 127.0.0.1","build":"vite build"},"dependencies":{"firebase":"latest","vite":"latest"}}

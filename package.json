@@ -7,5 +7,15 @@
   "workspaces": [
     "packages/*",
     "apps/*"
-  ]
+  ],
+  "scripts": {
+    "fixtures:build": "npm run build --workspace=@barrierrelay/collector && node tools/fixtures/capture.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.11.0",
+    "dom-accessibility-api": "^0.7.1",
+    "esbuild": "^0.28.2",
+    "puppeteer-core": "^25.18.1",
+    "typescript": "^5.9.3"
+  }
 }

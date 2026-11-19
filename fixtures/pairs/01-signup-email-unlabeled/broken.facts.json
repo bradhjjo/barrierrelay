@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:12.651Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/01-signup-email-unlabeled/broken.html",
+    "title": "Create your workspace · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 592.65625
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 592.65625
+      },
+      "visibleText": "Northstar workspace Create your workspac",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "input",
+      "role": "textbox",
+      "accessibleName": "",
+      "nameSources": [],
+      "inputType": "email",
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 405,
+        "y": 374.78125,
+        "w": 470,
+        "h": 50.796875
+      },
+      "visibleText": "",
+      "attrs": {
+        "type": "email",
+        "autocomplete": "email"
+      }
+    },
+    {
+      "ref": "e3",
+      "tag": "label",
+      "role": null,
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 405,
+        "y": 443.578125,
+        "w": 470,
+        "h": 24.796875
+      },
+      "visibleText": "Your name",
+      "attrs": {}
+    },
+    {
+      "ref": "e4",
+      "tag": "input",
+      "role": "textbox",
+      "accessibleName": "Your name",
+      "nameSources": [
+        "label"
+      ],
+      "inputType": "text",
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 405,
+        "y": 475.375,
+        "w": 470,
+        "h": 50.796875
+      },
+      "visibleText": "",
+      "attrs": {
+        "autocomplete": "name"
+      }
+    },
+    {
+      "ref": "e5",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Create account",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 405,
+        "y": 548.171875,
+        "w": 470,
+        "h": 50.796875
+      },
+      "visibleText": "Create account",
+      "attrs": {}
+    },
+    {
+      "ref": "e6",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Terms of service",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 554.9375,
+        "y": 610.96875,
+        "w": 101.921875,
+        "h": 16
+      },
+      "visibleText": "Terms of service",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/terms"
+      }
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": "e6"
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": "e4"
+    }
+  ],
+  "ruleHits": [
+    {
+      "ruleId": "label",
+      "ref": "e2",
+      "detail": "Form elements must have labels"
+    }
+  ],
+  "userNote": "I want to create an account, but my screen reader doesn't tell me what to put in the first box.",
+  "assistive": [
+    "screen-reader"
+  ]
+}

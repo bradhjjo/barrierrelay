@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-19T05:07:20.627Z",
+  "page": {
+    "url": "http://127.0.0.1:38351/pairs/04-placeholder-only-search/broken.html",
+    "title": "Help center · BarrierRelay fixture",
+    "lang": "en",
+    "viewport": {
+      "w": 1280,
+      "h": 800
+    }
+  },
+  "region": {
+    "x": 120,
+    "y": 128,
+    "w": 1040,
+    "h": 520
+  },
+  "elements": [
+    {
+      "ref": "e1",
+      "tag": "main",
+      "role": "main",
+      "accessibleName": "",
+      "nameSources": [],
+      "focusable": false,
+      "tabIndex": -1,
+      "visibleFocusIndicator": null,
+      "bbox": {
+        "x": 120,
+        "y": 128,
+        "w": 1040,
+        "h": 520
+      },
+      "visibleText": "Northstar support How can we help? Find ",
+      "attrs": {}
+    },
+    {
+      "ref": "e2",
+      "tag": "input",
+      "role": "searchbox",
+      "accessibleName": "",
+      "nameSources": [],
+      "inputType": "search",
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 153,
+        "y": 282.984375,
+        "w": 858.625,
+        "h": 50.796875
+      },
+      "visibleText": "",
+      "attrs": {
+        "type": "search"
+      }
+    },
+    {
+      "ref": "e3",
+      "tag": "button",
+      "role": "button",
+      "accessibleName": "Search",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 1031.625,
+        "y": 282.984375,
+        "w": 95.375,
+        "h": 50.796875
+      },
+      "visibleText": "Search",
+      "attrs": {}
+    },
+    {
+      "ref": "e4",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Read the setup guide",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 178,
+        "y": 469.125,
+        "w": 152.125,
+        "h": 17
+      },
+      "visibleText": "Read the setup guide",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/help/start"
+      }
+    },
+    {
+      "ref": "e5",
+      "tag": "a",
+      "role": "link",
+      "accessibleName": "Browse billing articles",
+      "nameSources": [
+        "text"
+      ],
+      "focusable": true,
+      "tabIndex": 0,
+      "visibleFocusIndicator": true,
+      "bbox": {
+        "x": 725.625,
+        "y": 469.125,
+        "w": 153.84375,
+        "h": 17
+      },
+      "visibleText": "Browse billing articles",
+      "attrs": {
+        "href": "http://127.0.0.1:38351/help/billing"
+      }
+    }
+  ],
+  "focusTrail": [
+    {
+      "index": 0,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 1,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 2,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 3,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 4,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 5,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 6,
+      "key": "Tab",
+      "ref": "e3"
+    },
+    {
+      "index": 7,
+      "key": "Tab",
+      "ref": "e4"
+    },
+    {
+      "index": 8,
+      "key": "Tab",
+      "ref": "e5"
+    },
+    {
+      "index": 9,
+      "key": "Tab",
+      "ref": null
+    },
+    {
+      "index": 10,
+      "key": "Tab",
+      "ref": "e2"
+    },
+    {
+      "index": 11,
+      "key": "Tab",
+      "ref": "e3"
+    }
+  ],
+  "ruleHits": [],
+  "userNote": "When I move into the search box, I can't tell what it is for with my screen reader.",
+  "assistive": [
+    "screen-reader"
+  ]
+}

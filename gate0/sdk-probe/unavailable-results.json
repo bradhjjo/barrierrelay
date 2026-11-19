@@ -1,0 +1,44 @@
+{
+  "exports": {
+    "InferenceMode": {
+      "PREFER_ON_DEVICE": "prefer_on_device",
+      "ONLY_ON_DEVICE": "only_on_device",
+      "ONLY_IN_CLOUD": "only_in_cloud",
+      "PREFER_IN_CLOUD": "prefer_in_cloud"
+    },
+    "InferenceSource": {
+      "ON_DEVICE": "on_device",
+      "IN_CLOUD": "in_cloud"
+    }
+  },
+  "results": [
+    {
+      "kind": "text",
+      "ok": false,
+      "error": "AI: Local LanguageModel API not available in this environment. (AI/api-not-enabled)",
+      "code": "api-not-enabled",
+      "ms": 0.30000000074505806
+    },
+    {
+      "kind": "image",
+      "ok": false,
+      "error": "AI: Local LanguageModel API not available in this environment. (AI/api-not-enabled)",
+      "code": "api-not-enabled",
+      "ms": 0
+    },
+    {
+      "kind": "structured",
+      "ok": false,
+      "error": "AI: Local LanguageModel API not available in this environment. (AI/api-not-enabled)",
+      "code": "api-not-enabled",
+      "ms": 0
+    },
+    {
+      "kind": "fallback",
+      "error": "AI: Error fetching from https://firebasevertexai.googleapis.com/v1beta/projects/barrierrelay-probe/models/gemini-2.5-flash:generateContent: Intentional cloud fetch interception (AI/error)",
+      "code": "error",
+      "url": "https://firebasevertexai.googleapis.com/v1beta/projects/barrierrelay-probe/models/gemini-2.5-flash:generateContent"
+    }
+  ],
+  "environment": "Chrome 158.0.8127.36 headless; real Firebase SDK; LanguageModel availability stubbed to unavailable; fetch intercepted, no cloud request sent"
+}

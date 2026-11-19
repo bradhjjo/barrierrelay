@@ -1,0 +1,15 @@
+{
+  "id": "09-custom-toggle-div",
+  "variant": "broken",
+  "barrierType": "unreachable-by-keyboard",
+  "targetRef": "e2",
+  "wcag": [
+    "2.1.1",
+    "4.1.2"
+  ],
+  "userNote": "I want to turn off the weekly emails, but I can't reach that switch with my keyboard.",
+  "assistive": [
+    "keyboard-only"
+  ],
+  "regionSelector": "#capture"
+}
