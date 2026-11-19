@@ -11,6 +11,28 @@ Requires the installed root dependencies (`puppeteer-core`) and Chrome at `/opt/
 
 Chrome 158 loads the unpacked extension through CDP `Extensions.loadUnpacked` (legacy `--load-extension` is disabled in branded Chrome). CDP `Extensions.triggerAction` uses a `tab` target ID and grants `activeTab` like a user toolbar click; synthetic shortcut events do not. The test navigates to fixture 02, Tabs to its unnamed button, checks the accessible panel's focus wrap and Escape restoration, submits a note, and verifies the new web-origin URL, target facts, last-key replay, ≤768-pixel PNG, and single-use capture retrieval. A successful run prints the captured target summary and exits zero. It requires no Firebase, Nano model, or app UI.
 
+## Extension → real production web app
+
+From the repository root:
+
+```sh
+node tools/e2e/integration.e2e.mjs
+```
+
+This test builds the actual web app with `npm run build --workspace=@barrierrelay/web`, builds `extension/dist`, and starts its own Vite preview at **http://127.0.0.1:4173** using `--strictPort`. It never binds or reuses ports 5173/5174. Port 4173 must be free; an existing process is never stopped or reused. The preview process group and a fresh temporary Chrome profile are removed after the run; the shared Nano profile at `~/.cache/barrierrelay/chrome-nano` is never touched.
+
+The unpacked extension is loaded with CDP. Its real options page is used to save the preview origin into `chrome.storage.local`; both the extension destination allowlist and `externally_connectable` include this loopback preview origin. The test opens the copied fixture 02 broken checkout in that real preview server, Tabs to the unnamed payment button, invokes the real toolbar action, enters a synthetic private note, and submits the capture. **No proxy, report stub, `demo=1`, model mocks, or UI substitute is used.**
+
+Assertions cover the real app's one-time capture intake, the unnamed-button facts in step 1, a locally rendered region PNG, the genuine **Rules-only draft** fallback in the model-free profile, `unnamed-button` as the draft barrier type, a passing local self-check, and a shared JSON preview that excludes the original user note/raw capture/image. Optional focus-trail sharing must default off. The test stops at privacy review: it never clicks **Get a fix plan** or creates a ticket. It blocks and fails on cloud-generation or Firestore requests; normal Firebase Auth, reCAPTCHA/App Check initialization, and Remote Config may still use the network. Production builds read public Firebase configuration from `.env.local`, not the secret development-only debug-token file.
+
+Successful runs print an integration summary and save these synthetic-data screenshots:
+
+- `tools/e2e/out/integration-capture.png`
+- `tools/e2e/out/integration-rules-only.png`
+- `tools/e2e/out/integration-privacy.png`
+
+A failure after report creation also saves `integration-failure.png` when possible. Set `HEADFUL=1` to watch the dedicated Chrome window. This verifies extension-to-app compatibility and the local fallback/privacy boundary, **not real Nano inference, cloud grounding, or Firestore persistence**.
+
 ## Real hybrid application E2E
 
 ```sh

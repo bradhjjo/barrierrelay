@@ -20,7 +20,7 @@ Stable extension ID: **`ehiihcegnfekjkifcjmebdgiijpepdkp`**. Set `VITE_EXTENSION
 
 The panel is a labeled modal dialog with visible keyboard focus, a Tab/Shift+Tab focus trap, Escape, Close, focus restoration, and polite live status/error announcements. **Pick an element instead** is a secondary pointer selection mode with a hover outline; click selects, Escape cancels and returns to the keyboard-accessible panel. The primary flow needs no pointer.
 
-Use **Extension options → Report app** to choose either `http://127.0.0.1:5173` (default) or `https://barrierrelay-lpun3.web.app`. Arbitrary destinations are intentionally not accepted: the external-message allowlist must agree with the destination.
+Use **Extension options → Report app** to choose `http://127.0.0.1:5173` (default development server), `http://127.0.0.1:4173` (production preview), or `https://barrierrelay-lpun3.web.app`. Arbitrary destinations are intentionally not accepted: the external-message allowlist must agree with the destination.
 
 ## Permissions and privacy
 
@@ -31,7 +31,7 @@ Use **Extension options → Report app** to choose either `http://127.0.0.1:5173
 
 Only Tab, Shift+Tab, Enter, Space, and Escape are recorded, never character keys or field values. Recording pauses while the capture UI is open. At capture time the DOM handles are mapped to virtual `eN` refs; handles outside the region become null. The collector supplies sanitized facts, not HTML or selectors. **Screenshots can still contain personal data**, as the panel warns: review before sharing in the web app.
 
-The extension never uploads capture contents. On the user's submit it stores `{facts, regionPngDataUrl}` under a cryptographically random UUID in `chrome.storage.session` and navigates to `/report?capture=<uuid>&ext=<extension-id>`. Only the two allowlisted web origins can pull a capture; retrieval deletes it before responding, parallel duplicate requests are rejected, and unread captures expire after 30 minutes (purged on a later capture, or on browser-session end). `ping` returns the extension version only. The app's subsequent review/cloud-sharing behavior is separate from the extension.
+The extension never uploads capture contents. On the user's submit it stores `{facts, regionPngDataUrl}` under a cryptographically random UUID in `chrome.storage.session` and navigates to `/report?capture=<uuid>&ext=<extension-id>`. Only the three allowlisted web origins can pull a capture; retrieval deletes it before responding, parallel duplicate requests are rejected, and unread captures expire after 30 minutes (purged on a later capture, or on browser-session end). `ping` returns the extension version only. The app's subsequent review/cloud-sharing behavior is separate from the extension.
 
 Chrome internal pages, the Chrome Web Store, cross-origin frames, and browser/OS UI are not capturable page regions. The focused region and screenshot must remain in the active tab during capture. Browser shortcuts may be reserved by the OS. A newly installed extension cannot recover key history from before installation or page injection.
 

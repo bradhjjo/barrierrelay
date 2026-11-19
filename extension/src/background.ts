@@ -1,7 +1,7 @@
 export {};
 declare const chrome: any;
 const DEFAULT_ORIGIN = 'http://127.0.0.1:5173';
-const ORIGINS = [DEFAULT_ORIGIN, 'https://barrierrelay-lpun3.web.app'];
+const ORIGINS = [DEFAULT_ORIGIN, 'http://127.0.0.1:4173', 'https://barrierrelay-lpun3.web.app'];
 const pending = new Set<string>();
 
 async function startCapture(tab?: any) {

@@ -13,7 +13,7 @@ const manifest = {
   commands: { 'capture-current': { suggested_key: { default: 'Alt+Shift+B' }, description: 'Capture where I am now' } },
   content_scripts: [{ matches: ['http://*/*', 'https://*/*'], js: ['content.js'], run_at: 'document_start' }],
   options_page: 'options.html',
-  externally_connectable: { matches: ['http://127.0.0.1:5173/*', 'https://barrierrelay-lpun3.web.app/*'] }
+  externally_connectable: { matches: ['http://127.0.0.1:5173/*', 'http://127.0.0.1:4173/*', 'https://barrierrelay-lpun3.web.app/*'] }
 };
 await writeFile(new URL('dist/manifest.json', root), JSON.stringify(manifest, null, 2));
 await copyFile(new URL('src/options.html', root), new URL('dist/options.html', root));
