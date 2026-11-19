@@ -1,0 +1,85 @@
+BarrierRelay
+Copyright 2026 BarrierRelay contributors
+
+BarrierRelay's original code is licensed under the Apache License, Version 2.0.
+See LICENSE for the complete terms. Third-party software retains its own licenses;
+this notice does not relicense that software or imply endorsement.
+
+Direct runtime dependency notices
+================================
+The following license identifiers and versions were verified against the installed
+node_modules/<package>/package.json. Resolved versions are recorded in package-lock.json.
+This is not an exhaustive inventory of transitive or development dependencies.
+Retain upstream license files, copyright headers, and generated bundle license
+notices when distributing builds.
+
+axe-core 4.14.1 — MPL-2.0
+Copyright (c) 2015 - 2026 Deque Systems, Inc.
+Source and license: https://github.com/dequelabs/axe-core
+MPL-2.0 text: https://www.mozilla.org/MPL/2.0/
+Installed license: node_modules/axe-core/LICENSE
+Additional upstream notices: node_modules/axe-core/LICENSE-3RD-PARTY.txt
+The Source Code Form of axe-core is subject to the Mozilla Public License, v. 2.0.
+Its corresponding upstream source is available from the repository above (tag
+v4.14.1 for this installed version). Preserve MPL notices and make any modified
+MPL-covered source files available under that license when distributing them.
+
+firebase 13.4.0 — Apache-2.0
+Firebase JavaScript SDK, Google LLC and contributors.
+Upstream source and component copyright notices:
+https://github.com/firebase/firebase-js-sdk
+License: https://github.com/firebase/firebase-js-sdk/blob/main/LICENSE
+The Apache-2.0 terms are reproduced in this repository's LICENSE. Firebase's
+component-specific copyright notices remain in the upstream source and bundles.
+
+The following MIT notices are reproduced from the installed packages:
+
+--- dom-accessibility-api 0.7.1 ---
+https://github.com/eps1lon/dom-accessibility-api
+
+MIT License
+
+Copyright (c) 2020 Sebastian Silbermann
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--- preact 10.29.8 ---
+https://github.com/preactjs/preact
+
+The MIT License (MIT)
+
+Copyright (c) 2015-present Jason Miller
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
