@@ -111,7 +111,7 @@ Use the closest existing autocomplete spelling if Devpost normalizes a tag. Tags
 
 ### Video demo URL
 
-`[PENDING: paste the final public https://www.youtube.com/watch?v=... URL]`
+`https://www.youtube.com/watch?v=we2QRjlxMmM` (uploaded 2026-11-19 as Unlisted; switch to Public together with the GitHub repository before pressing Submit)
 
 Upload to **YouTube**, publicly visible, showing the working Web/Chrome app, **≤3:00**, in English or with English subtitles. Devpost generally embeds Vimeo too, but this event specifically requires YouTube. A placeholder is not a completed submission. See [VIDEO_SCRIPT.md](../VIDEO_SCRIPT.md).
 
