@@ -2,7 +2,7 @@ import type { FirebaseApp } from 'firebase/app';
 import { getAI, getGenerativeModel, GoogleAIBackend, InferenceMode, Schema, type EnhancedGenerateContentResponse, type URLContextMetadata, type Part } from 'firebase/ai';
 import type { CaptureFacts, RoutingLogEntry, RanOn } from '@barrierrelay/shared/src/schema';
 import { OnDeviceUnavailableError, type AiPipeline, type AppConfig, type OnDeviceState } from '../contracts';
-import { BARRIER_DRAFT_SCHEMA, DRAFT_SYSTEM_PROMPT, SELF_CHECK_PROMPT, draftPrompt, fixPlanPrompt } from './prompts';
+import { BARRIER_DRAFT_SCHEMA, DRAFT_SYSTEM_PROMPT, SELF_CHECK_PROMPT, SELF_CHECK_SCHEMA, SELF_CHECK_SAMPLING, selfCheckPrompt, draftPrompt, fixPlanPrompt } from './prompts';
 import { draftIssues, parseJson, validateDraft, validateFixPlan } from './validation';
 import { ruleDraft, ruleTypes } from './rules';
 import { wcagReferences } from './wcag';
@@ -34,7 +34,15 @@ const fixSchema = Schema.object({ properties: {
   rootCause: Schema.string(), fix: Schema.object({ properties: { description: Schema.string(), codeBefore: Schema.string(), codeAfter: Schema.string() }, optionalProperties: ['codeBefore'] }),
   verification: Schema.array({ items: Schema.string() }), sources: Schema.array({ items: Schema.object({ properties: { title: Schema.string(), url: Schema.string() } }) }),
 } });
-const checkSchema = { type: 'object', properties: { ok: { type: 'boolean' }, issues: { type: 'array', items: { type: 'string' } } }, required: ['ok','issues'], additionalProperties: false };
+export const ON_DEVICE_TIMEOUT_MS = 45_000;
+async function deviceResponse<T>(request: Promise<T>): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([request, new Promise<T>((_, reject) => {
+      timer = setTimeout(() => reject(new OnDeviceUnavailableError('On-device AI timed out after 45 seconds. Use the local rules draft or try preparing the model again.')), ON_DEVICE_TIMEOUT_MS);
+    })]);
+  } finally { clearTimeout(timer); }
+}
 export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConfig: () => AppConfig }): AiPipeline {
   const ai = getAI(app, { backend: new GoogleAIBackend() });
   let cloudCalls = 0;
@@ -44,8 +52,8 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
     if (existing) return existing;
     const model = getGenerativeModel(ai, {
     mode: InferenceMode.ONLY_ON_DEVICE,
-    onDeviceParams: { createOptions: { expectedInputs: [{ type: 'text' }, { type: 'image' }], initialPrompts: [{ role: 'system', content: [{ type: 'text', value: check ? SELF_CHECK_PROMPT : DRAFT_SYSTEM_PROMPT }] }] },
-      promptOptions: { responseConstraint: check ? checkSchema : BARRIER_DRAFT_SCHEMA } },
+    onDeviceParams: { createOptions: { ...(check ? SELF_CHECK_SAMPLING : {}), expectedInputs: [{ type: 'text' }, { type: 'image' }], initialPrompts: [{ role: 'system', content: [{ type: 'text', value: check ? SELF_CHECK_PROMPT : DRAFT_SYSTEM_PROMPT }] }] },
+      promptOptions: { responseConstraint: check ? SELF_CHECK_SCHEMA : BARRIER_DRAFT_SCHEMA } },
     });
     localModels.set(check, model);
     return model;
@@ -75,6 +83,7 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
     },
     async draftOnDevice(bundle) {
       const start = performance.now();
+      if (await onDeviceState() !== 'available') throw new OnDeviceUnavailableError('On-device AI is not ready. Prepare the model first or use the local rules draft.');
       const parts: Part[] = [{ type: 'text', text: draftPrompt(bundle.facts) }];
       if (bundle.regionPng) {
         const bytes = new Uint8Array(await bundle.regionPng.arrayBuffer());
@@ -82,7 +91,7 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
         parts.push({ type: 'inlineData', inlineData: { mimeType: 'image/png', data: btoa(binary) } });
       }
       try {
-        const result = await localModel().generateContent(parts);
+        const result = await deviceResponse(localModel().generateContent(parts));
         const where = ranOn(result.response);
         const draft = validateDraft(parseJson(result.response.text()), bundle.facts);
         return { draft, log: [log('draft','ONLY_ON_DEVICE',where,start)] };
@@ -102,12 +111,12 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
       if (!issues.length && await onDeviceState() === 'available') {
         const checkStart = performance.now();
         try {
-          const result = await localModel(true).generateContent(JSON.stringify({ draft, facts }));
-          const check = parseJson(result.response.text()) as { ok?: unknown; issues?: unknown };
+          const result = await deviceResponse(localModel(true).generateContent(selfCheckPrompt(draft, facts)));
+          const check = parseJson(result.response.text()) as { consistent?: unknown; problems?: unknown };
           logs.push(log('self-check','ONLY_ON_DEVICE',ranOn(result.response),checkStart));
-          if (typeof check.ok !== 'boolean' || !Array.isArray(check.issues) || check.issues.some(i => typeof i !== 'string')) issues.push('Invalid on-device self-check response.');
-          else if (!check.ok) issues.push(...(check.issues.length ? check.issues as string[] : ['Draft does not follow from the facts.']));
-        } catch (e) { issues.push(unavailable(e) ? 'On-device self-check became unavailable; review the draft manually.' : 'On-device self-check failed; review the draft manually.'); }
+          if (typeof check.consistent !== 'boolean' || !Array.isArray(check.problems) || check.problems.length > 3 || check.problems.some(i => typeof i !== 'string') || (check.consistent && check.problems.length > 0)) issues.push('Invalid on-device self-check response.');
+          else if (!check.consistent) issues.push(...(check.problems.length ? check.problems as string[] : ['Draft does not follow from the facts.']));
+        } catch (e) { if (e instanceof OnDeviceUnavailableError) throw e; issues.push(unavailable(e) ? 'On-device self-check became unavailable; review the draft manually.' : 'On-device self-check failed; review the draft manually.'); }
       } else if (!issues.length) logs[0].note = 'Deterministic checks passed; on-device check unavailable. Review manually.';
       return { ok: issues.length === 0, issues, log: logs };
     },

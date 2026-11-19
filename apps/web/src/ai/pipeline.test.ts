@@ -1,7 +1,7 @@
 import { beforeEach, expect, it, vi } from 'vitest';
 import type { FirebaseApp } from 'firebase/app';
 import type { CaptureFacts, FixPlan } from '@barrierrelay/shared/src/schema';
-import { createAiPipeline, OnDeviceUnavailableError } from './pipeline';
+import { createAiPipeline, OnDeviceUnavailableError, ON_DEVICE_TIMEOUT_MS } from './pipeline';
 import { BARRIER_DRAFT_SCHEMA, DRAFT_SYSTEM_PROMPT, draftPrompt, fixPlanPrompt } from './prompts';
 import promptSpec from './draft-prompt.json';
 import { redact } from '../privacy/redact';
@@ -15,7 +15,7 @@ const bundle = { facts, regionPng:null, source:'fixture' as const };
 const config = { cloudModel:'gemini-3.5-flash-lite', groundingEnabled:true, maxCloudCallsPerSession:1, ruleCardsVersion:'1' };
 const make = () => createAiPipeline({ app:{} as FirebaseApp, getConfig:() => config });
 const response = (value:unknown, inferenceSource='on_device', extra={}) => ({ response:{ text:() => JSON.stringify(value), inferenceSource,...extra } });
-beforeEach(() => { vi.clearAllMocks(); vi.unstubAllGlobals(); sdk.model.mockImplementation(() => ({ generateContent:sdk.generate, initializeDeviceModel:sdk.prepare })); });
+beforeEach(() => { vi.useRealTimers(); vi.clearAllMocks(); vi.unstubAllGlobals(); vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')}); sdk.model.mockImplementation(() => ({ generateContent:sdk.generate, initializeDeviceModel:sdk.prepare })); });
 it('drafts fixture 02 with compact facts, ONLY_ON_DEVICE constraint and verified routing', async () => {
   const p=make(), draft=p.draftFromRules(bundle).draft; sdk.generate.mockResolvedValue(response(draft));
   expect(await p.draftOnDevice(bundle)).toMatchObject({draft,log:[{ranOn:'on-device',bytesSentToCloud:0}]});
@@ -45,11 +45,11 @@ it('catches barrierType contradictions and lengths', async () => {
   expect(check.ok).toBe(false); expect(check.issues.join(' ')).toMatch(/inconsistent/); expect(check.issues.join(' ')).toMatch(/160/);
 });
 it('uses an available on-device structured follow-from-facts check', async () => {
-  vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')}); const p=make(); sdk.generate.mockResolvedValue(response({ok:false,issues:['Insufficient evidence.']}));
+  vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')}); const p=make(); sdk.generate.mockResolvedValue(response({consistent:false,problems:['Insufficient evidence.']}));
   const check=await p.selfCheck(p.draftFromRules(bundle).draft,facts); expect(check.ok).toBe(false); expect(check.issues).toContain('Insufficient evidence.'); expect(check.log[1]).toMatchObject({ranOn:'on-device',step:'self-check'});
 });
 it('reports unsupported-browser and uses SDK prepare progress', async () => {
-  const p=make(); expect(await p.onDeviceState()).toBe('unsupported-browser'); vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')});
+  vi.stubGlobal('LanguageModel',undefined); const p=make(); expect(await p.onDeviceState()).toBe('unsupported-browser'); vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')});
   sdk.prepare.mockImplementation(async(callback:(n:number)=>void)=>callback(.7)); const progress=vi.fn(); expect(await p.prepareOnDevice(progress)).toBe('available'); expect(progress).toHaveBeenCalledWith(.7);
 });
 it('classifies at least 8 of all 10 broken fixtures deterministically', () => {
@@ -92,4 +92,44 @@ it('disables retrieval and sources when groundingEnabled is false', async () => 
  sdk.generate.mockResolvedValue(response(plan,'in_cloud',{candidates:[{urlContextMetadata:{urlMetadata:[{retrievedUrl:'https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html',urlRetrievalStatus:'URL_RETRIEVAL_STATUS_SUCCESS'}]}}]}));
  expect((await p.fixPlanInCloud(payload)).fixPlan.sources).toEqual([]);
  expect(sdk.model.mock.calls.at(-1)?.[1]).toMatchObject({inCloudParams:{tools:[],generationConfig:{responseMimeType:'application/json'}}});
+});
+
+it('accepts a consistent barrier report and requests constrained predictable self-check output', async () => {
+ vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')});
+ const p=make();sdk.generate.mockResolvedValue(response({consistent:true,problems:[]}));
+ const result=await p.selfCheck(p.draftFromRules(bundle).draft,facts);expect(result.ok).toBe(true);
+ expect(sdk.model.mock.calls.at(-1)?.[1]).toMatchObject({onDeviceParams:{createOptions:{topK:1,temperature:0,samplingMode:'most-predictable'},promptOptions:{responseConstraint:{properties:{problems:{maxItems:3}}}}}});
+});
+it('rejects malformed or internally contradictory self-check responses', async () => {
+ vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')});
+ const p=make();sdk.generate.mockResolvedValue(response({consistent:true,problems:['Contradiction.']}));
+ expect((await p.selfCheck(p.draftFromRules(bundle).draft,facts)).ok).toBe(false);
+});
+
+it('immediately rejects a downloadable model without starting generation or download', async () => {
+ vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('downloadable')});
+ await expect(make().draftOnDevice(bundle)).rejects.toBeInstanceOf(OnDeviceUnavailableError);
+ expect(sdk.generate).not.toHaveBeenCalled();expect(sdk.prepare).not.toHaveBeenCalled();
+});
+it('times out hung device generation with an unavailable error', async () => {
+ vi.useFakeTimers();
+ try {
+  sdk.generate.mockReturnValue(new Promise(()=>{}));
+  const assertion=expect(make().draftOnDevice(bundle)).rejects.toThrow('timed out after 45 seconds');
+  await vi.advanceTimersByTimeAsync(ON_DEVICE_TIMEOUT_MS);await assertion;
+ } finally {vi.useRealTimers();}
+});
+it('never starts on-device self-check when the model is downloadable', async () => {
+ vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('downloadable')});const p=make();
+ const check=await p.selfCheck(p.draftFromRules(bundle).draft,facts);
+ expect(check.log[0].note).toContain('unavailable');expect(sdk.generate).not.toHaveBeenCalled();expect(sdk.prepare).not.toHaveBeenCalled();
+});
+
+it('times out a hung on-device self-check without accepting it', async () => {
+ vi.useFakeTimers();
+ try {
+  const p=make();sdk.generate.mockReturnValue(new Promise(()=>{}));
+  const assertion=expect(p.selfCheck(p.draftFromRules(bundle).draft,facts)).rejects.toBeInstanceOf(OnDeviceUnavailableError);
+  await vi.advanceTimersByTimeAsync(ON_DEVICE_TIMEOUT_MS);await assertion;
+ } finally {vi.useRealTimers();}
 });
