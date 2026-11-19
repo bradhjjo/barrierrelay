@@ -5,3 +5,4 @@ dist/
 *.log
 .firebase/
 gate0/out/
+tools/e2e/out/

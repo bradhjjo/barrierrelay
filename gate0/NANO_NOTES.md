@@ -134,3 +134,20 @@ Passed: runner syntax check; SDK production build; runtime SDK enum imports; una
 Remaining: use unmetered network, complete the actual model download, rerun the three real Nano acceptance commands and all three offline SDK tests, measure text/image latencies, and record actual inference backend. No files outside worker ownership were fixed; other concurrent workers' root package/app/fixture changes were left alone. No commit was made.
 
 Official references checked: [Firebase hybrid inference](https://firebase.google.com/docs/ai-logic/hybrid-on-device-inference?platform=web), [Chrome Prompt API](https://developer.chrome.com/docs/ai/prompt-api), [Chrome getting started](https://developer.chrome.com/docs/ai/get-started), and [Chromium update checker at the installed revision](https://chromium.googlesource.com/chromium/src/+/14d6f648e8cd7ad750a4044200ce94d3321be260/components/update_client/update_checker.cc).
+
+## Real Nano results — BarrierRelay draft evaluation (2026-11-18)
+
+The coordinator switched to an unmetered network, downloaded the model (about 4.0 GB) into the dedicated profile, and verified real text, image and schema-constrained inference before this evaluation worker began. This supersedes the earlier unavailable-model state; the metered-network diagnosis above remains historical evidence. Only one evaluator used the dedicated profile at a time.
+
+`node gate0/eval/run-eval.mjs` completed **40 real Nano inferences**: all 10 broken/fixed fixture pairs in text-only and text+region-PNG modes. The application and evaluator share `apps/web/src/ai/draft-prompt.json`, imported by `prompts.ts`. The evaluator uses the direct Chrome Prompt API through `tools/nano/run.mjs`; it does not exercise the Firebase SDK transport. Availability was `available`. Each prompt used a new single-turn model session, destroyed by the runner afterward. No cloud calls were used for evaluation.
+
+| Mode | Barrier type accuracy | Target ref accuracy | Schema-valid | Broken type | Fixed classified none | Median creation + inference |
+| --- | --- | --- | --- | --- | --- | --- |
+| Text only | 19/20 (95%) | 19/20 (95%) | 20/20 (100%) | 10/10 | 9/10 | 6002 ms |
+| Text + region PNG | 18/20 (90%) | 18/20 (90%) | 20/20 (100%) | 10/10 | 8/10 | 4759 ms |
+
+The first shorter prompt got broken types 10/10 in each mode but only 3/10 and 1/10 fixed pages correct. The final prompt explicitly prioritizes rule IDs and their exact refs, treats nonempty computed accessibleName as a valid name, distinguishes ordinary page Tab cycles from dialog traps, and gives a concrete `none` example. The initial output is preserved at `gate0/out/eval-initial.json`; final full drafts, prompt snapshot and metrics are in `gate0/out/eval.json`, with the printed table in `gate0/out/eval-console.txt`. All outputs contain synthetic fixture data only and are gitignored.
+
+These figures meet the requested broken-type target but are a small synthetic evaluation. Some fixed pages still produce unsupported barrier claims; do not auto-submit a model draft. Deterministic and on-device self-check plus reporter review remain required. Timing is one sequential run with an already-downloaded model, includes session creation, and does not isolate model inference or hardware backend. The shorter image median does not establish a general performance advantage. Firebase on-device routing and unavailable/error cases are covered with mocks; successful real SDK Nano inference is still a separate integration check.
+
+The local rules fallback scores **10/10 broken fixtures**, no failed cases, without AI. The AI/privacy unit suite passes **15 tests** and `npx tsc --noEmit -p apps/web` passes at this checkpoint. Real cloud smoke reached the API but ended with HTTP 429 quota exhaustion (349 ms, no candidates/grounding, zero sources); see `apps/web/src/ai/README.md` for its three-attempt record and grounding/schema decision. App Check did not block that final request.
