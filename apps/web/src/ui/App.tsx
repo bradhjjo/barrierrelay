@@ -7,7 +7,19 @@ import { createServices, ticketStore } from '../services';
 import type { Services } from '../services';
 const badges = { 'on-device': 'On-device', 'in-cloud': 'Cloud', 'local-code': 'Local code' };
 function Routing({ rows }: { rows: RoutingLogEntry[] }) { return <aside class="routing" aria-labelledby="routing-title"><h2 id="routing-title">Hybrid routing</h2><p>Raw capture stays local. Only your approved payload may reach cloud AI.</p><table><caption>Execution location and data sent</caption><thead><tr><th scope="col">Step</th><th scope="col">Ran on</th><th scope="col">ms</th><th scope="col">Cloud bytes</th></tr></thead><tbody>{rows.map((row, i) => <tr key={i}><td>{row.step}{row.note && <small>{row.note}</small>}</td><td><span class={`badge ${row.ranOn}`}>{badges[row.ranOn]}</span></td><td>{Math.round(row.ms)}</td><td>{row.bytesSentToCloud}</td></tr>)}</tbody></table>{!rows.length && <p>No processing yet.</p>}</aside>; }
-function Plan({ plan }: { plan: FixPlan }) { return <section><h2>Fix plan</h2><p>{plan.rootCause}</p><ul>{plan.wcag.map(w => <li key={w.sc}>WCAG {w.sc}: {w.title} ({w.level})</li>)}</ul><p>{plan.fix.description}</p>{plan.fix.codeBefore && <><h3>Before</h3><pre><code>{plan.fix.codeBefore}</code></pre></>}<h3>After</h3><pre><code>{plan.fix.codeAfter}</code></pre><h3>Verification checklist</h3><ul>{plan.verification.map((v, i) => <li key={i}><label><input type="checkbox" /> {v}</label></li>)}</ul><h3>Sources</h3>{plan.sources.length ? <ul>{plan.sources.map(s => <li key={s.url}><a href={s.url} target="_blank" rel="noreferrer">{s.title}</a></li>)}</ul> : <p>No grounding sources returned. Independently review this guidance.</p>}</section>; }
+function Plan({ plan }: { plan: FixPlan }) {
+  return <section>
+    <h2>Fix plan</h2><p>{plan.rootCause}</p>
+    <ul>{plan.wcag.map(w => <li key={w.sc}>WCAG {w.sc}: {w.title} ({w.level})</li>)}</ul>
+    <p>{plan.fix.description}</p>
+    {plan.fix.codeBefore && <><h3>Before</h3><pre><code>{plan.fix.codeBefore}</code></pre></>}
+    <h3>After</h3><pre><code>{plan.fix.codeAfter}</code></pre>
+    <h3>Verification checklist</h3>
+    <ul>{plan.verification.map((v, i) => <li key={i}><label><input type="checkbox" /> {v}</label></li>)}</ul>
+    <h3>Sources</h3>
+    {plan.sources.length ? <ul class="sources">{plan.sources.map(s => <li key={s.url}><a href={s.url} target="_blank" rel="noreferrer">{s.title}<br /><small>{s.url}</small></a></li>)}</ul> : <p>No grounding sources returned. Independently review this guidance.</p>}
+  </section>;
+}
 export function App() {
   const [services, setServices] = useState<Services | null>(null);
   const [message, setMessage] = useState('Loading services…');
@@ -31,7 +43,10 @@ export function App() {
   const path = location.pathname;
   const params = new URLSearchParams(location.search);
   const fixture = params.get('fixture');
-  const append = (rows: RoutingLogEntry[]) => setRouting(old => [...old, ...rows]);
+  const append = (rows: RoutingLogEntry[], offline = !navigator.onLine) => setRouting(old => [
+    ...old,
+    ...rows.map(row => offline ? { ...row, note: [row.note, 'Offline'].filter(Boolean).join(' · ') } : row),
+  ]);
   async function act(work: () => Promise<void>) { setBusy(true); setError(''); try { await work(); } catch (e) { setError(e instanceof Error ? e.message : String(e)); } finally { setBusy(false); } }
   useEffect(() => { void act(async () => {
     const s = await createServices(); setServices(s); setMessage(s.demo ? 'Deterministic demo mode: no AI inference. Ticket storage still uses Firebase.' : 'Ready. Private on-device drafting; approved cloud fix planning.');
@@ -68,6 +83,20 @@ export function App() {
   return <><a class="skip" href="#main">Skip to content</a><header><a class="brand" href="/">BarrierRelay<span>ACCESSIBILITY, DELIVERED</span></a><nav aria-label="Main"><a href="/report">Report a barrier</a><a href="/mine">My tickets</a><a href="/#extension">Install extension</a></nav></header><div class="shell"><main id="main"><p class="eyebrow">PRIVATE CAPTURE → SHARED REPAIR</p><div role="status" aria-live="polite" class="notice">{busy ? 'Working… ' : ''}{message}</div>{error && <p role="alert" class="error">{error}</p>}
   {path === '/' && <><h1>Turn a blocked moment<br />into a better web.</h1><p class="lede">Capture an accessibility barrier privately. Review what you share. Give the site owner a clear, verifiable path to a fix.</p><section><h2>Private on-device AI</h2><p>Status: <strong>{device}</strong></p><button disabled={!services || busy} onClick={() => { if (!services) return; setBusy(true); setError(''); services.pipeline.prepareOnDevice(setProgress).then(state => { setDevice(state); setMessage(`On-device AI: ${state}`); }).catch(e => setError(String(e))).finally(() => setBusy(false)); }}>Prepare private on-device AI</button><progress value={progress} max="1" aria-label="On-device model preparation" /><p>No automatic download. Preparation starts only when you choose it.</p></section><section><h2>Try a demo</h2><p>Synthetic pages. No personal data. Choose a barrier to follow the full repair loop.</p><ul class="demo-list">{cases.map(c => <li key={c.id}><a href={`/report?fixture=${c.id}&variant=broken`}>{c.id.replaceAll('-', ' ')}</a></li>)}</ul></section><section id="extension"><h2>Install the capture extension</h2><ol><li>Download or clone the BarrierRelay source.</li><li>Build the extension with <code>npm run build --workspace=@barrierrelay/extension</code>.</li><li>Open Chrome extensions, enable Developer mode, and choose Load unpacked for <code>extension/dist</code>.</li><li>Select the blocked region and send the capture to this app.</li></ol><p>The extension collects selected-region facts, not passwords or form values.</p></section></>}
   {path === '/report' && <><h1>Report an accessibility barrier</h1><ol class="steps" aria-label="Report progress">{['Capture','Draft','Privacy','Fix plan','Share'].map((s, i) => <li aria-current={step === i + 1 ? 'step' : undefined} key={s}>{i + 1}. {s}</li>)}</ol>
+    <section aria-labelledby="report-device-heading">
+      <h2 id="report-device-heading">Private on-device AI</h2>
+      <p>Status: <strong>{device}</strong></p>
+      <button disabled={!services || busy} onClick={() => {
+        if (!services) return;
+        setBusy(true); setError('');
+        // Invoke directly inside the trusted click, before yielding user activation.
+        services.pipeline.prepareOnDevice(setProgress)
+          .then(state => { setDevice(state); setMessage(`On-device AI: ${state}`); })
+          .catch(e => setError(e instanceof Error ? e.message : String(e)))
+          .finally(() => setBusy(false));
+      }}>Prepare private on-device AI</button>
+      <progress value={progress} max="1" aria-label="On-device model preparation" />
+    </section>
     <section aria-labelledby="capture-heading">
       <h2 id="capture-heading">1. What we captured</h2>
       {bundle ? <>
@@ -79,6 +108,7 @@ export function App() {
         <ol>{bundle.facts.focusTrail.map((f, i) => <li key={i}>{f.key} → {f.ref ?? 'outside region'}</li>)}</ol>
         <button disabled={busy || !services || !!ownerLink} onClick={() => void act(async () => {
           if (!services) return;
+          const offline = !navigator.onLine;
           let result;
           try {
             result = await services.pipeline.draftOnDevice(bundle);
@@ -91,7 +121,7 @@ export function App() {
           setPlan(null);
           setCheck('');
           setDraft(result.draft);
-          append(result.log);
+          append(result.log, offline);
           setStep(2);
           setMessage('Draft ready. Review and edit before sharing.');
         })}>Create private draft</button>

@@ -1,10 +1,11 @@
 import type { FirebaseApp } from 'firebase/app';
-import { getAI, getGenerativeModel, GoogleAIBackend, InferenceMode, Schema, type EnhancedGenerateContentResponse, type GroundingMetadata, type Part } from 'firebase/ai';
+import { getAI, getGenerativeModel, GoogleAIBackend, InferenceMode, Schema, type EnhancedGenerateContentResponse, type URLContextMetadata, type Part } from 'firebase/ai';
 import type { CaptureFacts, RoutingLogEntry, RanOn } from '@barrierrelay/shared/src/schema';
 import { OnDeviceUnavailableError, type AiPipeline, type AppConfig, type OnDeviceState } from '../contracts';
 import { BARRIER_DRAFT_SCHEMA, DRAFT_SYSTEM_PROMPT, SELF_CHECK_PROMPT, draftPrompt, fixPlanPrompt } from './prompts';
 import { draftIssues, parseJson, validateDraft, validateFixPlan } from './validation';
 import { ruleDraft, ruleTypes } from './rules';
+import { wcagReferences } from './wcag';
 export { OnDeviceUnavailableError } from '../contracts';
 
 type LanguageModelApi = { availability(options?: unknown): Promise<string> };
@@ -15,12 +16,17 @@ function ranOn(response: EnhancedGenerateContentResponse): RanOn {
   if (response.inferenceSource === 'in_cloud') return 'in-cloud';
   throw new Error('Firebase response has no recognized inferenceSource; routing cannot be verified.');
 }
-export function groundingSources(metadata?: GroundingMetadata): { title: string; url: string }[] {
+export function urlContextSources(metadata: URLContextMetadata | undefined, references: { title: string; url: string }[]): { title: string; url: string }[] {
   const seen = new Set<string>();
-  return (metadata?.groundingChunks ?? []).flatMap(({ web }) => {
-    if (!web?.uri || !/^https?:\/\//i.test(web.uri) || seen.has(web.uri)) return [];
-    seen.add(web.uri);
-    return [{ title: web.title || web.uri, url: web.uri }];
+  // URL context can return a WCAG 2.1 equivalent for the supplied 2.2 URL.
+  // Match only the same official W3C Understanding slug and retain the actual retrieved URL.
+  const titles = new Map(references.flatMap(reference => ['WCAG20', 'WCAG21', 'WCAG22'].map(version =>
+    [reference.url.replace('WCAG22', version), reference.title] as const)));
+  return (metadata?.urlMetadata ?? []).flatMap(entry => {
+    const url = entry.retrievedUrl;
+    if (entry.urlRetrievalStatus !== 'URL_RETRIEVAL_STATUS_SUCCESS' || !url || !titles.has(url) || seen.has(url)) return [];
+    seen.add(url);
+    return [{ title: titles.get(url)!, url }];
   });
 }
 const fixSchema = Schema.object({ properties: {
@@ -112,14 +118,14 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
       cloudCalls++;
       const start = performance.now();
       const model = getGenerativeModel(ai, { mode: InferenceMode.ONLY_IN_CLOUD, inCloudParams: {
-        model: cfg.cloudModel, tools: cfg.groundingEnabled ? [{ googleSearch: {} }] : [],
-        // Gemini 3 supports built-in tools plus structured output. Older configurable
-        // models use prompt-only JSON when grounding is enabled (one quota unit).
+        model: cfg.cloudModel, tools: cfg.groundingEnabled ? [{ urlContext: {} }] : [],
+        // Gemini 3 supports URL context plus structured output. Older configurable
+        // models use prompt-only JSON when URL context is enabled (one quota unit).
         ...(!cfg.groundingEnabled || /^gemini-[34](?:\.|-)/.test(cfg.cloudModel) ? { generationConfig: { responseMimeType: 'application/json', responseSchema: fixSchema } } : {}),
       } });
-      const result = await model.generateContent(fixPlanPrompt(payload));
+      const result = await model.generateContent(fixPlanPrompt(payload, cfg.groundingEnabled));
       const fixPlan = validateFixPlan(parseJson(result.response.text()));
-      fixPlan.sources = groundingSources(result.response.candidates?.[0]?.groundingMetadata);
+      fixPlan.sources = cfg.groundingEnabled ? urlContextSources(result.response.candidates?.[0]?.urlContextMetadata, wcagReferences(payload.draft.barrierType)) : [];
       return { fixPlan, log: [log('fix-plan','ONLY_IN_CLOUD',ranOn(result.response),start,payload.bytes)] };
     },
   };

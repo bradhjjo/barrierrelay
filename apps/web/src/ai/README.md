@@ -8,20 +8,30 @@ The rules fallback is local code, confidence low, and does not copy the user's n
 
 `redact` constructs a new allowlisted payload; it never serializes the capture or userNote. Visible text, focus trail and path require individual approvals. It strips nonallowlisted attributes and re-scans every retained text value for email/phone/card patterns. The exact URL origin (scheme, hostname, port) is retained to identify the site, including localhost/IP hosts. Numeric geometry is retained. `bytes` measures UTF-8 JSON without the `bytes` field itself, as required by the contract. Pattern filtering cannot identify arbitrary names in approved page text: the reporter still reviews every retained field; userNote itself is never shared.
 
-## Grounding and structured output decision
+## URL context and structured output decision
 
-Checked official docs on 2026-11-18:
+The existing `groundingEnabled` config switch now enables **URL context only**, never Google Search. The coordinator verified these real REST requests through Firebase AI Logic + App Check on `barrierrelay-lpun3` on 2026-11-18:
 
-- [Firebase Google Search grounding](https://firebase.google.com/docs/ai-logic/grounding-google-search) lists `gemini-3.5-flash-lite`, describes tools and candidate `groundingMetadata.groundingChunks[].web` sources.
-- [Firebase structured output](https://firebase.google.com/docs/ai-logic/generate-structured-output) documents `generationConfig.responseMimeType` and `responseSchema`.
-- [Gemini structured output with tools](https://ai.google.dev/gemini-api/docs/structured-output#tools) (redirects to Google AI Studio) explicitly supports built-in tools plus structured output for Gemini 3 and 4 series; the feature is preview.
-- [Firebase hybrid structured output](https://firebase.google.com/docs/ai-logic/hybrid/web/generate-structured-output) documents the separate on-device `promptOptions.responseConstraint`.
+| Gemini 3.5 Flash-Lite configuration | Observed HTTP result |
+| --- | --- |
+| No tools | 200 |
+| Google Search tool | 429 RESOURCE_EXHAUSTED; no free-tier Search grounding quota |
+| URL context + application/json + responseSchema | 200; valid JSON and successful URL retrieval metadata |
 
-The default Gemini 3.5 Flash-Lite request therefore combines Google Search with JSON responseSchema in one call. If Remote Config chooses an older model with grounding enabled, use prompt-only JSON instructions in that single call and the same output validator; do not retry silently or consume a second quota unit. With grounding disabled all models use responseSchema. Firebase Schema optional fields must use the containing object's `optionalProperties`; adding `optional:true` to a string schema passes SDK typings but is sent as an invalid backend field.
+Billing is not an option for this project. The implementation therefore supplies one to three known W3C Understanding URLs and `tools: [{urlContext: {}}]` with the JSON response schema for the default Gemini 3.5 Flash-Lite model. There is no Search tool and no Search suggestion rendering integration to implement. This is retrieval from a fixed set of WCAG references, not a web search.
 
-Only actual candidate-zero grounding chunks become `FixPlan.sources`. Any model-authored sources are discarded; absent grounding yields an empty array. URLs are limited to HTTP(S) and deduplicated. Enabling the tool does not guarantee that the model searches. Calls, including failed attempts, reserve the configured session budget before awaiting, preventing concurrent clicks from bypassing it. The budget is per pipeline instance, not a billing/security control; production quota enforcement belongs on the backend.
+Official references checked:
 
-**Integration limitation:** the current `FixPlan` contract exposes source links but has no field for `groundingMetadata.searchEntryPoint.renderedContent` or inline grounding supports. Official Firebase docs require rendering returned Google Search suggestions. The coordinator must extend the contract/UI before shipping grounded responses that include a search entry point; do not treat the current source list alone as that complete rendering integration.
+- [Firebase URL context](https://firebase.google.com/docs/ai-logic/url-context) lists Gemini 3.5 Flash-Lite and documents supplying URLs in the prompt with the URL context tool.
+- [Firebase structured output](https://firebase.google.com/docs/ai-logic/generate-structured-output) documents JSON MIME type and responseSchema.
+- [Gemini structured output with tools](https://ai.google.dev/gemini-api/docs/structured-output#tools) supports built-in tools including URL context with Gemini 3/4 series (preview).
+- [Firebase hybrid structured output](https://firebase.google.com/docs/ai-logic/hybrid/web/generate-structured-output) documents the separate local response constraint.
+
+`wcag.ts` maps barrier types to SC and official Understanding URLs. The eight mapped WCAG 2.2 slugs (`name-role-value`, `info-and-relationships`, `link-purpose-in-context`, `keyboard`, `no-keyboard-trap`, `focus-visible`, `labels-or-instructions`, `label-in-name`) all returned **HTTP 200** with curl; the check is saved at `gate0/out/wcag-url-check.json`. Reference candidates do not imply every mapped SC is violated. The prompt asks the model to retrieve these documents, base the fix on them, and cite only applicable SC. With the switch off, no URL context tool or reference URL list is supplied.
+
+`FixPlan.sources` comes only from candidate-zero `urlContextMetadata.urlMetadata[]` entries with `urlRetrievalStatus === 'URL_RETRIEVAL_STATUS_SUCCESS'`. Titles come from the deterministic map and URLs remain the exact `retrievedUrl`. The API can return a WCAG 2.1 equivalent for a supplied 2.2 document (observed for Name, Role, Value); matching official W3C 2.0/2.1/2.2 versions of the requested slug are accepted without rewriting the returned URL. Unknown URLs, retrieval failures, missing statuses and duplicates are discarded. Model-authored sources are always ignored. Missing metadata yields zero sources, not an invented citation.
+
+The default model combines URL context and responseSchema in one call. Older configurable models use prompt-only JSON instructions when URL context is enabled; all outputs still pass the same validator. No silent retry or second model call is used. Firebase optional schema fields use the containing object's `optionalProperties`. Calls including errors reserve the session budget before awaiting, so concurrent clicks cannot bypass it; this per-instance budget is not a billing/security control.
 
 ## Manual cloud smoke
 
@@ -35,13 +45,21 @@ Open `http://127.0.0.1:5174/scripts/cloud-smoke.html` and activate **Send one fi
 
 ### Actual real API smoke (2026-11-18)
 
-Three attempts total; no further real API requests were made:
+The initial Search-based implementation made three attempts: one result lost to HMR, one HTTP 400 schema-field error (fixed with `optionalProperties`), and one HTTP 429 quota error. Those historical failures are superseded by the successful URL-context implementation below. No App Check rejection occurred.
 
-1. First click occurred while prompt development continued; Vite HMR reloaded the page before a result was captured. Counted conservatively as one API attempt.
-2. Captured **HTTP 400**, 52 ms, SDK `AI/fetch-error`: `Invalid JSON payload received. Unknown name "optional"` in the fix schema. Corrected to `optionalProperties` before the last attempt.
-3. Corrected request reached Firebase AI Logic and returned **HTTP 429**, **349 ms**, SDK `AI/fetch-error`: `You exceeded your current quota, please check your plan and billing details.` Error details had `@type: type.googleapis.com/google.rpc.Help` and links to Gemini API quota documentation. No successful candidates, no grounding metadata; **0 sources**. The error was quota-related, not an App Check rejection. Raw field-name capture remained null because there was no successful response.
+This follow-up made **two additional real requests**, within the three-request allowance:
 
-The final error receipt is stored locally at `gate0/out/cloud-smoke.json` (ignored output). Mock tests verify a successful SDK response shape: `response.text()`, `response.inferenceSource: 'in_cloud'`, and `response.candidates[0].groundingMetadata.groundingChunks[].web.{uri,title}`. Successful real cloud inference and actual grounding source count remain unverified until project quota/billing is available. No token, request headers or App Check responses were inspected or logged by this script.
+| URL context smoke | Outcome | End-to-end latency | Schema-valid | Sources retained |
+| --- | --- | --- | --- | --- |
+| First | Success | 2738 ms | Yes | 1 (strict original-URL matching) |
+| Final, matching equivalent W3C versions | Success | **2900 ms** | **Yes** | **2** |
+
+The successful final fixture 02 fix plan is saved as direct JSON at **`gate0/out/cloud-smoke.json`**, including `ok`, `ms`, `schemaValid`, source count, response field names, routing, and the complete validated `fixPlan`. The response top-level fields were `candidates`, `usageMetadata`, `modelVersion`, `responseId`; candidate fields were `content`, `finishReason`, `index`, `urlContextMetadata`. Both retrieval entries were SUCCESS:
+
+- `https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html` — Name, Role, Value
+- `https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html` — Label in Name
+
+The plan cited WCAG 4.1.2, identified the unnamed button, provided minimal HTML before/after, and included accessibility-inspector/screen-reader checks. Routing was `ONLY_IN_CLOUD`, `in-cloud`, **1395 payload bytes**. `schemaValid: true` means the returned JSON was successfully parsed and passed the application's FixPlan validator after the API response-schema constraint; source links were then attached from retrieval metadata. The smoke script reads neither tokens nor request headers and captures no App Check response. No third follow-up request was needed.
 
 ## Verification
 
@@ -57,4 +75,4 @@ Gate 0 requires an already-available Nano model, fails fast without one, never a
 
 ### Real Nano fixture results
 
-After the coordinator downloaded Nano on an unmetered network, the final shared prompt completed all 40 requested inferences. Text-only: type **19/20**, ref **19/20**, schema **20/20**, broken type **10/10**, fixed none **9/10**, median **6002 ms**. Text+region PNG: type **18/20**, ref **18/20**, schema **20/20**, broken type **10/10**, fixed none **8/10**, median **4759 ms**. See `gate0/NANO_NOTES.md` for methodology and limitations; `gate0/out/eval.json` contains every draft and the exact prompt snapshot. Current unit validation: **15 tests pass**, TypeScript passes.
+After the coordinator downloaded Nano on an unmetered network, the final shared prompt completed all 40 requested inferences. Text-only: type **19/20**, ref **19/20**, schema **20/20**, broken type **10/10**, fixed none **9/10**, median **6002 ms**. Text+region PNG: type **18/20**, ref **18/20**, schema **20/20**, broken type **10/10**, fixed none **8/10**, median **4759 ms**. See `gate0/NANO_NOTES.md` for methodology and limitations; `gate0/out/eval.json` contains every draft and the exact prompt snapshot. Current unit validation: **17 tests pass**, TypeScript passes.
