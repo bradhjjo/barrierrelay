@@ -23,7 +23,7 @@ The keyboard shortcut or toolbar action captures around the current focus withou
 
 The collector computes accessible names without reading live form values, records allowlisted attributes, normalizes the page URL to origin plus pathname, masks digits in short visible text, and attaches deterministic axe/custom rule hits. `CaptureFacts` is bounded to **40 elements**, **20 focus steps**, and a **300-character note**, per [shared schema](../packages/shared/src/schema.ts) and [collector](../packages/collector/src/index.ts). It is not a full-page DOM serialization.
 
-The service worker captures the active tab and crops locally with `OffscreenCanvas`, producing a PNG with longest side **at most 768 pixels** ([implementation](../extension/src/background.ts)). The extension UI is removed during collection/screenshot. The browser-session bundle is stored under a random UUID; the app is opened at `/report?capture=<id>&ext=<extension-id>`. Only the two configured web origins can call `getCapture`. Successful retrieval removes the item before returning it; unread captures become unavailable after **30 minutes**, are purged during subsequent capture cleanup, and session storage ends with the browser session ([service worker](../extension/src/background.ts)). The web app decodes the data URL into a local Blob and removes consumed query parameters.
+The service worker captures the active tab and crops locally with `OffscreenCanvas`, producing a PNG with longest side **at most 768 pixels** ([implementation](../extension/src/background.ts)). The extension UI is removed during collection/screenshot. The browser-session bundle is stored under a random UUID; the app is opened at `/report?capture=<id>&ext=<extension-id>`. Only `http://127.0.0.1:5173`, `http://127.0.0.1:4173`, and `https://barrierrelay-lpun3.web.app` can call `getCapture`; the extension destination allowlist and manifest agree. Successful retrieval removes the item before returning it; unread captures become unavailable after **30 minutes**, are purged during subsequent capture cleanup, and session storage ends with the browser session ([service worker](../extension/src/background.ts)). The web app decodes the data URL into a local Blob and removes consumed query parameters.
 
 The extension requests `activeTab`, `scripting`, and `storage`, not an explicit `host_permissions` entry. Its automatic HTTP/HTTPS content script nevertheless gives broad page access so keys can be recorded *before* the user activates capture. Chrome's site-access warning is real, not avoided by omitting `host_permissions`. See [extension README](../extension/README.md) for the rationale and unsupported page/frame cases.
 
@@ -35,7 +35,7 @@ The app uses the Firebase JavaScript SDK **13.4.0**, resolved in [package-lock.j
 
 **No raw-capture cloud fallback is configured.** The actual product path uses `ONLY_ON_DEVICE`, not `PREFER_ON_DEVICE`. Gate 0 proved with a stubbed unavailable browser API and intercepted network that `ONLY_ON_DEVICE` rejects with `api-not-enabled`, while `PREFER_ON_DEVICE` would choose cloud immediately if local readiness is not `available`. This is why a preferred-mode fallback would violate our privacy boundary. See [SDK findings and test conditions](../gate0/NANO_NOTES.md#firebase-sdk-findings).
 
-The app catches unavailable-model errors and can make a deterministic rules draft. Other generation failures remain visible errors; a rules output is never relabeled as Nano. Self-check always runs deterministic checks and adds local-model validation only when available. A deterministic-only pass is not proof that a model evaluated the draft.
+The app catches unavailable-model errors and can make a deterministic rules draft. Other generation failures remain visible errors; a rules output is never relabeled as Nano. Self-check consists of **deterministic checks + on-device consistency check** when the model is available. A deterministic-only pass is not proof that a model evaluated the draft. TODO(verify): publish robustness evaluation numbers after the active self-check fix is evaluated; no self-check accuracy or latency number is claimed here.
 
 ### Human approval and redaction
 
@@ -53,9 +53,11 @@ The reporter can inspect the live JSON before choosing **Get a fix plan**. Scrub
 
 ### Cloud fix plan and grounding
 
-The cloud model uses **`ONLY_IN_CLOUD`**. Its input is a fixed repair instruction plus the serialized `SharePayload`, not the screenshot or raw facts. Google Search is enabled through `tools: [{ googleSearch: {} }]` when configured. The prompt asks for official W3C WCAG understanding/techniques pages; there is **no enforced W3C-only search allowlist** and **no URL-context tool** implemented.
+The cloud model uses **`ONLY_IN_CLOUD`**. Its input is a fixed repair instruction plus the serialized `SharePayload`, not the screenshot or raw facts. With grounding enabled, **`tools: [{ urlContext: {} }]`** retrieves W3C WCAG 2.2 Understanding pages selected deterministically from the draft's barrier type by [wcag.ts](../apps/web/src/ai/wcag.ts). This is retrieval from known reference URLs, not open-ended web search. The coordinator isolated a quota-exhausted search-tool request (**HTTP 429**) while URL context plus JSON response schema returned **HTTP 200**; see [the measured SDK/tool decision](../apps/web/src/ai/README.md).
 
-The app validates the JSON plan and replaces its `sources` with deduplicated HTTP(S) web citations returned in the API's grounding metadata. It does not trust model-authored citation strings as evidence. An empty grounding response stays empty, and the UI tells the user to review guidance independently. Structured cloud output is configured where the selected model/tool combination is supported by the code; older configurable models use prompt-only JSON when Search is enabled. Actual model access and grounding behavior still need an end-to-end deployment check.
+The app validates the JSON plan and replaces model-authored sources using candidate-zero **`urlContextMetadata.urlMetadata[]`**. It retains only **`URL_RETRIEVAL_STATUS_SUCCESS`** entries matching the requested official W3C slug/version map, deduplicating exact returned URLs. Equivalent W3C WCAG document versions may be accepted without rewriting the returned URL. Failed retrievals, missing statuses, unknown URLs, and absent metadata cannot create citations. An empty source list stays empty and the UI asks for independent review.
+
+The default cloud model supports URL context and structured output together in the verified smoke. Older configurable models use prompt-only JSON when URL context is enabled; application validation still applies. With grounding disabled, neither the context tool nor reference URL list is supplied. The standalone [cloud smoke artifact](../gate0/out/cloud-smoke.json) records **2900 ms**, **2 successful W3C sources**, and **schemaValid: true**; it is separate from a completed end-to-end ticket workflow.
 
 ## Routing visibility
 
@@ -111,7 +113,7 @@ Source: [config.ts](../apps/web/src/config.ts) and [template](../remoteconfig.te
 | Key | Default | Effect |
 | --- | --- | --- |
 | `cloudModel` | `gemini-3.5-flash-lite` | Cloud fix-plan model; the default name does not establish provider availability. |
-| `groundingEnabled` | `true` | Enables Google Search tools on cloud requests. |
+| `groundingEnabled` | `true` | Enables URL context and deterministic W3C reference URLs on cloud requests. |
 | `maxCloudCallsPerSession` | `5` | Client-side budget per pipeline instance; failed/concurrent attempts consume reservations. Not a global security/quota boundary. |
 | `ruleCardsVersion` | `"1"` | Version field exposed in config; no rule-card distribution behavior is implemented. |
 
@@ -127,13 +129,26 @@ Local drafting does not require a cloud inference request, but the app shell and
 
 ## Evidence and release gates
 
+### Real Nano fixture evaluation
+
+| Input mode | Type correct | Ref correct | Schema-valid | Broken types correct | Median, creation + inference |
+| --- | --- | --- | --- | --- | --- |
+| Text-only | 19/20 | 19/20 | 20/20 | 10/10 | 6.0 s (6002 ms rounded) |
+| Text + region PNG | 18/20 | 18/20 | 20/20 | 10/10 | 4.8 s (4759 ms rounded) |
+
+Source: [all evaluation rows and prompt snapshot](../gate0/out/eval.json), [methodology and limitations](../gate0/NANO_NOTES.md#real-nano-results--barrierrelay-draft-evaluation-2026-11-18). These are **40 real Nano inferences** over **10 synthetic broken/fixed pairs** using the direct Chrome Prompt API, with fresh single-turn sessions and a downloaded model. They do not measure Firebase SDK overhead or population-wide accuracy. Fixed-page false positives remain; the shorter image median is not proof of a general speed advantage.
+
+### Integration and deployment evidence
+
 | Claim / observation | Source and scope |
 | --- | --- |
-| Initial Nano download was blocked by a metered hotspot; unavailable/fallback SDK behavior was tested with stubs and intercepted fetch. | [Gate 0 report](../gate0/NANO_NOTES.md); historical initial state, **not** a claim that Nano is still absent. |
-| Later real Nano image prompt: **6.1 s**; schema JSON: **4.1 s**, including session creation; model size: **4.0 GB**; Chrome **158**. | Coordinator-measured facts supplied in [docs task spec](../specs/i-docs-pi.md). These are individual environment probes, **not app latency distributions, accuracy metrics, or a successful offline Firebase-app test**. TODO(verify): archive/link the raw later-probe artifacts before publishing these as benchmark evidence. |
-| Firebase project/services and enforced AI Logic App Check; Hosting target configured but not deployed. | [Coordinator-verified setup facts](../specs/i-docs-pi.md); TODO(verify): final hosted deployment and production-domain behavior. |
-| Real local constraints / inference-source handling / cloud-only repair path. | [Pipeline](../apps/web/src/ai/pipeline.ts), [SDK probe](../gate0/sdk-probe/main.js), [tests](../apps/web/src/ai/pipeline.test.ts). Source and mocked tests do not prove a successful real cloud request. |
-| Extension handoff and keyboard panel integration. | [Isolated Chrome E2E](../tools/e2e/extension.e2e.mjs); no Nano or cloud inference involved. |
-| UI workflow and accessibility checkpoints. | [Web E2E](../tools/e2e/web.e2e.mjs); uses a deterministic AI substitute and real Firebase ticket operations, so it must not be presented as real AI evidence. |
+| Initial model download was refused on a metered hotspot; later a model was downloaded on an unmetered connection. | [Gate 0](../gate0/NANO_NOTES.md). Use supported Chrome desktop with Prompt API and **Prepare private on-device AI**; an unavailable-model rules fallback is not Nano inference. |
+| Real SDK offline draft: `response.inferenceSource = on_device`, **0 capture bytes sent to cloud**, **0 AI network requests**. | [Real E2E runner](../tools/e2e/real.e2e.mjs) and [current result](../tools/e2e/out/real-results.json). An already-loaded capture/tab and prepared model were used. Zero AI requests does not claim zero browser network traffic. |
+| Real cloud URL-context smoke: **2.9 s**, **2 W3C sources**, **schemaValid: true**. | [Cloud smoke JSON](../gate0/out/cloud-smoke.json) and [AI README](../apps/web/src/ai/README.md). This separately verified call is not a full real E2E completion claim. |
+| Hosted app is deployed with production reCAPTCHA Enterprise App Check; AI Logic enforcement is enabled. | [Hosted demo](https://barrierrelay-lpun3.web.app/report?fixture=02-icon-pay-button&variant=broken); deployment verified by the coordinator for this docs refresh. |
+| Extension keyboard panel/handoff; extension → actual production app with rules-only fallback and note exclusion. | [Isolated extension E2E](../tools/e2e/extension.e2e.mjs), [real-app intake integration](../tools/e2e/integration.e2e.mjs). These tests use no Nano/cloud inference. Preview origin is `http://127.0.0.1:4173`. |
+| Deterministic UI repair workflow and Firebase operations. | [Web E2E](../tools/e2e/web.e2e.mjs); uses an AI substitute and must not be cited as real hybrid inference. |
 
-TODO(verify): exercise the complete **real Firebase AI Logic** text+image draft with constrained output and displayed inference source, an already-loaded-tab **offline draft**, and the configured **cloud model with actual Search grounding citations**. Record the exact browser/profile/model/config and retain outputs. TODO(verify): disability-led screen-reader testing and final production-domain App Check behavior. Neither intended video shots nor unit-test mocks close these evidence gates.
+**Full real repair loop: TODO(verify).** The currently inspected `real-results.json` has `completed: false` and stops at a self-check failure after the successful offline draft. The coordinator will rerun after the self-check fix; retain final cloud latency, URL-context sources, and Firestore ticket status before asserting that one real hybrid run reached `verified`. Older `real-06` through `real-10` screenshots alone do not close that gate.
+
+**Self-check robustness: TODO(verify)** evaluation numbers after the active fix. Describe the implementation as deterministic checks + on-device consistency check, without unsupported score claims. **Usability/video: TODO(verify)** disability-led screen-reader testing, final captions, and public evidence-package links. Output artifacts live under ignored directories and must be retained separately for a reproducible submission.

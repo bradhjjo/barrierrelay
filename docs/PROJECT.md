@@ -12,7 +12,7 @@ The site owner receives a reproducible ticket and can mark it fixed; the user re
 - On-device (Gemini Nano via Firebase AI Logic `ONLY_ON_DEVICE` / `PREFER_ON_DEVICE`): raw page facts + region screenshot may contain
   personal data -> never leave the device. Single-turn, text+image -> structured JSON (BarrierDraft). Self-check pass on device.
 - Cloud (`ONLY_IN_CLOUD`): only the reporter-approved, redacted draft goes up. Uses tools that on-device cannot use
-  (Google Search grounding / URL context on W3C WCAG docs) -> FixPlan with sources.
+  (URL context tool reading W3C WCAG Understanding docs; Google Search grounding has no free-tier quota) -> FixPlan with sources.
 - Local code (no AI): DOM collection, axe-core rules, redaction, before/after verification.
 
 ## Components

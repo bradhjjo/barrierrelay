@@ -6,7 +6,7 @@
 
 **Submission deadline:** November 30, 2026, 14:00 Pacific Time, as recorded in [PROJECT.md](PROJECT.md). TODO(verify): confirm the final Devpost deadline/time zone and eligibility against the official event page before submitting.
 
-**Links:** TODO(verify): public source repository URL, deployed live-demo URL, and final captioned video URL. `barrierrelay-lpun3.web.app` is the configured Hosting target, not a deployment claim. The local judge walkthrough is in [README.md](../README.md#judge-quick-start-no-extension-required).
+**Live demo:** https://barrierrelay-lpun3.web.app — deployed on Firebase Hosting with production reCAPTCHA Enterprise App Check. **Judge quick-start:** [unnamed payment-button report](https://barrierrelay-lpun3.web.app/report?fixture=02-icon-pay-button&variant=broken), no extension required. Without a local model, the app labels its rules-only draft; **Prepare private on-device AI** downloads Nano on supported desktop Chrome with Prompt API and an unmetered connection. TODO(verify): insert public source-repository and final captioned-video URLs.
 
 > Editorial note: this is submission copy grounded in the current code. Complete the evidence checklist below and remove editorial TODOs only after verification. Do not present a deterministic `demo=1` walkthrough as AI inference.
 
@@ -36,11 +36,11 @@ The Chrome Manifest V3 extension uses TypeScript, a shadow-DOM modal, the shared
 
 The Preact web app uses **Firebase AI Logic** with the Gemini Developer API backend. Private drafting selects **`InferenceMode.ONLY_ON_DEVICE`** and supplies facts plus the cropped image. We place the JSON Schema in **`onDeviceParams.promptOptions.responseConstraint`**, because the installed SDK's local adapter does not translate cloud `responseSchema` settings into local constraints. Application validation checks the result again.
 
-A deterministic self-check examines the draft's target and consistency; an additional constrained **on-device** check runs when the model is available. Preparation calls `initializeDeviceModel()` from a user gesture. When the local API is unavailable, the app can use local rules instead of changing to `PREFER_ON_DEVICE`, whose fallback would violate our raw-data boundary.
+Self-check combines **deterministic checks + an on-device consistency check** when the model is available. TODO(verify): add robustness evaluation numbers after the active self-check fix; no score is claimed yet. Preparation calls `initializeDeviceModel()` from a user gesture. When the local API is unavailable, the app can use local rules instead of changing to `PREFER_ON_DEVICE`, whose fallback would violate our raw-data boundary.
 
 The UI shows a **Hybrid routing** table. Model entries derive their location from **`response.inferenceSource`**, not from an assumption about the requested mode. The table distinguishes On-device, Cloud, and Local code, with application elapsed time and approved-payload byte counts. Those counts are not total network-traffic measurements.
 
-For the next capability, the app explicitly uses **`InferenceMode.ONLY_IN_CLOUD`**. The cloud fix-plan request receives only the reviewed, redacted application payload. It enables **Google Search grounding** when Remote Config permits it, and asks for authoritative W3C WCAG guidance. Citation links come from the API's grounding metadata, not invented source fields in model JSON. We do not implement URL-context retrieval or enforce a W3C-only search allowlist.
+For the next capability, the app explicitly uses **`InferenceMode.ONLY_IN_CLOUD`**. The cloud fix-plan request receives only the reviewed, redacted application payload. It enables the **URL context tool (`urlContext`)** when Remote Config permits it, retrieving W3C WCAG 2.2 Understanding pages chosen deterministically from the barrier type. Source links come only from successful, recognized `urlContextMetadata` retrievals, never model-authored citation fields. This is a fixed-reference retrieval capability, not open-ended web search. The verified cloud smoke combined URL context and structured output in the same call ([SDK/tool decision](../apps/web/src/ai/README.md)).
 
 ### Firebase beyond inference
 
@@ -48,7 +48,7 @@ For the next capability, the app explicitly uses **`InferenceMode.ONLY_IN_CLOUD`
 - **Auth:** anonymous sign-in supports a low-friction reporter identity without an account form.
 - **Firestore:** the approved report, fix plan, routing log, and lifecycle are persisted as a ticket. Rules restrict allowed fields, list access, content mutation, and status transitions.
 - **Remote Config:** model selection, grounding toggle, a client-side cloud-call budget, and a rule-card version field are supplied with local defaults. The version field does not yet drive a rule-card distribution feature.
-- **Hosting:** a web deployment target is configured; the final hosted release remains a verification step.
+- **Hosting:** the app is deployed at [barrierrelay-lpun3.web.app](https://barrierrelay-lpun3.web.app), with production reCAPTCHA Enterprise App Check verified by the coordinator.
 
 Anyone signed in anonymously who knows a ticket ID can read it and advance permitted status changes. This is a prototype sharing model, not proof of site ownership or production-grade role separation. Raw capture privacy and safe collaboration access are distinct concerns.
 
@@ -56,7 +56,9 @@ Source references: [pipeline](../apps/web/src/ai/pipeline.ts), [redaction](../ap
 
 ## Challenges we ran into
 
-**The network, not the GPU, blocked the first Nano download.** During Gate 0 the browser's model manifest remained empty even though the machine was eligible. Debugging found that Chrome's component updater sent `updatedisabled: true` on the metered phone hotspot. We stopped download attempts rather than silently changing someone's network policy. The initial failure, diagnostic evidence, and SDK fallback tests are documented in [NANO_NOTES.md](../gate0/NANO_NOTES.md). Later coordinator probes confirmed real Nano image and constrained-JSON inference; that does not retroactively turn the initial failed probe into a passing offline application test.
+**The network, not the GPU, blocked the first Nano download.** During Gate 0 the browser's model manifest remained empty even though the machine was eligible. Debugging found that Chrome's component updater sent `updatedisabled: true` on the metered phone hotspot. We stopped download attempts rather than silently changing someone's network policy. The initial failure, diagnostic evidence, and SDK fallback tests are documented in [NANO_NOTES.md](../gate0/NANO_NOTES.md). After switching to an unmetered connection, the model downloaded and real Nano fixture evaluation completed. A later real SDK run also proved offline on-device drafting; the initial failed probe remains a separate historical result.
+
+**Retrieval had to fit the project's quota.** The coordinator measured a search-tool request failing with **HTTP 429**, while URL context plus the response schema returned **HTTP 200**. We now retrieve deterministic W3C reference pages rather than relying on an unavailable free-tier search quota ([measured decision](../apps/web/src/ai/README.md)).
 
 **Local and cloud structured output are configured differently.** Merely configuring a cloud JSON response schema was insufficient for the local adapter. The explicit local `responseConstraint` and result validation became part of the design rather than an optional improvement.
 
@@ -72,7 +74,16 @@ Source references: [pipeline](../apps/web/src/ai/pipeline.ts), [redaction](../ap
 - A reproducible extension integration test and a separate UI repair-loop test that clearly labels its deterministic AI substitute.
 - A report that becomes a repair conversation: editable draft, explicit sharing preview, fix guidance, ticket status, and a scoped re-check.
 
-These are implemented features and test tools, not a claim that every real-model or production deployment acceptance check is complete. See the release checklist below.
+### Measured evidence
+
+| Real Nano mode | Barrier type | Target ref | Schema-valid | Broken types | Median |
+| --- | --- | --- | --- | --- | --- |
+| Text-only | 19/20 | 19/20 | 20/20 | 10/10 | 6.0 s |
+| Text + region PNG | 18/20 | 18/20 | 20/20 | 10/10 | 4.8 s |
+
+These rounded medians come from **6002 ms** and **4759 ms** in [the evaluation artifact](../gate0/out/eval.json), with methods in [Gate 0](../gate0/NANO_NOTES.md). The small synthetic test uses the direct Prompt API and includes session creation; it is not a Firebase SDK latency benchmark or a general accessibility accuracy claim. False positives on fixed pages remain.
+
+The [real Firebase SDK offline draft](../tools/e2e/out/real-results.json) ran on-device with **0 capture bytes to cloud** and **0 AI network requests**. Separately, the [real URL-context cloud smoke](../gate0/out/cloud-smoke.json) returned a validated plan in **2.9 s**, with **2 W3C sources** and **schemaValid: true**. The latest real E2E artifact stops at self-check, so **TODO(verify): rerun the complete real hybrid repair loop after the active fix before claiming a Firestore ticket reached `verified` in that run**.
 
 ## What we learned
 
@@ -82,19 +93,19 @@ We also learned to distinguish evidence from intent. A stubbed unavailable-model
 
 ## What's next
 
-Run disability-led screen-reader and keyboard usability sessions, strengthen live-control matching across re-captures, add authenticated collaboration roles and abuse controls, and provide a consent-aware retention/deletion workflow. Evaluate real-model drafts against the synthetic ground truth, retain reproducible evaluation artifacts, and broaden browser/device coverage. These are plans, not shipped functionality.
+Run disability-led screen-reader and keyboard usability sessions, strengthen live-control matching across re-captures, add authenticated collaboration roles and abuse controls, and provide a consent-aware retention/deletion workflow. Extend the completed synthetic draft evaluation with harder cases, evaluate the active self-check robustness fix, retain reproducible artifacts, and broaden browser/device coverage. These extensions are plans, not shipped results.
 
 ## Built with
 
-Firebase · Firebase AI Logic · Gemini Nano · Gemini · Google Search grounding · App Check · reCAPTCHA Enterprise · Firebase Authentication · Cloud Firestore · Firebase Remote Config · Firebase Hosting (configured target) · Chrome Extensions / Manifest V3 · TypeScript · Preact · Vite · axe-core · dom-accessibility-api · esbuild · Vitest · Puppeteer
+Firebase · Firebase AI Logic · Gemini Nano · Gemini · URL context · App Check · reCAPTCHA Enterprise · Firebase Authentication · Cloud Firestore · Firebase Remote Config · Firebase Hosting · Chrome Extensions / Manifest V3 · TypeScript · Preact · Vite · axe-core · dom-accessibility-api · esbuild · Vitest · Puppeteer
 
 Dependency versions and licenses: [package-lock.json](../package-lock.json) and [NOTICE](../NOTICE).
 
 ## Submission evidence checklist
 
-- TODO(verify): publish the source repository, deploy Hosting, validate production-domain App Check, and insert final demo/source/video links.
-- TODO(verify): retain raw artifacts for the coordinator's later real Nano probes; do not use individual timings as an application benchmark. The supplied observations and their scope are listed in [architecture evidence](ARCHITECTURE.md#evidence-and-release-gates).
-- TODO(verify): record a real Firebase AI Logic text+image draft with constrained JSON and a displayed On-device routing entry; record the preloaded-tab offline version without `demo=1` or a rules substitute.
-- TODO(verify): record a real cloud fix plan using the configured model, with actual Google Search grounding metadata and working returned sources. Do not replace missing citations with hand-written ones.
+- Completed: hosted deployment and production reCAPTCHA Enterprise App Check, real Nano draft evaluation, SDK offline/on-device draft, and a separate validated URL-context cloud smoke. Sources and scope are listed in [architecture evidence](ARCHITECTURE.md#evidence-and-release-gates).
+- TODO(verify): publish the source repository and captioned video links, and retain/distribute the ignored evaluation and smoke artifacts with the submission evidence.
+- TODO(verify): complete the post-fix real E2E; fill final cloud latency, successful W3C retrieval count, and real Firestore `verified` ticket evidence only after the rerun. Existing later-stage screenshot filenames are not a completion artifact.
+- TODO(verify): publish self-check robustness evaluation numbers. Until then describe only deterministic checks + on-device consistency check.
 - TODO(verify): test the final keyboard/screen-reader flow with an actual screen reader, including the fixture's announcement; automated accessibility checks alone do not establish this.
 - TODO(verify): produce and review the captioned video, verify the event's official deadline and requirements, and remove only the TODOs supported by completed evidence.
