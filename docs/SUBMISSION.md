@@ -4,7 +4,9 @@
 
 **Track:** Best Web/Chrome App, #BuildHybridAI.
 
-**Submission deadline:** November 30, 2026, 14:00 Pacific Time, as recorded in [PROJECT.md](PROJECT.md). TODO(verify): confirm the final Devpost deadline/time zone and eligibility against the official event page before submitting.
+**Submission deadline:** November 30, 2026, **14:00 PST / 22:00 UTC**, verified against the [official rules](https://firebasehybridaihackathon.devpost.com/rules) and [event requirements](https://firebasehybridaihackathon.devpost.com/) on 2026-11-19. Entrant eligibility still requires the representative's private confirmation.
+
+**Devpost package:** [paste-ready form and sourced compliance checklist](devpost/FORM.md), [judge instructions](devpost/JUDGES.md), [captioned gallery](devpost/gallery/README.md), and [cover](devpost/cover.png). Authenticated custom-field labels and the numeric tagline limit remain pending live-form review.
 
 **Live demo:** https://barrierrelay-lpun3.web.app — deployed on Firebase Hosting with production reCAPTCHA Enterprise App Check. **Judge quick-start:** [unnamed payment-button report](https://barrierrelay-lpun3.web.app/report?fixture=02-icon-pay-button&variant=broken), no extension required. Without a local model, the app labels its rules-only draft; **Prepare private on-device AI** downloads Nano on supported desktop Chrome with Prompt API and an unmetered connection. TODO(verify): insert public source-repository and final captioned-video URLs.
 
@@ -108,4 +110,5 @@ Dependency versions and licenses: [package-lock.json](../package-lock.json) and 
 - Completed: hosted production reCAPTCHA Enterprise App Check and cloud plan, real Nano draft/self-check evaluations, SDK offline/on-device draft, URL-context cloud plan, and a real Firestore repair loop reaching `verified` on the paired synthetic fixed fixture. Sources and scope are listed in [architecture evidence](ARCHITECTURE.md#evidence-and-release-gates).
 - TODO(verify): publish the source repository and captioned video links, and retain/distribute the ignored evaluation and smoke artifacts with the submission evidence.
 - TODO(verify): test the final keyboard/screen-reader flow with an actual screen reader, including the fixture's announcement; automated accessibility checks alone do not establish this.
-- TODO(verify): produce and review the captioned video, verify the event's official deadline and requirements, and remove only the TODOs supported by completed evidence.
+- Completed: verified the official deadline and public submission requirements; prepared the [Devpost form package](devpost/FORM.md), judge instructions, and six 1500 × 1000 captioned real-screenshot gallery PNGs plus cover. The checklist distinguishes implementation evidence from pending representative attestations.
+- TODO(verify): produce/review/upload the public YouTube video (≤3 minutes, English or English subtitles), publish and anonymously verify the source repository, and review the authenticated event form's exact custom questions and tagline character counter. Remove only TODOs supported by completed evidence.
