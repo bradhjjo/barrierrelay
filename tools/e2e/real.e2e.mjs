@@ -35,6 +35,13 @@ try {
     args: [`--user-data-dir=${profilePath}`, `--enable-features=${features}`, '--no-first-run', '--no-default-browser-check', ...(headless ? ['--headless=new'] : [])] });
   page = await browser.newPage();
   page.setDefaultTimeout(timeout);
+  // Diagnostics only: observe pipeline events without wrapping APIs or changing results.
+  await page.evaluateOnNewDocument(() => {
+    window.barrierrelayDeviceDiagnostics = [];
+    window.addEventListener('barrierrelay:device-diagnostic', event => {
+      window.barrierrelayDeviceDiagnostics.push({ ...event.detail, atMs: performance.now(), documentStartedAt: performance.timeOrigin, pageUrl: location.href });
+    });
+  });
   await page.setViewport({ width: 1440, height: 1000 });
   page.on('pageerror', error => results.pageErrors.push(error.message));
   cdp = await page.createCDPSession();
@@ -88,6 +95,11 @@ try {
   const draftRows = (await rows()).filter(row => row.step === 'draft');
   assert.ok(draftRows.length, 'No draft routing row rendered.');
   const draftRow = draftRows.at(-1);
+  results.draftDiagnostic = { routing: draftRow, wallMs: Math.round(performance.now() - draftStart) };
+  results.deviceDiagnostics = await page.evaluate(() => window.barrierrelayDeviceDiagnostics ?? []);
+  results.fallbackReason = draftRow.ranOn === 'local-code'
+    ? results.deviceDiagnostics.filter(event => event.kind === 'unavailable-error' && event.operation === 'draft').at(-1)?.message ?? 'No unavailable error captured.'
+    : null;
   assert.equal(draftRow.ranOn, 'on-device', 'Offline draft must use the real SDK on-device response, not rules fallback.');
   assert.equal(draftRow.bytes, 0);
   assert.match(draftRow.note, /\bOffline\b/);
@@ -144,6 +156,7 @@ try {
     assert.match(results.ticketId, /^[A-Za-z0-9]{20}$/);
     await screenshot('07-share');
     stage = 'owner';
+    results.deviceDiagnostics = await page.evaluate(() => window.barrierrelayDeviceDiagnostics ?? []);
     await page.goto(ownerLink, { waitUntil: 'networkidle2' }); await settled();
     await screenshot('08-owner-open');
     await click('Acknowledge'); await settled();
@@ -166,6 +179,12 @@ try {
   }
   process.exitCode = 1;
 } finally {
+  if (page && !page.isClosed()) {
+    const current = await page.evaluate(() => window.barrierrelayDeviceDiagnostics ?? []).catch(() => []);
+    const combined = [...(results.deviceDiagnostics ?? []), ...current];
+    results.deviceDiagnostics = combined.filter((event, index) => combined.findIndex(other =>
+      other.documentStartedAt === event.documentStartedAt && other.atMs === event.atMs && other.kind === event.kind) === index);
+  }
   if (cdp) await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 0, downloadThroughput: -1, uploadThroughput: -1 }).catch(() => undefined);
   await browser?.close();
   if (server?.pid) { try { process.kill(-server.pid, 'SIGTERM'); } catch {} }

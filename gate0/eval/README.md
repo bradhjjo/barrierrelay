@@ -11,3 +11,10 @@ Outputs are local ignored artifacts: `gate0/out/eval.json` holds prompt snapshot
 ## Self-check evaluation
 
 Run `node gate0/eval/selfcheck-eval.mjs` separately from all other Nano/E2E runners. It uses the app's shared `selfcheck-prompt.json`, `selfcheck-input.ts` and deterministic rule draft builder. For each broken fixture it aligns the correct draft's type/ref with truth, then makes one single-field corruption: nonexistent `e999` on odd fixtures, or a different barrier type on even fixtures. All 20 cases invoke Nano with a constrained consistency judgment and local comparison evidence. Thresholds: 9/10 correct accepted, 8/10 corrupted rejected. Outputs: `gate0/out/selfcheck.json` and a printed table. This is a small combined deterministic-evidence/model benchmark, not a standalone LLM reasoning score; see the app AI README for sampling limitations and E2E results.
+
+
+## Raw and reconciled draft scores
+
+The draft evaluator now applies the application's shared `reconcileDraft` as a post-step to each raw Nano output. `rows[].draft` and the existing `summary` retain raw model results; `rows[].correctedDraft`, correction note, corrected correctness/schema flags and `correctedSummary` retain the separate reconciled results. The console table compares both. Language is preserved, and this post-step cannot repair fixed-page false positives without rule evidence. No extra inference or cloud call is used for reconciliation.
+
+Each draft case now has a 45-second runner deadline, matching the application's inference limit. A failed case remains a failed raw/corrected row. The evaluator then closes its own dedicated browser and checks readiness in a fresh session before continuing; this prevents a native prompt that is still pending after a deadline from blocking every subsequent case. It never changes or kills unrelated Chrome profiles. `sessionRestarted` marks such rows. A manually stopped initial session is preserved separately as `gate0/out/eval-aborted-session.json`; use the completed `eval.json` for the final comparison.

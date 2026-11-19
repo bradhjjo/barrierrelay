@@ -5,6 +5,7 @@ import { OnDeviceUnavailableError, type AiPipeline, type AppConfig, type OnDevic
 import { BARRIER_DRAFT_SCHEMA, DRAFT_SYSTEM_PROMPT, SELF_CHECK_PROMPT, SELF_CHECK_SCHEMA, SELF_CHECK_SAMPLING, selfCheckPrompt, draftPrompt, fixPlanPrompt } from './prompts';
 import { draftIssues, parseJson, validateDraft, validateFixPlan } from './validation';
 import { ruleDraft, ruleTypes } from './rules';
+import { reconcileDraft } from './reconcile';
 import { wcagReferences } from './wcag';
 export { OnDeviceUnavailableError } from '../contracts';
 
@@ -35,11 +36,35 @@ const fixSchema = Schema.object({ properties: {
   verification: Schema.array({ items: Schema.string() }), sources: Schema.array({ items: Schema.object({ properties: { title: Schema.string(), url: Schema.string() } }) }),
 } });
 export const ON_DEVICE_TIMEOUT_MS = 45_000;
-async function deviceResponse<T>(request: Promise<T>): Promise<T> {
+export const READINESS_TIMEOUT_MS = 5_000;
+export const DISPLAY_READINESS_RETRY_MS = 15_000;
+type Readiness = 'available' | 'downloadable' | 'downloading' | 'unavailable' | 'unknown';
+function deviceDiagnostic(detail: Record<string, unknown>): void {
+  if (typeof globalThis.dispatchEvent === 'function' && typeof CustomEvent !== 'undefined') {
+    globalThis.dispatchEvent(new CustomEvent('barrierrelay:device-diagnostic', { detail }));
+  }
+}
+function deviceUnavailable(message: string, operation: string): OnDeviceUnavailableError {
+  deviceDiagnostic({ kind: 'unavailable-error', operation, message });
+  return new OnDeviceUnavailableError(message);
+}
+export const CLOUD_RETRY_DELAY_MS = 1_500;
+function retryableCloudError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false;
+  const e = error as { status?: unknown; statusCode?: unknown; httpStatus?: unknown; message?: unknown; code?: unknown };
+  const message = typeof e.message === 'string' ? e.message : '';
+  const status = Number(e.status ?? e.statusCode ?? e.httpStatus ?? message.match(/(?:\[|\bHTTP\s+)(\d{3})(?:\s|\]|$)/i)?.[1]);
+  // Explicit 4xx wins over vague words such as 'overloaded' in an error body.
+  if (status >= 400 && status < 500) return false;
+  if (status >= 500 && status < 600) return true;
+  return /(?:overloaded|high demand|service unavailable|UNAVAILABLE)/i.test(message) || e.code === 'AI/server-error';
+}
+
+async function deviceResponse<T>(request: Promise<T>, operation: string): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     return await Promise.race([request, new Promise<T>((_, reject) => {
-      timer = setTimeout(() => reject(new OnDeviceUnavailableError('On-device AI timed out after 45 seconds. Use the local rules draft or try preparing the model again.')), ON_DEVICE_TIMEOUT_MS);
+      timer = setTimeout(() => reject(deviceUnavailable('On-device AI timed out after 45 seconds. Use the local rules draft or try preparing the model again.', operation)), ON_DEVICE_TIMEOUT_MS);
     })]);
   } finally { clearTimeout(timer); }
 }
@@ -58,17 +83,29 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
     localModels.set(check, model);
     return model;
   };
-  async function onDeviceState(): Promise<OnDeviceState> {
+  async function readiness(timeoutMs = READINESS_TIMEOUT_MS): Promise<Readiness> {
+    const start = performance.now();
     const api = languageModel();
-    if (!api) return 'unsupported-browser';
+    let state: Readiness = 'unavailable';
+    let timer: ReturnType<typeof setTimeout> | undefined;
     try {
-      // Bound readiness probes: Chrome can leave availability pending when its manifest is missing.
-      let timer: ReturnType<typeof setTimeout> | undefined;
-      try {
-        const state = await Promise.race([api.availability({ expectedInputs: [{ type: 'text' }, { type: 'image' }] }), new Promise<string>(resolve => { timer = setTimeout(() => resolve('unavailable'), 5000); })]);
-        return ['available','downloadable','downloading'].includes(state) ? state as OnDeviceState : 'unavailable';
-      } finally { clearTimeout(timer); }
-    } catch { return 'unavailable'; }
+      if (api) {
+        const value = await Promise.race([api.availability({ expectedInputs: [{ type: 'text' }, { type: 'image' }] }),
+          new Promise<string>(resolve => { timer = setTimeout(() => resolve('unknown'), timeoutMs); })]);
+        state = ['available', 'downloadable', 'downloading', 'unknown'].includes(value) ? value as Readiness : 'unavailable';
+      }
+    } catch { state = 'unavailable'; }
+    finally {
+      clearTimeout(timer);
+      deviceDiagnostic({ kind: 'readiness', state, ms: performance.now() - start, timeoutMs });
+    }
+    return state;
+  }
+  async function onDeviceState(): Promise<OnDeviceState> {
+    if (!languageModel()) return 'unsupported-browser';
+    const first = await readiness();
+    const state = first === 'unknown' ? await readiness(DISPLAY_READINESS_RETRY_MS) : first;
+    return state === 'unknown' ? 'unavailable' : state;
   }
   const log = (step: RoutingLogEntry['step'], mode: RoutingLogEntry['mode'], where: RanOn, start: number, bytes = 0, note?: string): RoutingLogEntry => ({ step, mode, ranOn: where, ms: performance.now() - start, bytesSentToCloud: bytes, ...(note ? { note } : {}) });
   return {
@@ -83,7 +120,8 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
     },
     async draftOnDevice(bundle) {
       const start = performance.now();
-      if (await onDeviceState() !== 'available') throw new OnDeviceUnavailableError('On-device AI is not ready. Prepare the model first or use the local rules draft.');
+      const state = await readiness();
+      if (state !== 'available' && state !== 'unknown') throw deviceUnavailable(`On-device AI is ${state}. Prepare the model first or use the local rules draft.`, 'draft');
       const parts: Part[] = [{ type: 'text', text: draftPrompt(bundle.facts) }];
       if (bundle.regionPng) {
         const bytes = new Uint8Array(await bundle.regionPng.arrayBuffer());
@@ -91,11 +129,15 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
         parts.push({ type: 'inlineData', inlineData: { mimeType: 'image/png', data: btoa(binary) } });
       }
       try {
-        const result = await deviceResponse(localModel().generateContent(parts));
+        const result = await deviceResponse(localModel().generateContent(parts), 'draft');
         const where = ranOn(result.response);
-        const draft = validateDraft(parseJson(result.response.text()), bundle.facts);
-        return { draft, log: [log('draft','ONLY_ON_DEVICE',where,start)] };
-      } catch (e) { if (unavailable(e)) throw new OnDeviceUnavailableError('The on-device model is unavailable. Use the local rules draft or prepare the model.'); throw e; }
+        const raw = parseJson(result.response.text());
+        const inferenceLog = log('draft','ONLY_ON_DEVICE',where,start);
+        const correctionStart = performance.now();
+        const reconciled = reconcileDraft(raw, bundle.facts);
+        const draft = validateDraft(reconciled.draft, bundle.facts);
+        return { draft, log: [inferenceLog, ...(reconciled.note ? [log('self-check','n/a','local-code',correctionStart,0,reconciled.note)] : [])] };
+      } catch (e) { if (unavailable(e)) throw deviceUnavailable('The on-device model is unavailable. Use the local rules draft or prepare the model.', 'draft'); throw e; }
     },
     draftFromRules(bundle) {
       const start = performance.now();
@@ -108,23 +150,29 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
       if (relevant.length && !relevant.some(h => ruleTypes[h.ruleId] === draft.barrierType)) issues.push('barrierType is inconsistent with target ruleHits.');
       if (draft.barrierType === 'none' && facts.ruleHits.some(h => ruleTypes[h.ruleId])) issues.push('Supported ruleHits contradict none.');
       const logs = [log('self-check','n/a','local-code',start)];
-      if (!issues.length && await onDeviceState() === 'available') {
+      if (!issues.length) {
+        const state = await readiness();
+        if (state !== 'available' && state !== 'unknown') throw deviceUnavailable(`On-device self-check is ${state}. Prepare the model before checking the draft.`, 'self-check');
         const checkStart = performance.now();
         try {
-          const result = await deviceResponse(localModel(true).generateContent(selfCheckPrompt(draft, facts)));
+          const result = await deviceResponse(localModel(true).generateContent(selfCheckPrompt(draft, facts)), 'self-check');
           const check = parseJson(result.response.text()) as { consistent?: unknown; problems?: unknown };
           logs.push(log('self-check','ONLY_ON_DEVICE',ranOn(result.response),checkStart));
           if (typeof check.consistent !== 'boolean' || !Array.isArray(check.problems) || check.problems.length > 3 || check.problems.some(i => typeof i !== 'string') || (check.consistent && check.problems.length > 0)) issues.push('Invalid on-device self-check response.');
           else if (!check.consistent) issues.push(...(check.problems.length ? check.problems as string[] : ['Draft does not follow from the facts.']));
         } catch (e) { if (e instanceof OnDeviceUnavailableError) throw e; issues.push(unavailable(e) ? 'On-device self-check became unavailable; review the draft manually.' : 'On-device self-check failed; review the draft manually.'); }
-      } else if (!issues.length) logs[0].note = 'Deterministic checks passed; on-device check unavailable. Review manually.';
+      }
       return { ok: issues.length === 0, issues, log: logs };
     },
     async fixPlanInCloud(payload) {
       const cfg = getConfig();
-      if (cloudCalls >= Math.max(0, cfg.maxCloudCallsPerSession)) throw new Error('Cloud call limit reached for this session.');
-      // Reserve before awaiting: concurrent clicks and failed attempts also consume the budget.
-      cloudCalls++;
+      const budget = Math.max(0, Math.floor(cfg.maxCloudCallsPerSession));
+      const reserveCall = () => {
+        if (!Number.isFinite(budget) || cloudCalls >= budget) throw new Error('Cloud call limit reached for this session.');
+        // Reserve each attempt before awaiting, including concurrent calls and errors.
+        cloudCalls++;
+      };
+      reserveCall();
       const start = performance.now();
       const model = getGenerativeModel(ai, { mode: InferenceMode.ONLY_IN_CLOUD, inCloudParams: {
         model: cfg.cloudModel, tools: cfg.groundingEnabled ? [{ urlContext: {} }] : [],
@@ -132,10 +180,20 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
         // models use prompt-only JSON when URL context is enabled (one quota unit).
         ...(!cfg.groundingEnabled || /^gemini-[34](?:\.|-)/.test(cfg.cloudModel) ? { generationConfig: { responseMimeType: 'application/json', responseSchema: fixSchema } } : {}),
       } });
-      const result = await model.generateContent(fixPlanPrompt(payload, cfg.groundingEnabled));
+      const prompt = fixPlanPrompt(payload, cfg.groundingEnabled);
+      let result;
+      let retried = false;
+      try { result = await model.generateContent(prompt); }
+      catch (error) {
+        if (!retryableCloudError(error)) throw error;
+        reserveCall();
+        retried = true;
+        await new Promise(resolve => setTimeout(resolve, CLOUD_RETRY_DELAY_MS));
+        result = await model.generateContent(prompt);
+      }
       const fixPlan = validateFixPlan(parseJson(result.response.text()));
       fixPlan.sources = cfg.groundingEnabled ? urlContextSources(result.response.candidates?.[0]?.urlContextMetadata, wcagReferences(payload.draft.barrierType)) : [];
-      return { fixPlan, log: [log('fix-plan','ONLY_IN_CLOUD',ranOn(result.response),start,payload.bytes)] };
+      return { fixPlan, log: [log('fix-plan','ONLY_IN_CLOUD',ranOn(result.response),start,payload.bytes * (retried ? 2 : 1),retried ? 'Retried once after a transient server error (1500 ms delay); 2 cloud attempts counted.' : undefined)] };
     },
   };
 }
