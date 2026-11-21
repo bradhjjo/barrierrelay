@@ -31,7 +31,7 @@ try {
   const proxy = await server(0, async (req, res) => {
     try {
       const url = new URL(req.url);
-      if (url.origin === 'http://127.0.0.1:5173' && url.pathname === '/report') {
+      if (url.origin === 'http://127.0.0.1:5173' && (url.pathname === '/report' || url.pathname.startsWith('/t/'))) {
         res.setHeader('Content-Type', 'text/html'); res.end(stub); return;
       }
       if (url.origin !== `http://127.0.0.1:${fixtureServer.address().port}`) { res.writeHead(403).end(); return; }
@@ -93,6 +93,33 @@ try {
   // One-time retrieval and origin authorization are part of the same integration boundary.
   const second = await report.evaluate(async () => { const p = new URLSearchParams(location.search); return await new Promise(resolve => chrome.runtime.sendMessage(p.get('ext'), { type:'getCapture', id:p.get('capture') }, resolve)); });
   assert.match(second.error, /already retrieved/);
+  const ticketId = 'Ab123456789012345678';
+  const external = message => report.evaluate((extensionId, msg) => new Promise(resolve => chrome.runtime.sendMessage(extensionId, msg, resolve)), id, message);
+  assert.match((await external({ type: 'armReturn', ticketId: '../bad' })).error, /Invalid ticket/);
+  assert.equal((await external({ type: 'armReturn', ticketId })).ok, true);
+  for (const captureId of ['returnTarget', 'control:returnTarget', 'capture:bad', 'not-a-uuid']) {
+    assert.match((await external({ type: 'getCapture', id: captureId })).error, /Invalid capture ID/);
+  }
+  // The ticket redirect below proves invalid retrievals did not disarm the target.
+  async function captureAgain(path) {
+    // Chrome limits captureVisibleTab to two calls per second.
+    await new Promise(resolve => setTimeout(resolve, 1100));
+    await page.bringToFront();
+    await page.waitForFunction(() => ![...document.querySelectorAll('div')].some(el => el.shadowRoot?.querySelector('textarea')));
+    await cdp.send('Extensions.triggerAction', { id, targetId: targetInfo.targetId });
+    await page.waitForFunction(() => [...document.querySelectorAll('div')].some(el => el.shadowRoot?.querySelector('textarea')));
+    await page.evaluate(() => [...document.querySelectorAll('div')].find(el => el.shadowRoot?.querySelector('textarea')).shadowRoot.querySelector('button[type=submit]').focus());
+    const next = browser.waitForTarget(t => t.url().startsWith(`http://127.0.0.1:5173${path}?capture=`) && t !== reportTarget, { timeout: 30000 });
+    await page.keyboard.press('Enter');
+    const destination = await next;
+    const nextUrl = new URL(destination.url());
+    assert.equal(nextUrl.pathname, path); assert.equal(nextUrl.searchParams.get('ext'), id); assert.ok(nextUrl.searchParams.get('capture'));
+    await (await destination.page()).waitForFunction(() => window.captureResult != null);
+    return destination;
+  }
+  await captureAgain(`/t/${ticketId}`);
+  await captureAgain('/report');
+  console.log('armReturn: ticket redirect, single-use fallback, invalid ticket rejection, non-UUID capture rejection without disarming PASS');
   console.log(JSON.stringify({ extensionId: id, target, focusSteps: result.facts.focusTrail.length, pngBytes: result.regionPngDataUrl.length, oneTimeRetrieval: true }, null, 2));
 } finally {
   await browser?.close();

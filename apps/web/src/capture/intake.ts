@@ -29,7 +29,7 @@ function png(data: unknown): Blob {
 export async function waitForCapture(signal?: AbortSignal): Promise<CaptureBundle> {
   const params = new URLSearchParams(location.search);
   const id = params.get('capture'), extension = params.get('ext');
-  if (!id || !extension || !/^[a-p]{32}$/.test(extension) || !/^[a-zA-Z0-9-]{1,100}$/.test(id)) throw new Error('No valid extension capture in this URL. Use the extension to capture a page.');
+  if (!id || !extension || !/^[a-p]{32}$/.test(extension) || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)) throw new Error('No valid extension capture in this URL. Use the extension to capture a page.');
   const response = await send(extension, { type: 'getCapture', id }, signal);
   const bundle: CaptureBundle = { facts: facts(response?.facts), regionPng: png(response?.regionPngDataUrl), source: 'extension' };
   // A capture is single-use: remove the consumed token, not unrelated query parameters.
@@ -42,6 +42,17 @@ export async function loadFixture(caseId: string, variant: 'broken' | 'fixed'): 
   const [json, image] = await Promise.all([fetch(base + '.facts.json'), fetch(base + '.region.png')]);
   if (!json.ok || !image.ok) throw new Error('Fixture could not be loaded.');
   return { facts: facts(await json.json()), regionPng: await image.blob(), source: 'fixture' };
+}
+export async function armReturn(ticketId: string): Promise<void> {
+  if (!/^[A-Za-z0-9]{20}$/.test(ticketId)) throw new Error('Invalid ticket ID.');
+  const id = (import.meta.env as Record<string, string | undefined>).VITE_EXTENSION_ID || DEFAULT_EXTENSION_ID;
+  const response = await send(id, { type: 'armReturn', ticketId });
+  if (response?.ok !== true) throw new Error('The extension did not arm re-capture.');
+}
+/** True only when the error means no reachable extension (no runtime API or no receiving end), not a timeout or a refusal. */
+export function isExtensionMissing(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return /not available in this browser|Receiving end does not exist|Could not establish connection/i.test(message);
 }
 export async function extensionInstalled(): Promise<boolean> {
   const id = (import.meta.env as Record<string, string | undefined>).VITE_EXTENSION_ID || DEFAULT_EXTENSION_ID;
