@@ -176,11 +176,19 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
       const cfg = getConfig();
       const budget = Math.max(0, Math.floor(cfg.maxCloudCallsPerSession));
       const reserveCall = () => {
-        if (!Number.isFinite(budget) || cloudCalls >= budget) throw new Error('Cloud call limit reached for this session.');
+        try {
+          const stored = sessionStorage.getItem('barrierrelay:cloudCalls');
+          const count = stored !== null && stored.trim() !== '' ? Number(stored) : NaN;
+          if (Number.isSafeInteger(count) && count >= 0) cloudCalls = Math.max(cloudCalls, count);
+        } catch { /* Storage may be unavailable; retain the in-memory budget. */ }
+        if (!Number.isFinite(budget) || cloudCalls >= budget) return false;
         // Reserve each attempt before awaiting, including concurrent calls and errors.
         cloudCalls++;
+        try { sessionStorage.setItem('barrierrelay:cloudCalls', String(cloudCalls)); }
+        catch { /* The in-memory reservation still counts if persistence fails. */ }
+        return true;
       };
-      reserveCall();
+      if (!reserveCall()) throw new Error('Cloud call limit reached for this session.');
       const start = performance.now();
       const model = getGenerativeModel(ai, { mode: InferenceMode.ONLY_IN_CLOUD, inCloudParams: {
         model: cfg.cloudModel, tools: cfg.groundingEnabled ? [{ urlContext: {} }] : [],
@@ -194,7 +202,7 @@ export function createAiPipeline({ app, getConfig }: { app: FirebaseApp; getConf
       try { result = await model.generateContent(prompt); }
       catch (error) {
         if (!retryableCloudError(error)) throw error;
-        reserveCall();
+        if (!reserveCall()) throw error;
         retried = true;
         await new Promise(resolve => setTimeout(resolve, CLOUD_RETRY_DELAY_MS));
         result = await model.generateContent(prompt);

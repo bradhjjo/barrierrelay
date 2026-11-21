@@ -15,7 +15,7 @@ const bundle = { facts, regionPng:null, source:'fixture' as const };
 const config = { cloudModel:'gemini-3.5-flash-lite', groundingEnabled:true, maxCloudCallsPerSession:1, ruleCardsVersion:'1' };
 const make = () => createAiPipeline({ app:{} as FirebaseApp, getConfig:() => config });
 const response = (value:unknown, inferenceSource='on_device', extra={}) => ({ response:{ text:() => JSON.stringify(value), inferenceSource,...extra } });
-beforeEach(() => { vi.useRealTimers(); vi.clearAllMocks(); vi.unstubAllGlobals(); vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')}); sdk.model.mockImplementation(() => ({ generateContent:sdk.generate, initializeDeviceModel:sdk.prepare })); });
+beforeEach(() => { vi.useRealTimers(); vi.clearAllMocks(); vi.unstubAllGlobals(); sessionStorage.clear(); vi.stubGlobal('LanguageModel',{availability:vi.fn().mockResolvedValue('available')}); sdk.model.mockImplementation(() => ({ generateContent:sdk.generate, initializeDeviceModel:sdk.prepare })); });
 it('drafts fixture 02 with compact facts, ONLY_ON_DEVICE constraint and verified routing', async () => {
   const p=make(), draft=p.draftFromRules(bundle).draft; sdk.generate.mockResolvedValue(response(draft));
   expect(await p.draftOnDevice(bundle)).toMatchObject({draft,log:[{ranOn:'on-device',bytesSentToCloud:0}]});
@@ -75,7 +75,47 @@ it('maps successful URL context retrievals only, counts bytes, enforces session 
 });
 it('ignores invented sources and rejects malformed plans', async () => {
  const p=make(),payload=redact(bundle,p.draftFromRules(bundle).draft,{includePath:false,includeVisibleText:false,includeFocusTrail:false});sdk.generate.mockResolvedValue(response(plan,'in_cloud'));
- expect((await p.fixPlanInCloud(payload)).fixPlan.sources).toEqual([]);sdk.generate.mockResolvedValue(response({fix:{}},'in_cloud'));await expect(make().fixPlanInCloud(payload)).rejects.toThrow('Invalid FixPlan');
+ expect((await p.fixPlanInCloud(payload)).fixPlan.sources).toEqual([]);sdk.generate.mockResolvedValue(response({fix:{}},'in_cloud'));await expect(createAiPipeline({app:{} as FirebaseApp,getConfig:()=>({...config,maxCloudCallsPerSession:2})}).fixPlanInCloud(payload)).rejects.toThrow('Invalid FixPlan');
+});
+
+it('shares the session budget across pipeline instances after a simulated reload', async () => {
+ const first=make(),reloaded=make(),payload=redact(bundle,first.draftFromRules(bundle).draft,{includePath:false,includeVisibleText:false,includeFocusTrail:false});
+ sdk.generate.mockResolvedValue(response(plan,'in_cloud'));
+ await first.fixPlanInCloud(payload);
+ expect(sessionStorage.getItem('barrierrelay:cloudCalls')).toBe('1');
+ await expect(reloaded.fixPlanInCloud(payload)).rejects.toThrow('Cloud call limit reached for this session.');
+ await expect(make().fixPlanInCloud(payload)).rejects.toThrow('limit');
+ expect(sdk.generate).toHaveBeenCalledTimes(1);
+});
+it.each(['getItem','setItem'] as const)('enforces the in-memory budget when sessionStorage.%s throws', async method => {
+ const storage=sessionStorage;
+ vi.stubGlobal('sessionStorage',{
+  getItem:(key:string)=>storage.getItem(key),
+  setItem:(key:string,value:string)=>storage.setItem(key,value),
+  [method]:()=>{throw new Error('Storage unavailable');},
+ });
+ const p=make(),payload=redact(bundle,p.draftFromRules(bundle).draft,{includePath:false,includeVisibleText:false,includeFocusTrail:false});
+ sdk.generate.mockResolvedValue(response(plan,'in_cloud'));
+ await p.fixPlanInCloud(payload);
+ await expect(p.fixPlanInCloud(payload)).rejects.toThrow('limit');
+ expect(sdk.generate).toHaveBeenCalledTimes(1);
+});
+it.each(['not-a-number','-1','1.5','Infinity','9007199254740992',''])('falls back to the in-memory budget for invalid stored count %j', async value => {
+ const p=make(),payload=redact(bundle,p.draftFromRules(bundle).draft,{includePath:false,includeVisibleText:false,includeFocusTrail:false});
+ sessionStorage.setItem('barrierrelay:cloudCalls',value);
+ sdk.generate.mockResolvedValue(response(plan,'in_cloud'));
+ await p.fixPlanInCloud(payload);
+ sessionStorage.setItem('barrierrelay:cloudCalls',value);
+ await expect(p.fixPlanInCloud(payload)).rejects.toThrow('limit');
+ expect(sdk.generate).toHaveBeenCalledTimes(1);
+});
+it('reserves the shared session budget before concurrent requests await generation', async () => {
+ const first=make(),second=make(),payload=redact(bundle,first.draftFromRules(bundle).draft,{includePath:false,includeVisibleText:false,includeFocusTrail:false});
+ sdk.generate.mockImplementationOnce(async()=>response(plan,'in_cloud'));
+ const pending=first.fixPlanInCloud(payload);
+ await expect(second.fixPlanInCloud(payload)).rejects.toThrow('limit');
+ await pending;
+ expect(sdk.generate).toHaveBeenCalledTimes(1);
 });
 
 it('maps every barrier type to one to three official WCAG references and excludes URLs when disabled', () => {
@@ -164,8 +204,10 @@ it('retries one transient server error, counts both cloud attempts and records b
 });
 it('does not retry quota/client errors, or exceed the budget when a retry would be needed', async () => {
  for(const status of [400,429,503]){
-  sdk.generate.mockReset();const p=make(),payload=redact(bundle,p.draftFromRules(bundle).draft,{includePath:false,includeVisibleText:false,includeFocusTrail:false});
-  sdk.generate.mockRejectedValue(new Error(`AI: [${status} ] overloaded`));await expect(p.fixPlanInCloud(payload)).rejects.toThrow(status===503?'limit':String(status));expect(sdk.generate).toHaveBeenCalledTimes(1);
+  sessionStorage.clear();sdk.generate.mockReset();const p=make(),payload=redact(bundle,p.draftFromRules(bundle).draft,{includePath:false,includeVisibleText:false,includeFocusTrail:false});
+  const error=new Error(`AI: [${status} ] overloaded`);
+  sdk.generate.mockRejectedValue(error);await expect(p.fixPlanInCloud(payload)).rejects.toBe(error);expect(sdk.generate).toHaveBeenCalledTimes(1);
+  await expect(make().fixPlanInCloud(payload)).rejects.toThrow('limit');
  }
 });
 it('never retries more than once for repeated server failures', async () => {
