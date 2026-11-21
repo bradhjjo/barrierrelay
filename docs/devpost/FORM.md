@@ -65,6 +65,8 @@ The Hybrid routing table derives model location from `response.inferenceSource`,
 
 Firebase also supplies reCAPTCHA Enterprise App Check, anonymous Authentication, Firestore ticket storage and lifecycle rules, Remote Config, and Hosting. App Check is enforced for AI Logic in the supplied project. The prototype's sharing links are bearer-like: any anonymously signed-in user who knows a ticket ID can read it and advance permitted status changes. This is not verified site ownership or production-grade role separation.
 
+Verification pass/fail is computed in the browser and written by the client. For verification, Firestore rules constrain status transitions and the submitted result shape, including no remaining target rule hits for `pass`; they do not independently run the check. Anyone signed in anonymously with the ticket link can change status through allowed transitions. `verified` is a client-reported, scoped check, not tamper-proof proof of a fix or WCAG conformance. Capture-local virtual refs also limit matching across live re-captures.
+
 ## Challenges we ran into
 
 The network, not the GPU, blocked the first model download: Chrome refused to download Nano on a metered connection. Switching to an unmetered connection enabled real on-device evaluation; we kept preparation explicit rather than silently changing network policy.

@@ -117,6 +117,8 @@ npm --prefix extension run build
 
 Open `chrome://extensions`, enable Developer mode, and load `extension/dist/`. Reload the page to start local navigation-key recording. Stable ID: **`ehiihcegnfekjkifcjmebdgiijpepdkp`** ([public key/build](extension/key.json)). Focus the blocked control, then press **Alt+Shift+B** or use the toolbar action. Fill in your goal and submit. Options choose `http://127.0.0.1:5173` (development), `http://127.0.0.1:4173` (production preview), or `https://barrierrelay-lpun3.web.app`; no other origins can retrieve a capture. See [extension/README.md](extension/README.md) for permissions, shortcut conflicts, frame restrictions, and keyboard/pointer selection details.
 
+To re-check a live report, open its `/t/<id>` ticket and choose **Start reporter re-capture**. After the armed confirmation, return to the repaired page, focus the same control, and capture with the extension within 30 minutes. The next capture opens that ticket at `/t/<id>?capture=…&ext=…`; select **Reporter re-capture** under **Verification source**, then **Verify fix** (the ticket must be `fixed`). The return target is single-use; subsequent captures open a new report unless armed again. Capture-local refs still make matching across captures unreliable.
+
 ## Run, build, test
 
 All commands below run from the repository root. Script names are defined in [root package.json](package.json), [web package.json](apps/web/package.json), [collector package.json](packages/collector/package.json), and [extension package.json](extension/package.json).
@@ -187,6 +189,7 @@ Implemented barrier categories include unlabeled inputs, unnamed buttons, unname
 - The collector caps the region's facts and navigation history; it may miss the relevant control on a complex page. Cross-origin frames and browser UI are not covered. See [schema limits](packages/shared/src/schema.ts) and [extension behavior](extension/README.md).
 - Generated code is illustrative, not applied automatically. Returned URL-context sources can be absent and still need human review; only successful retrievals matching the deterministic W3C reference map are retained.
 - Fixed-fixture verification is explicitly synthetic. Live re-capture checks target references and rules, not an independent semantic proof that the same real control was repaired; virtual refs are capture-local.
+- The browser computes verification pass/fail and the client writes it to Firestore. For verification, rules constrain status transitions and the submitted verification shape, including no remaining target rule hits for `pass`; they do not independently run the check. Anyone signed in anonymously with the ticket link can change status through those transitions. `verified` is a client-reported, scoped check, not tamper-proof proof of a fix or WCAG conformance.
 - No authenticated owner identity, abuse-resistant collaboration roles, ticket deletion UI, or cross-device anonymous-account recovery is implemented. Model quality, production browser coverage, and a disability-led usability study remain release work.
 
 ## License

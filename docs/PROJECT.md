@@ -9,7 +9,7 @@ A disabled user who gets blocked on a website selects the blocked area; the page
 The site owner receives a reproducible ticket and can mark it fixed; the user re-checks the fix.
 
 ## Why hybrid (capability split, not just quality)
-- On-device (Gemini Nano via Firebase AI Logic `ONLY_ON_DEVICE` / `PREFER_ON_DEVICE`): raw page facts + region screenshot may contain
+- On-device (Gemini Nano via Firebase AI Logic `ONLY_ON_DEVICE`): raw page facts + region screenshot may contain
   personal data -> never leave the device. Single-turn, text+image -> structured JSON (BarrierDraft). Self-check pass on device.
 - Cloud (`ONLY_IN_CLOUD`): only the reporter-approved, redacted draft goes up. Uses tools that on-device cannot use
   (URL context tool reading W3C WCAG Understanding docs; Google Search grounding has no free-tier quota) -> FixPlan with sources.

@@ -54,6 +54,8 @@ For the next capability, the app explicitly uses **`InferenceMode.ONLY_IN_CLOUD`
 
 Anyone signed in anonymously who knows a ticket ID can read it and advance permitted status changes. This is a prototype sharing model, not proof of site ownership or production-grade role separation. Raw capture privacy and safe collaboration access are distinct concerns.
 
+Verification pass/fail is computed in the browser and written by the client. For verification, Firestore rules constrain status transitions and the submitted result shape, including no remaining target rule hits for `pass`; they do not independently run the check. `verified` is a client-reported, scoped check, not tamper-proof proof of a fix or WCAG conformance. Live-control matching also remains limited by capture-local virtual refs.
+
 Source references: [pipeline](../apps/web/src/ai/pipeline.ts), [redaction](../apps/web/src/privacy/redact.ts), [UI](../apps/web/src/ui/App.tsx), [Firebase initialization](../apps/web/src/firebase.ts), [rules](../firestore.rules), [Remote Config](../apps/web/src/config.ts), and [architecture](ARCHITECTURE.md).
 
 ## Challenges we ran into
