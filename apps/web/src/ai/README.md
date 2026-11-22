@@ -54,7 +54,7 @@ This follow-up made **two additional real requests**, within the three-request a
 | First | Success | 2738 ms | Yes | 1 (strict original-URL matching) |
 | Final, matching equivalent W3C versions | Success | **2900 ms** | **Yes** | **2** |
 
-The successful final fixture 02 fix plan is saved as direct JSON at **`gate0/out/cloud-smoke.json`**, including `ok`, `ms`, `schemaValid`, source count, response field names, routing, and the complete validated `fixPlan`. The response top-level fields were `candidates`, `usageMetadata`, `modelVersion`, `responseId`; candidate fields were `content`, `finishReason`, `index`, `urlContextMetadata`. Both retrieval entries were SUCCESS:
+The [published cloud smoke JSON](../../../../docs/evidence/cloud-smoke.json) for the final fixture 02 run includes `ok`, `ms`, `schemaValid`, source count, response field names, routing, and the complete validated `fixPlan`. The response top-level fields were `candidates`, `usageMetadata`, `modelVersion`, `responseId`; candidate fields were `content`, `finishReason`, `index`, `urlContextMetadata`. Both retrieval entries were SUCCESS:
 
 - `https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html` — Name, Role, Value
 - `https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html` — Label in Name
@@ -75,7 +75,7 @@ Gate 0 requires an already-available Nano model, fails fast without one, never a
 
 ### Real Nano fixture results
 
-After the coordinator downloaded Nano on an unmetered network, the final shared prompt completed all 40 requested inferences. Text-only: type **19/20**, ref **19/20**, schema **20/20**, broken type **10/10**, fixed none **9/10**, median **6002 ms**. Text+region PNG: type **18/20**, ref **18/20**, schema **20/20**, broken type **10/10**, fixed none **8/10**, median **4759 ms**. See `gate0/NANO_NOTES.md` for methodology and limitations; `gate0/out/eval.json` contains every draft and the exact prompt snapshot. Current unit validation: **29 tests pass**, TypeScript passes.
+After the coordinator downloaded Nano on an unmetered network, the [2026-11-18 benchmark](../../../../gate0/NANO_NOTES.md#real-nano-results--barrierrelay-draft-evaluation-2026-11-18) completed all 40 requested inferences. Text-only: type **19/20**, ref **19/20**, schema **20/20**, broken type **10/10**, fixed none **9/10**, median **6002 ms**. Text+region PNG: type **18/20**, ref **18/20**, schema **20/20**, broken type **10/10**, fixed none **8/10**, median **4759 ms**. These historical scores are distinct from the reconciliation benchmark below. At this checkpoint, **29 unit tests** and TypeScript passed.
 
 ## Self-check consistency judge and readiness guard
 
@@ -89,7 +89,7 @@ Drafting and optional model self-check first probe availability with the same te
 
 ### Final self-check and real E2E measurements (2026-11-18)
 
-Final `selfcheck-eval.mjs`: **10/10 correct accepted, 10/10 corrupted rejected, 20/20 schema-valid**, exit **0**. Median session creation + inference was **974 ms** (range 615–5479 ms). Actual sampling reported `topK:1`, `temperature:0`, `samplingMode:null`. The exact final prompt/schema, drafts, responses, observations and per-row timings are in `gate0/out/selfcheck.json`; the console table is in `gate0/out/selfcheck-console.txt`. Earlier prompt iterations and failed E2E checks are preserved separately as local ignored outputs. These numbers meet the requested target on this small synthetic combined local-evidence/model evaluation; they do not prove independent semantic judgment or eliminate model errors on new pages.
+Final `selfcheck-eval.mjs`: **10/10 correct accepted, 10/10 corrupted rejected, 20/20 schema-valid**, exit **0**. Median session creation + inference was **974 ms** (range 615–5479 ms). Actual sampling reported `topK:1`, `temperature:0`, `samplingMode:null`. The [published self-check JSON](../../../../docs/evidence/selfcheck.json) contains the prompt/schema, drafts, responses, observations and per-row timings. The console table (`gate0/out/selfcheck-console.txt`), earlier prompt iterations and failed E2E checks are local ignored outputs. These numbers meet the requested target on this small synthetic combined local-evidence/model evaluation; they do not prove independent semantic judgment or eliminate model errors on new pages.
 
 The initial judge treated raw JSON input fields as if they were output-schema violations, confused empty accessible names with absence of evidence, and sometimes hallucinated target-ref mismatches. The final input is readable evidence plus an explicitly labeled **report to check**, separate from the JSON output shape. The prompt states that a page barrier is expected, uses local evidence for exact comparisons, and evaluates reported observations. No output-string heuristic removes or approves generated problems.
 
@@ -114,7 +114,7 @@ The AI/privacy unit suite now passes **29 tests**, including metadata-only corre
 
 ### Reconciliation benchmark and three sequential E2E runs
 
-Completed the draft benchmark again on **2026-11-19** with raw and reconciled rows retained together in `gate0/out/eval.json`:
+Completed the draft benchmark again on **2026-11-19** with raw and reconciled rows retained together in the [published evaluation JSON](../../../../docs/evidence/eval.json):
 
 | Mode | Raw type / ref | Reconciled type / ref | Raw / reconciled schema-valid | Broken type | Fixed none | Corrections | Median inference session |
 | --- | --- | --- | --- | --- | --- | --- | --- |

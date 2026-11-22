@@ -16,6 +16,13 @@ test('ticket access, approved shape, status transitions and verification', async
  await assertFails(setDoc(ref(owner), data()));
  await assertFails(setDoc(ref(reporter), { ...data(), rawImage: 'private' }));
  await assertFails(setDoc(ref(reporter), { ...data(), draft: { ...data().draft, summary: 'x'.repeat(161) } }));
+ const environment = { browser: { name: 'Chrome', major: 140 }, os: { name: 'Linux' }, settings: { forcedColors: false, prefersContrast: 'no-preference', reducedMotion: true, colorScheme: 'dark', devicePixelRatio: 1.5 } };
+ const withEnvironment = e => ({ ...data(), sharedFacts: { ...data().sharedFacts, environment: e } });
+ for (const bad of [null, { ...environment, ua: 'private' }, { ...environment, browser: { name: 'x'.repeat(41), major: 140 } }, { ...environment, browser: { name: 'Chrome', major: 1000 } }, { ...environment, browser: { name: 'Chrome', major: 1.5 } }, { ...environment, os: { name: 'x'.repeat(41) } }, ...[{ forcedColors: 'true' }, { reducedMotion: 0 }, { prefersContrast: 'high' }, { colorScheme: 'auto' }, { devicePixelRatio: 11 }, { devicePixelRatio: -1 }, { devicePixelRatio: '2' }].map(s => ({ ...environment, settings: { ...environment.settings, ...s } }))]) await assertFails(setDoc(ref(reporter), withEnvironment(bad)));
+ await assertSucceeds(setDoc(ref(reporter), withEnvironment({ ...environment, browser: { name: 'Unknown', major: null } })));
+ await env.withSecurityRulesDisabled(async context => deleteDoc(doc(context.firestore(), 'tickets', id)));
+ await assertSucceeds(setDoc(ref(reporter), withEnvironment(environment)));
+ await env.withSecurityRulesDisabled(async context => deleteDoc(doc(context.firestore(), 'tickets', id)));
  await assertSucceeds(setDoc(ref(reporter), data()));
  await assertFails(getDoc(ref(guest)));
  await assertSucceeds(getDoc(ref(owner)));

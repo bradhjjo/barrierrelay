@@ -49,6 +49,11 @@ export interface RuleHit { ruleId: string; ref: string; detail: string } // rule
 /** Output of the deterministic collector (no AI). Input to on-device drafting. */
 export interface CaptureFacts {
   schemaVersion: 1;
+  environment?: {
+    browser: { name: string; major: number | null };
+    os: { name: string };
+    settings: { forcedColors: boolean; prefersContrast: 'more' | 'less' | 'custom' | 'no-preference'; reducedMotion: boolean; colorScheme: 'light' | 'dark'; devicePixelRatio: number };
+  };
   capturedAt: string;          // ISO time
   page: { url: string; title: string; lang: string | null; viewport: { w: number; h: number } }; // url = origin+pathname only
   region: BBox;
@@ -101,7 +106,7 @@ export interface Ticket {
   site: { origin: string; path: string };
   draft: BarrierDraft;
   fixPlan: FixPlan | null;
-  sharedFacts: Pick<CaptureFacts, 'elements' | 'focusTrail' | 'ruleHits' | 'assistive'>; // reporter-approved subset
+  sharedFacts: Pick<CaptureFacts, 'elements' | 'focusTrail' | 'ruleHits' | 'assistive' | 'environment'>; // reporter-approved subset
   routing: RoutingLogEntry[];
   verification?: { at: string; result: 'pass' | 'fail'; ruleHitsAfter: RuleHit[] };
 }

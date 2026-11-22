@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { armReturn, isExtensionMissing } from '../capture/intake';
 import type { BarrierDraft, FixPlan, RoutingLogEntry, Ticket, TicketStatus } from '@barrierrelay/shared/src/schema';
 import { BARRIER_TYPES } from '@barrierrelay/shared/src/schema';
@@ -6,6 +6,9 @@ import type { CaptureBundle, ShareApprovals } from '../contracts';
 import { OnDeviceUnavailableError } from '../contracts';
 import { createServices, ticketStore } from '../services';
 import type { Services } from '../services';
+import { ShareSummary } from './ShareSummary';
+import { CopyIssue } from './CopyIssue';
+import { collectEnvironment, environmentWords } from '../../../../packages/collector/src/environment';
 const badges = { 'on-device': 'On-device', 'in-cloud': 'Cloud', 'local-code': 'Local code' };
 function Routing({ rows }: { rows: RoutingLogEntry[] }) { return <aside class="routing" aria-labelledby="routing-title"><h2 id="routing-title">Hybrid routing</h2><p>Raw capture stays local. Only your approved payload may reach cloud AI.</p><table><caption>Execution location and data sent</caption><thead><tr><th scope="col">Step</th><th scope="col">Ran on</th><th scope="col">ms</th><th scope="col">Cloud bytes</th></tr></thead><tbody>{rows.map((row, i) => <tr key={i}><td>{row.step}{row.note && <small>{row.note}</small>}</td><td><span class={`badge ${row.ranOn}`}>{badges[row.ranOn]}</span></td><td>{Math.round(row.ms)}</td><td>{row.bytesSentToCloud}</td></tr>)}</tbody></table>{!rows.length && <p>No processing yet.</p>}</aside>; }
 function Plan({ plan }: { plan: FixPlan }) {
@@ -37,8 +40,11 @@ export function App() {
   const [recaptureStatus, setRecaptureStatus] = useState('');
   const [fallback, setFallback] = useState(false);
   const [check, setCheck] = useState('');
-  const [approvals, setApprovals] = useState<ShareApprovals>({ includePath: false, includeVisibleText: false, includeFocusTrail: false });
+  const [environmentFromBrowser, setEnvironmentFromBrowser] = useState(false);
+  const [approvals, setApprovals] = useState<ShareApprovals>({ includeEnvironment: true, includePath: false, includeVisibleText: false, includeFocusTrail: false });
   const [plan, setPlan] = useState<FixPlan | null>(null);
+  const [verifySource, setVerifySource] = useState('');
+  const latestPayloadKey = useRef('');
   const [ownerLink, setOwnerLink] = useState('');
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [mine, setMine] = useState<Ticket[]>([]);
@@ -59,6 +65,7 @@ export function App() {
       const caseId = fixture ? index.cases.find((c: { id: string }) => c.id === fixture || c.id.startsWith(`${fixture}-`))?.id : null;
       if (fixture && !caseId) throw new Error('Unknown demo case.');
       const b = caseId ? await s.intake.loadFixture(caseId, params.get('variant') === 'fixed' ? 'fixed' : 'broken') : await s.intake.waitForCapture();
+      if (!b.facts.environment) { b.facts.environment = collectEnvironment(); setEnvironmentFromBrowser(true); }
       setBundle(b);
       append([{ step: 'collect', ranOn: 'local-code', mode: 'n/a', ms: 0, bytesSentToCloud: 0, note: b.source === 'fixture' ? `Synthetic fixture: ${caseId}` : 'Extension capture received.' }]);
     }
@@ -67,6 +74,7 @@ export function App() {
   }); }, []);
   useEffect(() => { if (!bundle?.regionPng) return; const url = URL.createObjectURL(bundle.regionPng); setImage(url); return () => URL.revokeObjectURL(url); }, [bundle]);
   const payload = services && bundle && draft ? services.redact(bundle, draft, approvals) : null;
+  latestPayloadKey.current = payload ? JSON.stringify(payload) : '';
   function editDraft(key: keyof BarrierDraft, value: unknown) { setDraft(old => old ? { ...old, [key]: value } : old); setPlan(null); setCheck('Draft changed; run self-check again.'); }
   async function selfCheck() { if (!services || !draft || !bundle) return; const result = await services.pipeline.selfCheck(draft, bundle.facts); append(result.log); setCheck(result.ok ? 'Self-check passed.' : `Review needed: ${result.issues.join(' ')}`); }
   async function changeStatus(status: TicketStatus) { if (!ticket) return; await ticketStore.setStatus(ticket.id, status); setTicket(await ticketStore.get(ticket.id)); setMessage(`Ticket status: ${status}`); }
@@ -133,9 +141,9 @@ export function App() {
     {draft && <section><h2>2. Review your draft</h2><p class="badge">{fallback ? 'Rules-only draft (no on-device AI available)' : 'On-device draft'}</p><label>Barrier type<select value={draft.barrierType} onChange={e => editDraft('barrierType', e.currentTarget.value)}>{BARRIER_TYPES.map(t => <option key={t}>{t}</option>)}</select></label><label>Target element<select value={draft.targetRef ?? ''} onChange={e => editDraft('targetRef', e.currentTarget.value || null)}><option value="">No target</option>{bundle?.facts.elements.map(e => <option key={e.ref} value={e.ref}>{e.ref}: {e.role ?? e.tag}</option>)}</select></label>{(['summary','expected','actual'] as const).map(key => <label key={key}>{key[0].toUpperCase() + key.slice(1)}<textarea maxLength={160} value={draft[key]} onInput={e => editDraft(key, e.currentTarget.value)} /></label>)}<label>Steps to reproduce (one per line)<textarea value={stepsText} onInput={e => { const text = e.currentTarget.value; setStepsText(text); editDraft('stepsToReproduce', text.split('\n').map(line => line.trim()).filter(Boolean).slice(0, 5)); }} /></label>{stepsText.split('\n').filter(line => line.trim()).length > 5 && <p role="status">Only the first 5 non-empty steps will be saved. Combine or remove extra steps.</p>}<label>Confidence<select value={draft.confidence} onChange={e => editDraft('confidence', e.currentTarget.value)}>{['low','medium','high'].map(c => <option key={c}>{c}</option>)}</select></label><button disabled={busy} onClick={() => void act(async () => { await selfCheck(); setStep(3); })}>Run self-check</button><p role="status">{check}</p></section>}
     {payload && <section>
       <h2>3. What leaves your device</h2>
-      <p>Only the JSON below is approved for cloud processing and ticket storage. Images never leave your device. Redacted control names and rule details are included; review them below.</p>
+      <p>Review what will be sent when you request a cloud fix plan or create a ticket.</p>
       <fieldset><legend>Optional sharing approvals</legend>
-        {([['includePath','Include page path (without query or fragment)'],['includeVisibleText','Include redacted visible text'],['includeFocusTrail','Include keyboard focus trail']] as const).map(([key, text]) =>
+        {([['includeEnvironment',`Include coarse browser, OS and settings${environmentFromBrowser ? ' (from this browser)' : ''}`],['includePath','Include page path (without query or fragment)'],['includeVisibleText','Include redacted visible text'],['includeFocusTrail','Include keyboard focus trail']] as const).map(([key, text]) =>
           <label key={key}><input type="checkbox" checked={approvals[key]} onChange={e => {
             const checked = e.currentTarget.checked;
             setApprovals(old => ({ ...old, [key]: checked }));
@@ -143,12 +151,15 @@ export function App() {
           }} /> {text}</label>
         )}
       </fieldset>
-      <p aria-live="polite"><strong>{payload.bytes} bytes</strong> in the approved payload.</p>
-      <details open><summary>Live shared JSON preview</summary><pre class="payload" tabIndex={0} aria-label="Approved shared JSON">{JSON.stringify(payload, null, 2)}</pre></details>
+      <ShareSummary payload={payload} />
+      <details><summary>View approved shared JSON</summary><pre class="payload" tabIndex={0} aria-label="Approved shared JSON">{JSON.stringify(payload, null, 2)}</pre></details>
       <button disabled={busy || check !== 'Self-check passed.'} onClick={() => void act(async () => {
         if (!services) return;
         append([{ step: 'redact', ranOn: 'local-code', mode: 'n/a', ms: 0, bytesSentToCloud: 0 }]);
+        const sentKey = JSON.stringify(payload);
         const result = await services.pipeline.fixPlanInCloud(payload);
+        // Discard a plan generated from an approved payload that changed while the request was in flight.
+        if (latestPayloadKey.current !== sentKey) { append(result.log); setMessage('Sharing choices or the draft changed while the plan was generated. Request the fix plan again.'); return; }
         setPlan(result.fixPlan);
         append(result.log);
         setStep(4);
@@ -157,7 +168,7 @@ export function App() {
     </section>}
     {plan && payload && <><section><h2>4. Repair guidance</h2><Plan plan={plan} /></section><section><h2>5. Share with the site owner</h2><p>Store the approved payload and fix plan in Firebase. Anyone signed in anonymously who knows the link can read and update this ticket.</p><button disabled={busy || !!ownerLink} onClick={() => void act(async () => { const result = await ticketStore.create(payload, plan, routing); setOwnerLink(result.ownerLink); setStep(5); setMessage('Ticket created. Share the owner link.'); })}>Create shareable ticket</button>{ownerLink && <div><label>Owner link<input readOnly value={ownerLink} /></label><a data-testid="owner-link" href={ownerLink}>Open owner ticket</a><button onClick={() => void act(async () => { await navigator.clipboard.writeText(ownerLink); setMessage('Owner link copied.'); })}>Copy owner link</button></div>}</section></>}
   </>}
-  {path.startsWith('/t/') && <><h1>Site owner repair desk</h1>{ticket && <><p class="badge" data-testid="ticket-status">{ticket.status}</p><h2>{ticket.draft.summary}</h2><p>{ticket.site.origin}{ticket.site.path}</p><h3>Steps to reproduce</h3><ol>{ticket.draft.stepsToReproduce.map((s, i) => <li key={i}>{s}</li>)}</ol><h3>Expected</h3><p>{ticket.draft.expected}</p><h3>Actual</h3><p>{ticket.draft.actual}</p>{ticket.fixPlan && <Plan plan={ticket.fixPlan} />}<section><h2>Repair status</h2><button disabled={busy || ticket.status !== 'open'} onClick={() => void act(() => changeStatus('acknowledged'))}>Acknowledge</button><button disabled={busy || ticket.status !== 'acknowledged'} onClick={() => void act(() => changeStatus('fixed'))}>Mark fixed</button><p>Demo verification checks a synthetic fixed fixture, not a live website. For a real report, ask the reporter to re-capture the same control after the repair.</p><button disabled={busy} onClick={() => void act(async () => { try { await armReturn(ticket.id); setRecaptureStatus('Armed for 30 minutes. Go to the repaired page, focus the same control, and capture with the extension.'); } catch (e) { if (isExtensionMissing(e)) { setRecaptureStatus('Extension not available. Install or enable BarrierRelay in Chrome, reload this page, and try again.'); return; } setRecaptureStatus(`Could not arm re-capture: ${e instanceof Error ? e.message : String(e)} Retry Start reporter re-capture; if it persists, reload this page.`); } })}>Start reporter re-capture</button><p role="status">{recaptureStatus || (params.has('capture') && params.has('ext') ? 'Re-capture received — select Reporter re-capture and Verify fix' : '')}</p><label>Verification source<select id="verify-fixture"><option value="">Reporter re-capture</option>{cases.map(c => <option key={c.id} value={c.id}>{c.id}</option>)}</select></label><button disabled={busy || ticket.status !== 'fixed'} onClick={() => void act(() => verify((document.getElementById('verify-fixture') as HTMLSelectElement).value || undefined))}>Verify fix</button>{ticket.verification && <p role="status">Verification {ticket.verification.result}: {ticket.verification.ruleHitsAfter.length} remaining target rule hits.</p>}</section></>}</>}
+  {path.startsWith('/t/') && <><h1>Site owner repair desk</h1>{ticket && <><p class="badge" data-testid="ticket-status">{ticket.status}</p><h2>{ticket.draft.summary}</h2><p>{ticket.site.origin}{ticket.site.path}</p><h3>Steps to reproduce</h3><ol>{ticket.draft.stepsToReproduce.map((s, i) => <li key={i}>{s}</li>)}</ol><h3>Expected</h3><p>{ticket.draft.expected}</p><h3>Actual</h3><p>{ticket.draft.actual}</p>{ticket.fixPlan && <Plan plan={ticket.fixPlan} />}<CopyIssue ticket={ticket} /><section><h2>Reporter environment</h2>{ticket.sharedFacts.environment ? <ul>{environmentWords(ticket.sharedFacts.environment).map(value => <li key={value}>{value}</li>)}</ul> : <p>Environment not shared.</p>}<h3>Assistive technology context</h3>{ticket.sharedFacts.assistive.length ? <ul>{ticket.sharedFacts.assistive.map((value, i) => <li key={i}>{typeof value === 'string' ? value.replaceAll('-', ' ') : 'unrecognized value'}</li>)}</ul> : <p>No assistive context specified.</p>}</section><section><h2>Reply to the reporter</h2><p>Please acknowledge this ticket and mark it fixed after repair. Acknowledge / Mark fixed update the status visible to the reporter in My tickets when they revisit it; no notification or direct message is sent.</p></section><section><h2>Repair status</h2><button disabled={busy || ticket.status !== 'open'} onClick={() => void act(() => changeStatus('acknowledged'))}>Acknowledge</button><button disabled={busy || ticket.status !== 'acknowledged'} onClick={() => void act(() => changeStatus('fixed'))}>Mark fixed</button><p>{verifySource ? 'Demo verification checks a synthetic fixed fixture, not a live website. For a real report, ask the reporter to re-capture the same control after the repair.' : 'Verification uses the reporter\'s re-capture of the repaired page: a scoped rule check on the same control, not WCAG conformance.'}</p><button disabled={busy} onClick={() => void act(async () => { try { await armReturn(ticket.id); setRecaptureStatus('Armed for 30 minutes. Go to the repaired page, focus the same control, and capture with the extension.'); } catch (e) { if (isExtensionMissing(e)) { setRecaptureStatus('Extension not available. Install or enable BarrierRelay in Chrome, reload this page, and try again.'); return; } setRecaptureStatus(`Could not arm re-capture: ${e instanceof Error ? e.message : String(e)} Retry Start reporter re-capture; if it persists, reload this page.`); } })}>Start reporter re-capture</button><p role="status">{recaptureStatus || (params.has('capture') && params.has('ext') ? 'Re-capture received — select Reporter re-capture and Verify fix' : '')}</p><label>Verification source<select id="verify-fixture" value={verifySource} onChange={e => setVerifySource((e.target as HTMLSelectElement).value)}><option value="">Reporter re-capture</option>{cases.map(c => <option key={c.id} value={c.id}>{c.id}</option>)}</select></label><button disabled={busy || ticket.status !== 'fixed'} onClick={() => void act(() => verify(verifySource || undefined))}>Verify fix</button>{ticket.verification && <p role="status">Verification {ticket.verification.result}: {ticket.verification.ruleHitsAfter.length} remaining target rule hits.</p>}</section></>}</>}
   {path === '/mine' && <><h1>My tickets</h1>{mine.length ? <ul>{mine.map(t => <li key={t.id}><a href={`/t/${t.id}`}>{t.draft.summary}</a> — {t.status}</li>)}</ul> : <p>No tickets yet.</p>}</>}
   {!['/','/report','/mine'].includes(path) && !path.startsWith('/t/') && <h1>Page not found</h1>}
   </main><Routing rows={routing} /></div><footer>BarrierRelay · Private by design. Repair by collaboration.</footer></>;

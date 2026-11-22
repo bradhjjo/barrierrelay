@@ -12,6 +12,18 @@ service cloud.firestore {
         && d.stepsToReproduce is list && d.stepsToReproduce.size() >= 1 && d.stepsToReproduce.size() <= 5
         && d.confidence in ['low','medium','high'];
     }
+    function validEnvironment(e) {
+      return e is map && e.keys().hasOnly(['browser','os','settings'])
+        && e.browser is map && e.browser.keys().hasOnly(['name','major'])
+        && e.browser.name is string && e.browser.name.size() <= 40
+        && (e.browser.major == null || (e.browser.major is int && e.browser.major >= 0 && e.browser.major <= 999))
+        && e.os is map && e.os.keys().hasOnly(['name']) && e.os.name is string && e.os.name.size() <= 40
+        && e.settings is map && e.settings.keys().hasOnly(['forcedColors','prefersContrast','reducedMotion','colorScheme','devicePixelRatio'])
+        && e.settings.forcedColors is bool && e.settings.reducedMotion is bool
+        && e.settings.prefersContrast in ['more','less','custom','no-preference']
+        && e.settings.colorScheme in ['light','dark']
+        && e.settings.devicePixelRatio is number && e.settings.devicePixelRatio >= 0 && e.settings.devicePixelRatio <= 10;
+    }
     function validTicket(d, id) {
       return d.keys().hasAll(['id','reporterUid','createdAt','status','site','draft','fixPlan','sharedFacts','routing'])
         && d.keys().hasOnly(['id','reporterUid','createdAt','status','site','draft','fixPlan','sharedFacts','routing'])
@@ -20,7 +32,8 @@ service cloud.firestore {
         && d.site is map && d.site.keys().hasOnly(['origin','path']) && d.site.origin is string && d.site.origin.size() <= 500 && d.site.path is string && d.site.path.size() <= 2000
         && validDraft(d.draft)
         && (d.fixPlan == null || (d.fixPlan is map && d.fixPlan.keys().hasOnly(['wcag','rootCause','fix','verification','sources']) && d.fixPlan.wcag is list && d.fixPlan.wcag.size() <= 20 && d.fixPlan.sources is list && d.fixPlan.sources.size() <= 30 && d.fixPlan.verification is list && d.fixPlan.verification.size() <= 30 && d.fixPlan.rootCause is string && d.fixPlan.rootCause.size() <= 10000 && d.fixPlan.fix is map && d.fixPlan.fix.keys().hasOnly(['description','codeBefore','codeAfter']) && d.fixPlan.fix.description is string && d.fixPlan.fix.description.size() <= 10000 && d.fixPlan.fix.codeAfter is string && d.fixPlan.fix.codeAfter.size() <= 30000))
-        && d.sharedFacts is map && d.sharedFacts.keys().hasOnly(['elements','focusTrail','ruleHits','assistive'])
+        && d.sharedFacts is map && d.sharedFacts.keys().hasOnly(['elements','focusTrail','ruleHits','assistive','environment'])
+        && (!('environment' in d.sharedFacts) || validEnvironment(d.sharedFacts.environment))
         && d.sharedFacts.elements is list && d.sharedFacts.elements.size() <= 40
         && d.sharedFacts.focusTrail is list && d.sharedFacts.focusTrail.size() <= 20
         && d.sharedFacts.ruleHits is list && d.sharedFacts.ruleHits.size() <= 100

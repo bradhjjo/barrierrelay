@@ -1,4 +1,5 @@
 import axe from 'axe-core';
+import { collectEnvironment } from './environment';
 import { computeAccessibleName, getRole } from 'dom-accessibility-api';
 import type { AssistiveContext, BBox, CaptureFacts, ElementFact, FocusStep, RuleHit } from '../../shared/src/schema';
 
@@ -160,6 +161,7 @@ export async function collect(regionEl: Element | BBox, opts: CollectOptions): P
     }
   }
   return {
+    environment: collectEnvironment(),
     schemaVersion: 1, capturedAt: new Date().toISOString(),
     page: { url: safeUrl(location.href), title: document.title, lang: document.documentElement.lang || null, viewport: { w: innerWidth, h: innerHeight } },
     region, elements, focusTrail: (opts.focusTrail || []).slice(0, 20).map(step => ({

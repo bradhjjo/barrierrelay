@@ -43,6 +43,11 @@ export const redact: Redact = (bundle, draft, approvals) => {
       })) : [],
       ruleHits: facts.ruleHits.map(hit => ({ ruleId: hit.ruleId, ref: hit.ref, detail: scrubPii(hit.detail) })),
       assistive: [...facts.assistive],
+      ...(approvals.includeEnvironment !== false && facts.environment ? { environment: {
+        browser: { name: facts.environment.browser.name, major: facts.environment.browser.major },
+        os: { name: facts.environment.os.name },
+        settings: { forcedColors: facts.environment.settings.forcedColors, prefersContrast: facts.environment.settings.prefersContrast, reducedMotion: facts.environment.settings.reducedMotion, colorScheme: facts.environment.settings.colorScheme, devicePixelRatio: facts.environment.settings.devicePixelRatio },
+      } } : {}),
     },
   });
   // Origin identifies the site, including localhost/IP hosts; it is not report text.

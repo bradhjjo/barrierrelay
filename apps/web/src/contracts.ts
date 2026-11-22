@@ -34,7 +34,7 @@ export interface SharePayload {
   sharedFacts: Ticket['sharedFacts'];
   bytes: number;               // JSON byte length that will be sent to the cloud
 }
-export interface ShareApprovals { includePath: boolean; includeVisibleText: boolean; includeFocusTrail: boolean }
+export interface ShareApprovals { includeEnvironment?: boolean; includePath: boolean; includeVisibleText: boolean; includeFocusTrail: boolean }
 export type Redact = (bundle: CaptureBundle, draft: BarrierDraft, approvals: ShareApprovals) => SharePayload;
 
 /** src/store/tickets.ts (Firebase worker) */
