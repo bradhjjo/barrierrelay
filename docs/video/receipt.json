@@ -1,0 +1,65 @@
+{
+  "originalCapture": {
+    "source": "extension",
+    "targetRef": "e2",
+    "accessibleName": "",
+    "targetRule": "button-name"
+  },
+  "reporterCorrectedDraft": false,
+  "routing": [
+    {
+      "step": "draft",
+      "note": "Offline",
+      "where": "On-device",
+      "ms": 14176,
+      "bytes": 0
+    },
+    {
+      "step": "self-check",
+      "note": "Offline",
+      "where": "Local code",
+      "ms": 0,
+      "bytes": 0
+    },
+    {
+      "step": "self-check",
+      "note": "Offline",
+      "where": "On-device",
+      "ms": 1083,
+      "bytes": 0
+    },
+    {
+      "step": "fix-plan",
+      "where": "Cloud",
+      "ms": 6933,
+      "bytes": 1316
+    }
+  ],
+  "sources": [
+    "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html",
+    "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html"
+  ],
+  "cloudCodeAfter": "<button aria-label=\"Place your order\"></button>",
+  "appliedDiff": {
+    "before": "<button data-target  onclick=\"this.disabled=true;document.getElementById('status').textContent='Your order is confirmed'\">",
+    "after": "<button data-target aria-label=\"Place your order\"  onclick=\"this.disabled=true;document.getElementById('status').textContent='Your order is confirmed'\">"
+  },
+  "recapture": {
+    "source": "extension",
+    "sameCheckout": true,
+    "targetRef": "e2",
+    "accessibleName": "Place your order",
+    "remainingTargetRuleHits": 0
+  },
+  "ticket": {
+    "backend": "Firestore",
+    "lifecycle": [
+      "open",
+      "acknowledged",
+      "fixed",
+      "verified"
+    ],
+    "verificationSource": "Reporter re-capture",
+    "verificationDescription": "Verification uses the reporter's re-capture of the repaired page: a scoped rule check on the same control, not WCAG conformance."
+  }
+}

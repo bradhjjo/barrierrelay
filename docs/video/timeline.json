@@ -3,56 +3,56 @@
     "id": "01-problem",
     "title": "The blocked moment",
     "start": 0,
-    "end": 13.13,
-    "duration": 13.13,
-    "voiceSeconds": 12.48
+    "end": 13.202,
+    "duration": 13.202,
+    "voiceSeconds": 12.552
   },
   {
     "id": "02-capture",
-    "title": "Capture, without mouse selection",
-    "start": 13.13,
-    "end": 38.072,
-    "duration": 24.942,
-    "voiceSeconds": 21.792
+    "title": "Capture at keyboard focus",
+    "start": 13.202,
+    "end": 32.336,
+    "duration": 19.134,
+    "voiceSeconds": 15.984
   },
   {
     "id": "03-offline",
     "title": "Real Gemini Nano, offline",
-    "start": 38.072,
-    "end": 64.95400000000001,
-    "duration": 26.881999999999998,
-    "voiceSeconds": 26.232
+    "start": 32.336,
+    "end": 58.402,
+    "duration": 26.066,
+    "voiceSeconds": 25.416
   },
   {
     "id": "04-privacy",
-    "title": "Review the exact boundary",
-    "start": 64.95400000000001,
-    "end": 87.94800000000001,
-    "duration": 22.994,
-    "voiceSeconds": 22.344
+    "title": "Review what is shared",
+    "start": 58.402,
+    "end": 79.5,
+    "duration": 21.098,
+    "voiceSeconds": 20.448
   },
   {
     "id": "05-cloud",
-    "title": "Cloud adds retrieval",
-    "start": 87.94800000000001,
-    "end": 115.16600000000001,
-    "duration": 27.218,
-    "voiceSeconds": 26.568
+    "title": "Request a cloud fix plan",
+    "start": 79.5,
+    "end": 97.55,
+    "duration": 18.049999999999997,
+    "voiceSeconds": 17.4
   },
   {
     "id": "06-repair",
-    "title": "A report becomes a repair loop",
-    "start": 115.16600000000001,
-    "end": 148.864,
-    "duration": 33.698,
-    "voiceSeconds": 33.048
+    "title": "Apply the suggested fix and re-capture",
+    "start": 97.55,
+    "end": 127.88799999999999,
+    "duration": 30.337999999999997,
+    "voiceSeconds": 29.688
   },
   {
     "id": "07-closing",
-    "title": "Private capture. Shared repair.",
-    "start": 148.864,
-    "end": 172.434,
-    "duration": 23.57,
-    "voiceSeconds": 22.92
+    "title": "Report it privately. See it fixed.",
+    "start": 127.88799999999999,
+    "end": 145.81799999999998,
+    "duration": 17.93,
+    "voiceSeconds": 17.28
   }
 ]
