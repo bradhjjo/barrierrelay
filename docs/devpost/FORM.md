@@ -85,6 +85,10 @@ We also completed a real Firestore repair loop through a synthetic fixed-fixture
 
 Most importantly, a report becomes a repair conversation: editable draft, explicit sharing preview, fix guidance, ticket status, and a scoped re-check. Automated tests and synthetic examples are not a substitute for disability-led usability testing.
 
+## Potential impact
+
+The privacy boundary is measured, not asserted: the published receipt sends **1,892 bytes** of approved application data to the cloud for a fix plan, while the **51,342-byte** region image for the demo fixture stays on the device — 3.7% of that image (measurements and sources: `docs/IMPACT.md`). The same receipt records a **10,991 ms** offline on-device draft, a **704 ms** on-device check, and a **10,176 ms** cloud plan; these are single-run values, not a benchmark. The [WebAIM Million 2026 report](https://webaim.org/projects/million/) found detectable WCAG failures on **95.9% of tested home pages**, so this targets a common class of barrier. We have not measured time saved with real users: replacing manual issue writing, audit reports, or an email chain with capture → draft → plan → ticket → re-check is a structural claim, not a productivity result.
+
 ## What we learned
 
 Hybrid AI is useful when it separates capabilities and trust boundaries: sensitive observation stays local, while a reviewed description can benefit from cloud tools. Model readiness, model download, inference routing, and application connectivity are different states and need different UI language.
@@ -128,7 +132,7 @@ Upload to **YouTube**, publicly visible, showing the working Web/Chrome app, **�
 | [05-hybrid-routing.png](gallery/05-hybrid-routing.png) | Real routing panel: on-device 0 cloud bytes; cloud 1892 approved-payload bytes, not total traffic. |
 | [06-verification.png](gallery/06-verification.png) | Real ticket lifecycle ends with a synthetic fixed-fixture check, not a WCAG certification. |
 
-All are 1500 × 1000 PNGs. Their historical screenshot run is not the same as the latest `real-results.json`; do not relabel the visible 1892 bytes/10991 ms as the latest receipt's 1632 bytes/7601 ms.
+All are 1500 × 1000 PNGs. The gallery screenshots show the same values as the published [receipt](../evidence/real-results.json): 10,991 ms on-device draft, 704 ms on-device check, and 10,176 ms / 1,892 cloud payload bytes. Cite those as that run’s routing panel, not as a latency guarantee; bytes are approved application payload accounting, not total network traffic.
 
 ## 4. Additional details / hackathon-specific answers
 

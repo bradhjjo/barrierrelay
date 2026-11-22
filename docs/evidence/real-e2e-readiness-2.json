@@ -1,0 +1,137 @@
+{
+  "completed": true,
+  "fakePipeline": false,
+  "steps": [
+    {
+      "step": "draft",
+      "ranOn": "on-device",
+      "ms": 7840,
+      "bytes": 0,
+      "note": "Offline",
+      "offline": true,
+      "wallMs": 7867,
+      "aiNetworkRequests": 0
+    },
+    {
+      "step": "self-check",
+      "ranOn": "local-code",
+      "ms": 0,
+      "bytes": 0,
+      "note": ""
+    },
+    {
+      "step": "self-check",
+      "ranOn": "on-device",
+      "ms": 650,
+      "bytes": 0,
+      "note": ""
+    },
+    {
+      "step": "redact",
+      "ranOn": "local-code",
+      "ms": 0,
+      "bytes": 0,
+      "note": ""
+    },
+    {
+      "step": "fix-plan",
+      "ranOn": "in-cloud",
+      "ms": 9200,
+      "bytes": 1674,
+      "note": ""
+    },
+    {
+      "step": "verify",
+      "ranOn": "local-code",
+      "ms": 348,
+      "bytes": 0,
+      "note": "Synthetic fixed fixture collector results; not a live site verification."
+    }
+  ],
+  "screenshots": [
+    "real-01-capture.png",
+    "real-02-prepared.png",
+    "real-03-offline-draft.png",
+    "real-04-self-check.png",
+    "real-05-privacy.png",
+    "real-06-cloud-plan.png",
+    "real-07-share.png",
+    "real-08-owner-open.png",
+    "real-09-owner-fixed.png",
+    "real-10-owner-verified.png"
+  ],
+  "pageErrors": [],
+  "cloudFailureExpected": false,
+  "draftDiagnostic": {
+    "routing": {
+      "step": "draft",
+      "ranOn": "on-device",
+      "ms": 7840,
+      "bytes": 0,
+      "note": "Offline"
+    },
+    "wallMs": 7867
+  },
+  "deviceDiagnostics": [
+    {
+      "kind": "readiness",
+      "state": "available",
+      "ms": 1819,
+      "timeoutMs": 5000,
+      "atMs": 1938.9000000003725,
+      "documentStartedAt": 1795069067425.2
+    },
+    {
+      "kind": "readiness",
+      "state": "available",
+      "ms": 1.199999999254942,
+      "timeoutMs": 5000,
+      "atMs": 2078.2999999988824,
+      "documentStartedAt": 1795069067425.2
+    },
+    {
+      "kind": "readiness",
+      "state": "available",
+      "ms": 12.800000000745058,
+      "timeoutMs": 5000,
+      "atMs": 2193.5999999996275,
+      "documentStartedAt": 1795069067425.2
+    },
+    {
+      "kind": "readiness",
+      "state": "available",
+      "ms": 9.900000000372529,
+      "timeoutMs": 5000,
+      "atMs": 10259.900000000373,
+      "documentStartedAt": 1795069067425.2
+    },
+    {
+      "kind": "readiness",
+      "state": "available",
+      "ms": 0.5,
+      "timeoutMs": 5000,
+      "atMs": 29.5,
+      "documentStartedAt": 1795069088708.2
+    }
+  ],
+  "fallbackReason": null,
+  "selfCheck": {
+    "text": "Self-check passed.",
+    "onDevice": true
+  },
+  "privacy": {
+    "noUserNote": true,
+    "noVisibleTextByDefault": true,
+    "bytes": 1674
+  },
+  "sources": [
+    {
+      "text": "Name, Role, Valuehttps://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html",
+      "url": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html"
+    },
+    {
+      "text": "Label in Namehttps://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html"
+    }
+  ]
+}

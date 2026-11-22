@@ -1,0 +1,78 @@
+{
+  "ok": true,
+  "ms": 2900,
+  "sources": 2,
+  "schemaValid": true,
+  "responseShape": {
+    "keys": [
+      "candidates",
+      "usageMetadata",
+      "modelVersion",
+      "responseId"
+    ],
+    "candidateKeys": [
+      "content",
+      "finishReason",
+      "index",
+      "urlContextMetadata"
+    ],
+    "urlContextKeys": [
+      "urlMetadata"
+    ],
+    "urlMetadata": [
+      {
+        "retrievedUrl": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html",
+        "urlRetrievalStatus": "URL_RETRIEVAL_STATUS_SUCCESS"
+      },
+      {
+        "retrievedUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+        "urlRetrievalStatus": "URL_RETRIEVAL_STATUS_SUCCESS"
+      }
+    ]
+  },
+  "fixPlanKeys": [
+    "wcag",
+    "rootCause",
+    "fix",
+    "verification",
+    "sources"
+  ],
+  "routing": [
+    {
+      "step": "fix-plan",
+      "mode": "ONLY_IN_CLOUD",
+      "ranOn": "in-cloud",
+      "ms": 2900.2999999988824,
+      "bytesSentToCloud": 1395
+    }
+  ],
+  "fixPlan": {
+    "wcag": [
+      {
+        "sc": "4.1.2",
+        "title": "Name, Role, Value",
+        "level": "A"
+      }
+    ],
+    "rootCause": "The button element lacks an accessible name, preventing screen readers and assistive technologies from announcing its purpose or function to users.",
+    "fix": {
+      "description": "Provide a clear, descriptive accessible name for the button using an aria-label attribute or inner text content.",
+      "codeBefore": "<button></button>",
+      "codeAfter": "<button aria-label=\"Checkout\">Checkout</button>"
+    },
+    "verification": [
+      "Verify that the button has a non-empty accessible name programmatically using browser accessibility inspection tools.",
+      "Confirm that screen readers announce the button's name and role correctly when focused."
+    ],
+    "sources": [
+      {
+        "title": "Name, Role, Value",
+        "url": "https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html"
+      },
+      {
+        "title": "Label in Name",
+        "url": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html"
+      }
+    ]
+  }
+}
