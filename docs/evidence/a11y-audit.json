@@ -1,0 +1,2696 @@
+{
+  "states": [
+    {
+      "name": "home",
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          {
+            "id": "th-has-data-cells",
+            "impact": "serious",
+            "targets": [
+              [
+                "table"
+              ]
+            ]
+          }
+        ],
+        "passes": 23
+      },
+      "controls": [
+        {
+          "role": "link",
+          "name": "Skip to content",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "BarrierRelay ACCESSIBILITY, DELIVERED",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Report a barrier",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "My tickets",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Install extension",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Prepare private on-device AI",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "01 Signup Email Unlabeled",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "02 Icon Pay Button",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "03 Icon Cart Link",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "04 Placeholder Only Search",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "05 Div Continue Not Focusable",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "06 Nav Outline None",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "07 Modal Keyboard Trap",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "08 Image Link Empty Alt",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "09 Custom Toggle Div",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "10 Datepicker Icon Button",
+          "disabled": false
+        }
+      ],
+      "statusCheck": [
+        {
+          "text": "Ready. Private on-device drafting; approved cloud fix planning.",
+          "inLiveRegion": true
+        }
+      ],
+      "unnamedControls": [],
+      "keyboard": {
+        "expectedCount": 16,
+        "focusOrder": [
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "6",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "01 Signup Email Unlabeled"
+          },
+          {
+            "id": "7",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "02 Icon Pay Button"
+          },
+          {
+            "id": "8",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "03 Icon Cart Link"
+          },
+          {
+            "id": "9",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "04 Placeholder Only Search"
+          },
+          {
+            "id": "10",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "05 Div Continue Not Focusable"
+          },
+          {
+            "id": "11",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "06 Nav Outline None"
+          },
+          {
+            "id": "12",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "07 Modal Keyboard Trap"
+          },
+          {
+            "id": "13",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "08 Image Link Empty Alt"
+          },
+          {
+            "id": "14",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "09 Custom Toggle Div"
+          },
+          {
+            "id": "15",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "10 Datepicker Icon Button"
+          },
+          {
+            "id": null,
+            "tag": "body",
+            "visibleFocus": false,
+            "outline": "none 3px",
+            "boxShadow": "none",
+            "role": "none",
+            "name": ""
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          }
+        ],
+        "reverseFocusOrder": [
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "15",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "10 Datepicker Icon Button"
+          },
+          {
+            "id": "14",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "09 Custom Toggle Div"
+          },
+          {
+            "id": "13",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "08 Image Link Empty Alt"
+          },
+          {
+            "id": "12",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "07 Modal Keyboard Trap"
+          },
+          {
+            "id": "11",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "06 Nav Outline None"
+          },
+          {
+            "id": "10",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "05 Div Continue Not Focusable"
+          },
+          {
+            "id": "9",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "04 Placeholder Only Search"
+          },
+          {
+            "id": "8",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "03 Icon Cart Link"
+          },
+          {
+            "id": "7",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "02 Icon Pay Button"
+          },
+          {
+            "id": "6",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "01 Signup Email Unlabeled"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": null,
+            "tag": "body",
+            "visibleFocus": false,
+            "outline": "none 3px",
+            "boxShadow": "none",
+            "role": "none",
+            "name": ""
+          },
+          {
+            "id": "15",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "10 Datepicker Icon Button"
+          }
+        ],
+        "unreachable": [],
+        "reverseUnreachable": [],
+        "missingFocusIndicator": [],
+        "noTrapObserved": true
+      },
+      "liveRegions": [
+        {
+          "role": "status",
+          "live": "polite",
+          "text": "Ready. Private on-device drafting; approved cloud fix planning."
+        }
+      ]
+    },
+    {
+      "name": "report-loaded",
+      "axe": {
+        "violations": [],
+        "incomplete": [],
+        "passes": 25
+      },
+      "controls": [
+        {
+          "role": "link",
+          "name": "Skip to content",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "BarrierRelay ACCESSIBILITY, DELIVERED",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Report a barrier",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "My tickets",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Install extension",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Prepare private on-device AI",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Create private draft",
+          "disabled": false
+        }
+      ],
+      "statusCheck": [
+        {
+          "text": "Ready. Private on-device drafting; approved cloud fix planning.",
+          "inLiveRegion": true
+        }
+      ],
+      "unnamedControls": [],
+      "keyboard": {
+        "expectedCount": 7,
+        "focusOrder": [
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "6",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Create private draft"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          }
+        ],
+        "reverseFocusOrder": [
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": null,
+            "tag": "body",
+            "visibleFocus": false,
+            "outline": "none 3px",
+            "boxShadow": "none",
+            "role": "none",
+            "name": ""
+          },
+          {
+            "id": "6",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Create private draft"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          }
+        ],
+        "unreachable": [],
+        "reverseUnreachable": [],
+        "missingFocusIndicator": [],
+        "noTrapObserved": true
+      },
+      "liveRegions": [
+        {
+          "role": "status",
+          "live": "polite",
+          "text": "Ready. Private on-device drafting; approved cloud fix planning."
+        }
+      ]
+    },
+    {
+      "name": "private-draft",
+      "axe": {
+        "violations": [],
+        "incomplete": [],
+        "passes": 29
+      },
+      "controls": [
+        {
+          "role": "link",
+          "name": "Skip to content",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "BarrierRelay ACCESSIBILITY, DELIVERED",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Report a barrier",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "My tickets",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Install extension",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Prepare private on-device AI",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Create private draft",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Barrier type",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Target element",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Summary",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Expected",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Actual",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Steps to reproduce (one per line)",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Confidence",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Run self-check",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include coarse browser, OS and settings (from this browser)",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include page path (without query or fragment)",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include redacted visible text",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include keyboard focus trail",
+          "disabled": false
+        },
+        {
+          "role": "DisclosureTriangle",
+          "name": "View approved shared JSON",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Get a fix plan",
+          "disabled": true
+        }
+      ],
+      "statusCheck": [],
+      "unnamedControls": [],
+      "keyboard": {
+        "expectedCount": 20,
+        "focusOrder": [
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "6",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Create private draft"
+          },
+          {
+            "id": "7",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Barrier type"
+          },
+          {
+            "id": "8",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Target element"
+          },
+          {
+            "id": "9",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Summary"
+          },
+          {
+            "id": "10",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Expected"
+          },
+          {
+            "id": "11",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Actual"
+          },
+          {
+            "id": "12",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Steps to reproduce (one per line)"
+          },
+          {
+            "id": "13",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Confidence"
+          },
+          {
+            "id": "14",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Run self-check"
+          },
+          {
+            "id": "15",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include coarse browser, OS and settings (from this browser)"
+          },
+          {
+            "id": "16",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include page path (without query or fragment)"
+          },
+          {
+            "id": "17",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include redacted visible text"
+          },
+          {
+            "id": "18",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include keyboard focus trail"
+          },
+          {
+            "id": "19",
+            "tag": "summary",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "DisclosureTriangle",
+            "name": "View approved shared JSON"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          }
+        ],
+        "reverseFocusOrder": [
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": null,
+            "tag": "body",
+            "visibleFocus": false,
+            "outline": "none 3px",
+            "boxShadow": "none",
+            "role": "none",
+            "name": ""
+          },
+          {
+            "id": "19",
+            "tag": "summary",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "DisclosureTriangle",
+            "name": "View approved shared JSON"
+          },
+          {
+            "id": "18",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include keyboard focus trail"
+          },
+          {
+            "id": "17",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include redacted visible text"
+          },
+          {
+            "id": "16",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include page path (without query or fragment)"
+          },
+          {
+            "id": "15",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include coarse browser, OS and settings (from this browser)"
+          },
+          {
+            "id": "14",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Run self-check"
+          },
+          {
+            "id": "13",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Confidence"
+          },
+          {
+            "id": "12",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Steps to reproduce (one per line)"
+          },
+          {
+            "id": "11",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Actual"
+          },
+          {
+            "id": "10",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Expected"
+          },
+          {
+            "id": "9",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Summary"
+          },
+          {
+            "id": "8",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Target element"
+          },
+          {
+            "id": "7",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Barrier type"
+          },
+          {
+            "id": "6",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Create private draft"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          }
+        ],
+        "unreachable": [],
+        "reverseUnreachable": [],
+        "missingFocusIndicator": [],
+        "noTrapObserved": true
+      },
+      "liveRegions": [
+        {
+          "role": "status",
+          "live": "polite",
+          "text": "Draft ready. Review and edit before sharing."
+        },
+        {
+          "role": "status",
+          "live": "polite (implicit)",
+          "text": ""
+        },
+        {
+          "role": null,
+          "live": "polite",
+          "text": "About 1613 bytes in the approved report."
+        }
+      ]
+    },
+    {
+      "name": "self-check",
+      "axe": {
+        "violations": [],
+        "incomplete": [],
+        "passes": 29
+      },
+      "controls": [
+        {
+          "role": "link",
+          "name": "Skip to content",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "BarrierRelay ACCESSIBILITY, DELIVERED",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Report a barrier",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "My tickets",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Install extension",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Prepare private on-device AI",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Create private draft",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Barrier type",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Target element",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Summary",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Expected",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Actual",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Steps to reproduce (one per line)",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Confidence",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Run self-check",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include coarse browser, OS and settings (from this browser)",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include page path (without query or fragment)",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include redacted visible text",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include keyboard focus trail",
+          "disabled": false
+        },
+        {
+          "role": "DisclosureTriangle",
+          "name": "View approved shared JSON",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Get a fix plan",
+          "disabled": false
+        }
+      ],
+      "statusCheck": [
+        {
+          "text": "Self-check passed.",
+          "inLiveRegion": true
+        }
+      ],
+      "unnamedControls": [],
+      "keyboard": {
+        "expectedCount": 21,
+        "focusOrder": [
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "6",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Create private draft"
+          },
+          {
+            "id": "7",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Barrier type"
+          },
+          {
+            "id": "8",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Target element"
+          },
+          {
+            "id": "9",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Summary"
+          },
+          {
+            "id": "10",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Expected"
+          },
+          {
+            "id": "11",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Actual"
+          },
+          {
+            "id": "12",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Steps to reproduce (one per line)"
+          },
+          {
+            "id": "13",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Confidence"
+          },
+          {
+            "id": "14",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Run self-check"
+          },
+          {
+            "id": "15",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include coarse browser, OS and settings (from this browser)"
+          },
+          {
+            "id": "16",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include page path (without query or fragment)"
+          },
+          {
+            "id": "17",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include redacted visible text"
+          },
+          {
+            "id": "18",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include keyboard focus trail"
+          },
+          {
+            "id": "19",
+            "tag": "summary",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "DisclosureTriangle",
+            "name": "View approved shared JSON"
+          },
+          {
+            "id": "20",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Get a fix plan"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          }
+        ],
+        "reverseFocusOrder": [
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": null,
+            "tag": "body",
+            "visibleFocus": false,
+            "outline": "none 3px",
+            "boxShadow": "none",
+            "role": "none",
+            "name": ""
+          },
+          {
+            "id": "20",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Get a fix plan"
+          },
+          {
+            "id": "19",
+            "tag": "summary",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "DisclosureTriangle",
+            "name": "View approved shared JSON"
+          },
+          {
+            "id": "18",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include keyboard focus trail"
+          },
+          {
+            "id": "17",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include redacted visible text"
+          },
+          {
+            "id": "16",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include page path (without query or fragment)"
+          },
+          {
+            "id": "15",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include coarse browser, OS and settings (from this browser)"
+          },
+          {
+            "id": "14",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Run self-check"
+          },
+          {
+            "id": "13",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Confidence"
+          },
+          {
+            "id": "12",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Steps to reproduce (one per line)"
+          },
+          {
+            "id": "11",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Actual"
+          },
+          {
+            "id": "10",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Expected"
+          },
+          {
+            "id": "9",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Summary"
+          },
+          {
+            "id": "8",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Target element"
+          },
+          {
+            "id": "7",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Barrier type"
+          },
+          {
+            "id": "6",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Create private draft"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          }
+        ],
+        "unreachable": [],
+        "reverseUnreachable": [],
+        "missingFocusIndicator": [],
+        "noTrapObserved": true
+      },
+      "liveRegions": [
+        {
+          "role": "status",
+          "live": "polite",
+          "text": "Draft ready. Review and edit before sharing."
+        },
+        {
+          "role": "status",
+          "live": "polite (implicit)",
+          "text": "Self-check passed."
+        },
+        {
+          "role": null,
+          "live": "polite",
+          "text": "About 1613 bytes in the approved report."
+        }
+      ]
+    },
+    {
+      "name": "share-review-expanded",
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          {
+            "id": "aria-prohibited-attr",
+            "impact": "serious",
+            "targets": [
+              [
+                "pre"
+              ]
+            ]
+          }
+        ],
+        "passes": 30
+      },
+      "controls": [
+        {
+          "role": "link",
+          "name": "Skip to content",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "BarrierRelay ACCESSIBILITY, DELIVERED",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Report a barrier",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "My tickets",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Install extension",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Prepare private on-device AI",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Create private draft",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Barrier type",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Target element",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Summary",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Expected",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Actual",
+          "disabled": false
+        },
+        {
+          "role": "textbox",
+          "name": "Steps to reproduce (one per line)",
+          "disabled": false
+        },
+        {
+          "role": "combobox",
+          "name": "Confidence",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Run self-check",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include coarse browser, OS and settings (from this browser)",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include page path (without query or fragment)",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include redacted visible text",
+          "disabled": false
+        },
+        {
+          "role": "checkbox",
+          "name": "Include keyboard focus trail",
+          "disabled": false
+        },
+        {
+          "role": "DisclosureTriangle",
+          "name": "View approved shared JSON",
+          "disabled": false
+        },
+        {
+          "role": "button",
+          "name": "Get a fix plan",
+          "disabled": false
+        }
+      ],
+      "statusCheck": [
+        {
+          "text": "Self-check passed.",
+          "inLiveRegion": true
+        }
+      ],
+      "unnamedControls": [],
+      "keyboard": {
+        "expectedCount": 22,
+        "focusOrder": [
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "6",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Create private draft"
+          },
+          {
+            "id": "7",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Barrier type"
+          },
+          {
+            "id": "8",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Target element"
+          },
+          {
+            "id": "9",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Summary"
+          },
+          {
+            "id": "10",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Expected"
+          },
+          {
+            "id": "11",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Actual"
+          },
+          {
+            "id": "12",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Steps to reproduce (one per line)"
+          },
+          {
+            "id": "13",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Confidence"
+          },
+          {
+            "id": "14",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Run self-check"
+          },
+          {
+            "id": "15",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include coarse browser, OS and settings (from this browser)"
+          },
+          {
+            "id": "16",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include page path (without query or fragment)"
+          },
+          {
+            "id": "17",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include redacted visible text"
+          },
+          {
+            "id": "18",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include keyboard focus trail"
+          },
+          {
+            "id": "19",
+            "tag": "summary",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "DisclosureTriangle",
+            "name": "View approved shared JSON"
+          },
+          {
+            "id": "20",
+            "tag": "pre",
+            "visibleFocus": true,
+            "outline": "auto 1px",
+            "boxShadow": "none",
+            "role": "generic",
+            "name": "Approved shared JSON"
+          },
+          {
+            "id": "21",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Get a fix plan"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          }
+        ],
+        "reverseFocusOrder": [
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": null,
+            "tag": "body",
+            "visibleFocus": false,
+            "outline": "none 3px",
+            "boxShadow": "none",
+            "role": "none",
+            "name": ""
+          },
+          {
+            "id": "21",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Get a fix plan"
+          },
+          {
+            "id": "20",
+            "tag": "pre",
+            "visibleFocus": true,
+            "outline": "auto 1px",
+            "boxShadow": "none",
+            "role": "generic",
+            "name": "Approved shared JSON"
+          },
+          {
+            "id": "19",
+            "tag": "summary",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "DisclosureTriangle",
+            "name": "View approved shared JSON"
+          },
+          {
+            "id": "18",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include keyboard focus trail"
+          },
+          {
+            "id": "17",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include redacted visible text"
+          },
+          {
+            "id": "16",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include page path (without query or fragment)"
+          },
+          {
+            "id": "15",
+            "tag": "input",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "checkbox",
+            "name": "Include coarse browser, OS and settings (from this browser)"
+          },
+          {
+            "id": "14",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Run self-check"
+          },
+          {
+            "id": "13",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Confidence"
+          },
+          {
+            "id": "12",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Steps to reproduce (one per line)"
+          },
+          {
+            "id": "11",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Actual"
+          },
+          {
+            "id": "10",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Expected"
+          },
+          {
+            "id": "9",
+            "tag": "textarea",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "textbox",
+            "name": "Summary"
+          },
+          {
+            "id": "8",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Target element"
+          },
+          {
+            "id": "7",
+            "tag": "select",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "combobox",
+            "name": "Barrier type"
+          },
+          {
+            "id": "6",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Create private draft"
+          },
+          {
+            "id": "5",
+            "tag": "button",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "button",
+            "name": "Prepare private on-device AI"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          }
+        ],
+        "unreachable": [],
+        "reverseUnreachable": [],
+        "missingFocusIndicator": [],
+        "noTrapObserved": true
+      },
+      "liveRegions": [
+        {
+          "role": "status",
+          "live": "polite",
+          "text": "Draft ready. Review and edit before sharing."
+        },
+        {
+          "role": "status",
+          "live": "polite (implicit)",
+          "text": "Self-check passed."
+        },
+        {
+          "role": null,
+          "live": "polite",
+          "text": "About 1613 bytes in the approved report."
+        }
+      ]
+    },
+    {
+      "name": "mine",
+      "axe": {
+        "violations": [],
+        "incomplete": [
+          {
+            "id": "th-has-data-cells",
+            "impact": "serious",
+            "targets": [
+              [
+                "table"
+              ]
+            ]
+          }
+        ],
+        "passes": 19
+      },
+      "controls": [
+        {
+          "role": "link",
+          "name": "Skip to content",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "BarrierRelay ACCESSIBILITY, DELIVERED",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Report a barrier",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "My tickets",
+          "disabled": false
+        },
+        {
+          "role": "link",
+          "name": "Install extension",
+          "disabled": false
+        }
+      ],
+      "statusCheck": [
+        {
+          "text": "Ready. Private on-device drafting; approved cloud fix planning.",
+          "inLiveRegion": true
+        }
+      ],
+      "unnamedControls": [],
+      "keyboard": {
+        "expectedCount": 5,
+        "focusOrder": [
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          }
+        ],
+        "reverseFocusOrder": [
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          },
+          {
+            "id": null,
+            "tag": "body",
+            "visibleFocus": false,
+            "outline": "none 3px",
+            "boxShadow": "none",
+            "role": "none",
+            "name": ""
+          },
+          {
+            "id": "4",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Install extension"
+          },
+          {
+            "id": "3",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "My tickets"
+          },
+          {
+            "id": "2",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Report a barrier"
+          },
+          {
+            "id": "1",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "BarrierRelay ACCESSIBILITY, DELIVERED"
+          },
+          {
+            "id": "0",
+            "tag": "a",
+            "visibleFocus": true,
+            "outline": "solid 3px",
+            "boxShadow": "none",
+            "role": "link",
+            "name": "Skip to content"
+          }
+        ],
+        "unreachable": [],
+        "reverseUnreachable": [],
+        "missingFocusIndicator": [],
+        "noTrapObserved": true
+      },
+      "liveRegions": [
+        {
+          "role": "status",
+          "live": "polite",
+          "text": "Ready. Private on-device drafting; approved cloud fix planning."
+        }
+      ]
+    }
+  ],
+  "blockedRequests": [
+    "https://firestore.googleapis.com/google.firestore.v1.Firestore/Listen/channel"
+  ],
+  "ownerDesk": "Not covered: demo=1 replaces AI only; owner tickets still require Firestore (apps/web/src/services.ts and ui/App.tsx).",
+  "methodology": "axe WCAG 2.2 A/AA including inherited WCAG 2.0/2.1 tags; fresh model-free Chrome; forward and reverse Tab cycle; computed focus styles; Puppeteer full accessibility snapshots. Disabled and hidden controls excluded from keyboard expectations.",
+  "browserVersion": "Chrome/158.0.8127.36",
+  "executedAt": "2026-11-22T21:15:31.673Z",
+  "axeVersion": "4.14.1",
+  "seriousCritical": 0,
+  "exitCode": 0
+}
