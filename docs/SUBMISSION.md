@@ -1,6 +1,6 @@
 # BarrierRelay — Devpost submission draft
 
-**Tagline:** Private capture. Shared repair.
+**Tagline:** Report it privately. See it fixed.
 
 **Track:** Best Web/Chrome App, #BuildHybridAI.
 

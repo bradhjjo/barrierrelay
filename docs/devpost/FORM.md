@@ -10,7 +10,7 @@ Checked **2026-11-19**, using `curl -L` with a desktop browser User-Agent:
 - **[S] [Devpost: How to enter a submission](https://help.devpost.com/article/122-how-to-enter-a-submission)**: team, overview, details, additional details, final submission and confirmation.
 - Implementation and claim sources: [README](../../README.md), [architecture](../ARCHITECTURE.md), [submission draft](../SUBMISSION.md), [AI pipeline](../../apps/web/src/ai/pipeline.ts), [Firebase initialization](../../apps/web/src/firebase.ts), [third-party notices](../../NOTICE).
 
-**Important verification boundary:** the authenticated event submission form was not accessible. Devpost redirects `/software/new` to login. Public rules establish the required content, but do not expose the event's exact custom-question labels/options or a numeric project-tagline limit. The **31-character tagline below is deliberately short**; the representative must verify its acceptance/character counter in the live form before submitting. Do not claim a guessed 140/200-character limit is verified. Extra/custom-field responses below are prepared answers, not a claim that those exact questions appear. Personal eligibility/team fields must be completed privately by the representative, not invented in this document.
+**Important verification boundary:** the authenticated event submission form was not accessible. Devpost redirects `/software/new` to login. Public rules establish the required content, but do not expose the event's exact custom-question labels/options or a numeric project-tagline limit. The **34-character tagline below is deliberately short**; the representative must verify its acceptance/character counter in the live form before submitting. Do not claim a guessed 140/200-character limit is verified. Extra/custom-field responses below are prepared answers, not a claim that those exact questions appear. Personal eligibility/team fields must be completed privately by the representative, not invented in this document.
 
 **Deadline verified:** November 30, 2026, **2:00 PM PST / 22:00 UTC**. Keep the working app available free of charge through **December 16, 2026, 2:00 PM PST**, when judging ends. [R §§4,6]
 
@@ -26,7 +26,7 @@ BarrierRelay
 
 ### Project tagline / elevator pitch
 
-Private capture. Shared repair.
+Report it privately. See it fixed.
 
 ### Thumbnail / cover
 
@@ -211,7 +211,7 @@ We use third-party libraries and developer services, including Firebase, Preact,
 | Optional quota, if used: application windows, one account per entrant/project/sprint, four-day limit and fees (§5) | **Pending — project operator:** confirm applicability and actual account/billing arrangements; no quota/account claim or credential is included here. |
 | Winner notification response within 3 business days; required verification within 10 business days; tax/forms/banking obligations (§§8–10) | **Pending — representative if selected:** monitor registered contact and comply privately; do not publish tax/identity documents. |
 | Optional hosted URL, Google IDE, Firebase agent skills; multi-platform preferred (not mandatory) (§6; H) | **Met (hosted URL):** included; remaining items are recommendations, not claimed deliverables or eligibility blockers. |
-| Actual live custom fields and numeric tagline limit (D/S; authenticated form) | **Pending — representative:** verify every live field, accepted 31-character tagline, platform options, consent and confirmation; capture no private form data in this public repo. |
+| Actual live custom fields and numeric tagline limit (D/S; authenticated form) | **Pending — representative:** verify every live field, accepted 34-character tagline, platform options, consent and confirmation; capture no private form data in this public repo. |
 
 ### Final handoff
 
