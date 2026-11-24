@@ -117,7 +117,7 @@ Use the closest existing autocomplete spelling if Devpost normalizes a tag. Tags
 
 ### Video demo URL
 
-`https://www.youtube.com/watch?v=we2QRjlxMmM` (uploaded 2026-11-19 as Unlisted; switch to Public together with the GitHub repository before pressing Submit)
+`https://www.youtube.com/watch?v=79AK0JKvhBk` (uploaded 2026-11-23 as Public; 2:26, English narration with burned-in English captions)
 
 Upload to **YouTube**, publicly visible, showing the working Web/Chrome app, **≤3:00**, in English or with English subtitles. Devpost generally embeds Vimeo too, but this event specifically requires YouTube. A placeholder is not a completed submission. See [VIDEO_SCRIPT.md](../VIDEO_SCRIPT.md).
 
@@ -208,7 +208,7 @@ We use third-party libraries and developer services, including Firebase, Preact,
 | Description includes value proposition, functionality and how Firebase AI Logic is used (§6 Submission Requirements) | **Met:** paste-ready project story and hybrid answer above. |
 | GitHub/GitLab URL, public repository, all needed code/assets/instructions and actual runtime Firebase AI Logic use (§6) | **Met (local implementation/instructions):** README and pipeline; **pending — repository owner:** publish correct URL and required tracked assets, then verify anonymously (API currently 404). |
 | Open-source license file detectable/visible on repository page; Apache preferred (§6) | **Met (file):** Apache-2.0 LICENSE; **pending — repository owner:** verify GitHub license detection after publication. |
-| Working-platform demonstration video, public YouTube URL, ≤3 minutes evaluated, English/subtitles (§6) | **Pending — video owner / representative:** record/review/upload public YouTube video and replace placeholder. |
+| Working-platform demonstration video, public YouTube URL, ≤3 minutes evaluated, English/subtitles (§6) | **Met:** public YouTube video uploaded 2026-11-23 (2:26, English narration and captions); URL above. |
 | No production API keys, live project secrets, confidential data or PII in repo/form/instructions (§6 Testing) | **Met (new package):** no credentials or private identifiers; screenshots cropped to synthetic UI/routing; **pending — repository owner:** audit complete public history/assets before publication. |
 | No offensive, illegal, infringing, privacy-violating or prohibited third-party endorsement/advertising content (§6 final prohibitions) | **Met (new copy/gallery):** neutral project UI, no claimed third-party endorsement; **pending — representative / video owner:** final full submission and footage rights review. |
 | Sponsor evaluation/promotional license, privacy/publicity, warranties, indemnities and accurate information (§§12–16,22–23) | **Pending — representative / all entrants:** read and accept actual legal terms; no automatic acceptance asserted by this package. |
